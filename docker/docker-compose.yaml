@@ -172,3 +172,17 @@ services:
       retries: 20
     networks:
       - portflow-net
+
+  # ---------------------------------------------------------------------------
+  # Jaeger
+  # ---------------------------------------------------------------------------
+  jaeger:
+    container_name: jaeger
+    image: jaegertracing/jaeger:2.19.0
+    ports:
+      - '16686:16686'  # UI
+      - '4317:4317'    # OTLP gRPC
+      - '4318:4318'    # OTLP HTTP
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+   
