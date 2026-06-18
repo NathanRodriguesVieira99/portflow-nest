@@ -5,24 +5,59 @@ networks:
       driver: bridge
 
 volumes: 
-   container-pg-data:
+   pg-data:
+   mongo-data:
    
 services:
+# ---------------------------------------------------------------------------
+# PostgreSQL
+# ---------------------------------------------------------------------------
    postgresql:
-        container_name: container-service
+        container_name: postgres
         image: postgres:18.3-alpine
         environment:
-            POSTGRES_USER: container
-            POSTGRES_PASSWORD: container
-            POSTGRES_DB: container
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: admin
+            POSTGRES_DB: admin
+            POSTGRES_EXTRA_DATABASES: >
+                    container_service_db
         ports:
           - "5432:5432" 
         healthcheck:
-            test: ["CMD-SHELL", "pg_isready -U container -d container"]
+            test: ["CMD-SHELL", "pg_isready -U admin -d admin"]
             interval: 5s
             timeout: 5s
             retries: 5 
         volumes:
-          - container-pg-data:/var/lib/postgresql/data
+          - pg-data:/var/lib/postgresql/data
+          - ./postgres/init:/docker-entrypoint-initdb.d:ro
         networks:
-           - portflow-net     
+           - portflow-net
+
+# ---------------------------------------------------------------------------
+# MongoDB
+# ---------------------------------------------------------------------------           
+   mongodb:   
+         container_name: mongodb 
+         image: mongo:8
+         environment:
+            MONGO_INITDB_ROOT_USERNAME: mongo
+            MONGO_INITDB_ROOT_PASSWORD: mongo
+            MONGO_INITDB_DATABASE: terminal_service
+         ports:
+           - "27017:27017"
+         healthcheck:
+              test: ["CMD", "mongosh", "--username","portflow", "--password", "portflow"]
+              interval: 5s
+              timeout: 5s
+              retries: 10
+         volumes:
+             - ./mongo/init:/docker-entrypoint-initdb.d
+             - mongo-data:/data/db
+         networks:
+              - portflow-net         
+               
+
+
+              
+
