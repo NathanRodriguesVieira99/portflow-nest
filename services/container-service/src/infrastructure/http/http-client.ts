@@ -1,12 +1,13 @@
-import { Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import axios, { type AxiosError, type AxiosInstance } from 'axios';
 
 import { IHttpClient, HttpRequest } from './http-client.types';
 
+@Injectable()
 export class HttpClient implements IHttpClient, OnModuleInit {
   private logger = new Logger(HttpClient.name);
 
-  private constructor(private readonly api: AxiosInstance = axios) {}
+  constructor(private readonly api: AxiosInstance = axios) {}
 
   static create(): IHttpClient {
     return new HttpClient();
