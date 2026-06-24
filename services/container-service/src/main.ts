@@ -1,11 +1,12 @@
 import './tracing';
 
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { Logger as PinoLogger } from 'nestjs-pino';
 
-import { env } from './config/env';
 import type { MicroserviceOptions } from '@nestjs/microservices';
+
+import { AppModule } from './app.module';
+import { env } from './config/env';
 import { kafkaConfig } from './infrastructure/messaging/kafka/kafka.config';
 
 async function bootstrap() {
