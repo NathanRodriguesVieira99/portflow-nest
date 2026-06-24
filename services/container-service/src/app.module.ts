@@ -11,12 +11,12 @@ import { ClsModule } from './infrastructure/observability/cls/cls.module';
 @Module({
   imports: [
     ClsModule,
-    CacheModule,
-    PrismaModule,
     LogsModule,
-    HttpModule,
-    KafkaModule,
     PrometheusModule,
+    HttpModule,
+    PrismaModule,
+    CacheModule,
+    KafkaModule,
   ],
 })
 export class AppModule {}
