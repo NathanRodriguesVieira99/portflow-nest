@@ -1,5 +1,19 @@
 _format_version: "3.0"
 
+services:
+  - name: container-service
+    url: http://container-service:3333
+    plugins:
+      - name: request-transformer
+        config:
+          add:
+            headers: ["X-Forwarded-Service:kong"]
+    routes:
+      - name: container-service-routes
+        paths:
+          - /container
+        strip_path: true
+
 plugins:
   - name: cors
     config:
@@ -32,4 +46,4 @@ plugins:
     config:
       header_name: X-Correlation-ID
       generator: uuid
-      echo_downstream: false
+      echo_downstream: true
