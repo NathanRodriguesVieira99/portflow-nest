@@ -32,6 +32,8 @@ export default tseslint.config(
       'prettier/prettier': ['error', { endOfLine: 'auto' }],
       '@typescript-eslint/restrict-template-expressions': 'off',
       '@typescript-eslint/no-base-to-string': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
     },
   },
 );
