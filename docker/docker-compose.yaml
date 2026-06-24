@@ -9,8 +9,32 @@ volumes:
   mongo_data:
   redis_data:
   kafka_data:
+  grafana_data:
 
 services:
+  # ---------------------------------------------------------------------------
+  # Microservices
+  # ---------------------------------------------------------------------------
+  container-service:
+        container_name: container-service
+        build:
+            context: ../services/container-service/
+            dockerfile: Dockerfile
+        ports:
+           - "3333:3333"
+        environment:
+           SERVICE_NAME: container-service
+           NODE_ENV: production
+           DATABASE_URL: postgresql://admin:admin@postgresql:5432/container_service_db
+           PORT: 3333
+           REDIS_HOST: redis
+           REDIS_PORT: 6379
+           LOKI_URL: http://loki:3100
+           OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4318/v1/traces
+           KAFKA_BROKER: kafka:29092
+        networks:
+           - portflow-net
+
   # ---------------------------------------------------------------------------
   # PostgreSQL
   # ---------------------------------------------------------------------------
@@ -262,6 +286,7 @@ services:
         - GF_SECURITY_ADMIN_USER=admin
       volumes:
         - ./grafana/provisioning:/etc/grafana/provisioning:ro
+        - grafana_data:/var/lib/grafana
       depends_on:
         - prometheus
         - loki
