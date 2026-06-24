@@ -10,7 +10,7 @@ scrape_configs:
           infra: "kong"
 
   - job_name: container-service-metrics
-    metrics_path: /metrics
+    metrics_path: api/v1/metrics
     static_configs:
       - targets: ["container-service:3333"]
         labels:
