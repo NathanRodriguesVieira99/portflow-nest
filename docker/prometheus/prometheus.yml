@@ -1,0 +1,17 @@
+global:
+  scrape_interval: 10s
+
+scrape_configs:
+  - job_name: kong-metrics
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["kong:8001"]
+        labels:
+          infra: "kong"
+
+  - job_name: container-service-metrics
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["container-service:3333"]
+        labels:
+          microservice: "Container Service"
