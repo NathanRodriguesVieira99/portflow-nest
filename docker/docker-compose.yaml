@@ -32,6 +32,10 @@ services:
            LOKI_URL: http://loki:3100
            OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4318/v1/traces
            KAFKA_BROKER: kafka:29092
+        depends_on:
+          - postgresql
+          - mongodb
+          - kafka
         networks:
            - portflow-net
 
