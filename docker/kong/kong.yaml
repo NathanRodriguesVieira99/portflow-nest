@@ -1,0 +1,35 @@
+_format_version: "3.0"
+
+plugins:
+  - name: cors
+    config:
+      origins:
+        - "*"
+      methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+      headers: [Accept, Content-Type, Authorization, X-Request-Id]
+
+  - name: prometheus
+    config:
+      per_consumer: true
+      status_code_metrics: true
+      latency_metrics: true
+      bandwidth_metrics: true
+      upstream_health_metrics: true
+
+  - name: opentelemetry
+    config:
+      traces_endpoint: http://jaeger:4318/v1/traces
+      resource_attributes:
+        service.name: kong-api-gateway
+      header_type: w3c
+      sampling_rate: 1.0 # dev: 100%; prod: 0.1
+      propagation:
+        default_format: w3c
+        extract: [w3c]
+        inject: [w3c]
+
+  - name: correlation-id
+    config:
+      header_name: X-Correlation-ID
+      generator: uuid
+      echo_downstream: false
