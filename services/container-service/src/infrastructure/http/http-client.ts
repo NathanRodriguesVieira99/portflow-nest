@@ -1,4 +1,4 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit, Optional } from '@nestjs/common';
 import axios, { type AxiosError, type AxiosInstance } from 'axios';
 
 import { IHttpClient, HttpRequest } from './http-client.types';
@@ -7,14 +7,18 @@ import { IHttpClient, HttpRequest } from './http-client.types';
 export class HttpClient implements IHttpClient, OnModuleInit {
   private logger = new Logger(HttpClient.name);
 
-  constructor(private readonly api: AxiosInstance = axios) {}
+  /*
+   @Optional diz ao NestJs para não lançar erro se não encontrar um provider para aquele parâmetro na DI.
+   Em vez disso, ele deixa o parâmetro undefined ou com o valor default.
+   */
+  constructor(@Optional() private readonly api: AxiosInstance = axios) {}
 
-  static create(): IHttpClient {
+  static create() {
     return new HttpClient();
   }
 
   onModuleInit() {
-    this.logger.log('AXIOS HTTP CLIENT STARTED!');
+    this.logger.log('Axios HTTP Client Started!');
   }
 
   async request<T, R>({
