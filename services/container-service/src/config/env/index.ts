@@ -7,10 +7,14 @@ export const envSchema = z.object({
   NODE_ENV: z
     .enum(['development', 'test', 'production'])
     .default('development'),
-  DATABASE_URL: z.url().startsWith('postgresql://'),
+  SERVICE_NAME: z.string().default('container-service'),
   PORT: z.coerce.number(),
   REDIS_HOST: z.string(),
   REDIS_PORT: z.coerce.number(),
+  DATABASE_URL: z.url().startsWith('postgresql://'),
+  LOKI_URL: z.url(),
+  OTEL_EXPORTER_OTLP_ENDPOINT: z.url(),
+  KAFKA_BROKER: z.string(),
 });
 
 const _env = envSchema.safeParse(process.env);
