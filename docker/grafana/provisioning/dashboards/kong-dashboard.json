@@ -1,0 +1,235 @@
+{
+  "title": "Kong API Gateway",
+  "uid": "kong-api-gateway",
+  "schemaVersion": 39,
+  "version": 1,
+  "timezone": "browser",
+  "editable": true,
+  "tags": ["kong", "api-gateway", "microservices"],
+  "panels": [
+    {
+      "id": 1,
+      "title": "Requests per Second",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 6, "x": 0, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "custom": { "showPoints": "never", "spanNulls": true }
+        }
+      },
+      "options": { "legend": { "showLegend": true, "placement": "bottom" } },
+      "targets": [
+        {
+          "expr": "sum(rate(kong_http_requests_total{job=~\"$job\"}[$__rate_interval]))",
+          "legendFormat": "Total",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "HTTP Status Codes",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 6, "x": 6, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "showPoints": "never", "spanNulls": true }
+        }
+      },
+      "options": { "legend": { "showLegend": true, "placement": "bottom" } },
+      "targets": [
+        {
+          "expr": "sum(rate(kong_http_requests_total{job=~\"$job\",code=~\"2..\"}[$__rate_interval]))",
+          "legendFormat": "2xx",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(rate(kong_http_requests_total{job=~\"$job\",code=~\"3..\"}[$__rate_interval]))",
+          "legendFormat": "3xx",
+          "refId": "B"
+        },
+        {
+          "expr": "sum(rate(kong_http_requests_total{job=~\"$job\",code=~\"4..\"}[$__rate_interval]))",
+          "legendFormat": "4xx",
+          "refId": "C"
+        },
+        {
+          "expr": "sum(rate(kong_http_requests_total{job=~\"$job\",code=~\"5..\"}[$__rate_interval]))",
+          "legendFormat": "5xx",
+          "refId": "D"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Requests by Route",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 6, "x": 12, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "showPoints": "never", "spanNulls": true }
+        }
+      },
+      "options": { "legend": { "showLegend": true, "placement": "bottom" } },
+      "targets": [
+        {
+          "expr": "sum by(service, code) (rate(kong_http_requests_total{job=~\"$job\"}[$__rate_interval]))",
+          "legendFormat": "{{ service }} - {{ code }}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Average Latency",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 6, "x": 18, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "custom": { "showPoints": "never", "spanNulls": true }
+        }
+      },
+      "options": { "legend": { "showLegend": true, "placement": "bottom" } },
+      "targets": [
+        {
+          "expr": "rate(kong_kong_latency_ms_sum{job=~\"$job\"}[$__rate_interval]) / rate(kong_kong_latency_ms_count{job=~\"$job\"}[$__rate_interval])",
+          "legendFormat": "Kong {{ service }}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Bandwidth",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "custom": { "showPoints": "never", "spanNulls": true }
+        }
+      },
+      "options": { "legend": { "showLegend": true, "placement": "bottom" } },
+      "targets": [
+        {
+          "expr": "sum by(direction) (rate(kong_bandwidth_bytes{job=~\"$job\"}[$__rate_interval]))",
+          "legendFormat": "{{ direction }}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Connections",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "showPoints": "never", "spanNulls": true }
+        }
+      },
+      "options": { "legend": { "showLegend": true, "placement": "bottom" } },
+      "targets": [
+        {
+          "expr": "kong_nginx_connections_total{job=~\"$job\",state=\"active\"}",
+          "legendFormat": "Active",
+          "refId": "A"
+        },
+        {
+          "expr": "kong_nginx_connections_total{job=~\"$job\",state=\"reading\"}",
+          "legendFormat": "Reading",
+          "refId": "B"
+        },
+        {
+          "expr": "kong_nginx_connections_total{job=~\"$job\",state=\"writing\"}",
+          "legendFormat": "Writing",
+          "refId": "C"
+        },
+        {
+          "expr": "kong_nginx_connections_total{job=~\"$job\",state=\"waiting\"}",
+          "legendFormat": "Waiting",
+          "refId": "D"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Memory per Worker",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "custom": { "showPoints": "never", "spanNulls": true }
+        }
+      },
+      "options": { "legend": { "showLegend": true, "placement": "bottom" } },
+      "targets": [
+        {
+          "expr": "kong_memory_workers_lua_vms_bytes{job=~\"$job\"}",
+          "legendFormat": "Worker {{ pid }}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Shared Dict Memory",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "custom": { "showPoints": "never", "spanNulls": true }
+        }
+      },
+      "options": { "legend": { "showLegend": true, "placement": "bottom" } },
+      "targets": [
+        {
+          "expr": "kong_memory_lua_shared_dict_bytes{job=~\"$job\"}",
+          "legendFormat": "{{ shared_dict }}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Kong Logs",
+      "type": "logs",
+      "gridPos": { "h": 12, "w": 24, "x": 0, "y": 24 },
+      "datasource": { "type": "loki", "uid": "loki" },
+      "options": { "showTime": true, "showLabels": true, "wrapLogMessage": true },
+      "targets": [
+        {
+          "expr": "{container=\"kong\"} |= ``",
+          "refId": "A"
+        }
+      ]
+    }
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "job",
+        "type": "query",
+        "label": "Prometheus Job",
+        "query": "label_values(up, job)",
+        "refresh": 1,
+        "current": { "selected": true, "text": "kong-metrics", "value": "kong-metrics" },
+        "sort": 1,
+        "hide": 0
+      }
+    ]
+  },
+  "time": { "from": "now-30m", "to": "now" }
+}
