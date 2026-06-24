@@ -1,17 +1,36 @@
 apiVersion: 1
 
 datasources:
-  - name: Prometheus
+  - name: Portflow-Prometheus
+    uid: prometheus
     type: prometheus
     access: proxy
     url: http://prometheus:9090
+    isDefault: true
+    jsonData:
+      timeInterval: "10s"
+      exemplarTraceIdDestinations:
+        - name: traceId
+          datasourceUid: jaeger
 
-  - name: Loki
+  - name: Portflow-Loki
+    uid: loki
     type: loki
     access: proxy
     url: http://loki:3100
+    jsonData:
+      derivedFields:
+        - name: TraceId
+          matcherRegex: '"traceId":"(\w+)"'
+          url: "$${__value.raw}"
+          datasourceUid: jaeger
 
-  - name: Jaeger
+  - name: Portflow-Jaeger
+    uid: jaeger
     type: jaeger
     access: proxy
     url: http://jaeger:16686
+    jsonData:
+      tracesToLogsV2:
+        datasourceUid: loki
+        filterByTraceID: true
