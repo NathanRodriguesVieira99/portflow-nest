@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
-import { Logger } from '@nestjs/common';
-import { Logger as PinoLogger } from 'nestjs-pino';
 import { AppModule } from './app.module';
+import { Logger as PinoLogger } from 'nestjs-pino';
+
 import { env } from './config/env';
 
 async function bootstrap() {
@@ -17,14 +17,11 @@ async function bootstrap() {
   });
 
   /* Logs */
-  const logger = new Logger('Container Service');
   app.useLogger(app.get(PinoLogger));
 
   /* APP */
   await app.listen(env.PORT);
-  logger.log(`Project is running on: http://localhost:${env.PORT}/api/v1`);
 }
 bootstrap().catch((err) => {
-  Logger.error(`Error when start Container Service: ${err}`);
-  process.exit(1);
+  throw new Error(`Error when start Container Service: ${err}`);
 });
