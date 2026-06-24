@@ -7,8 +7,10 @@ export const envSchema = z.object({
   NODE_ENV: z
     .enum(['development', 'test', 'production'])
     .default('development'),
-  PORT: z.coerce.number(),
   DATABASE_URL: z.url().startsWith('postgresql://'),
+  PORT: z.coerce.number(),
+  REDIS_HOST: z.string(),
+  REDIS_PORT: z.coerce.number(),
 });
 
 const _env = envSchema.safeParse(process.env);
