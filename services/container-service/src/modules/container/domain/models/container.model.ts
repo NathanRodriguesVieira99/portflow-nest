@@ -1,6 +1,6 @@
 import { StatusContainer } from '../enums/status-container.enum';
 
-interface IContainer {
+export interface IContainer {
   id?: string;
   shipId: string;
   terminalId: string;
@@ -14,58 +14,18 @@ interface IContainer {
 }
 
 export class Container {
-  private id?: string | undefined;
-  private shipId!: string;
-  private terminalId!: string;
-  private originCountry!: string;
-  private destinationCountry!: string;
-  private cargoType!: string;
-  private status!: StatusContainer;
-  private arrivalDate!: Date;
-  private readonly createdAt?: Date | undefined;
-  private readonly updatedAt?: Date | undefined;
+  public readonly id?: string;
+  public readonly shipId!: string;
+  public readonly terminalId!: string;
+  public readonly originCountry!: string;
+  public readonly destinationCountry!: string;
+  public readonly cargoType!: string;
+  public readonly status!: StatusContainer;
+  public readonly arrivalDate!: Date;
+  public readonly createdAt?: Date;
+  public readonly updatedAt?: Date;
 
-  constructor(container: Partial<IContainer>) {
-    Object.assign(this, container);
-  }
-
-  public getId(): string | undefined {
-    return this.id;
-  }
-
-  public getShipId(): string {
-    return this.shipId;
-  }
-
-  public getTerminalId(): string {
-    return this.terminalId;
-  }
-
-  public getOriginCountry(): string {
-    return this.originCountry;
-  }
-
-  public getDestinationCountry(): string {
-    return this.destinationCountry;
-  }
-
-  public getCargoType(): string {
-    return this.cargoType;
-  }
-
-  public getStatus(): StatusContainer {
-    return this.status;
-  }
-
-  public getArrivalDate(): Date {
-    return this.arrivalDate;
-  }
-
-  public getCreatedAt(): Date | undefined {
-    return this.createdAt;
-  }
-
-  public getUpdatedAt(): Date | undefined {
-    return this.updatedAt;
+  constructor(data: IContainer) {
+    Object.assign(this, data);
   }
 }
