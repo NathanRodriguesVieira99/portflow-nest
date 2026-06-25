@@ -1,4 +1,4 @@
-import { successResponse } from '@/modules/shared/errors/responses/success-response';
+import { successResponse } from '@/shared/errors/responses/success-response';
 import { Controller, Get, HttpStatus } from '@nestjs/common';
 
 @Controller('/health')
