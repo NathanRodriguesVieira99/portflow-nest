@@ -59,14 +59,15 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html', 'lcov'],
-      include: [],
+      include: ['src/**'],
       exclude: [
         'node_modules/**',
         '**/__tests__/**',
-        'src/infra/database/prisma/generated/**',
+        'src/infrastructure/database/prisma/generated/**',
         '**/*.d.ts',
         '**/*.types.ts',
         '**/*.interface.ts',
+        '**/*.contract.ts',
         '**/*.module.ts',
       ],
     },
