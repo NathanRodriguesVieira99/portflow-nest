@@ -1,0 +1,30 @@
+enum STATUS_CONTAINER {
+  CHEGOU
+  DOCUMENTACAO_PENDENTE
+  DOCUMENTACAO_CRIADA
+  INSPECAO_SOLICITADA
+  INSPECAO_APROVADA
+  INSPECAO_REPROVADA
+  ALFANDEGA_LIBERADA
+  BLOQUEADO
+  ARMAZENADO_NO_PATIO
+  LIBERADO
+}
+
+model Container {
+  id                 String           @id @default(uuid())
+  shipId             String           @map("ship_id")
+  terminalId         String           @map("terminal_id")
+  originCountry      String           @map("origin_country")
+  destinationCountry String           @map("destination_country")
+  cargoType          String           @map("cargo_type")
+  statusContainer    STATUS_CONTAINER @map("status_container")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([shipId, statusContainer])
+  @@index([terminalId, statusContainer])
+  @@index([createdAt(sort: Desc)])
+  @@map("containers")
+}
