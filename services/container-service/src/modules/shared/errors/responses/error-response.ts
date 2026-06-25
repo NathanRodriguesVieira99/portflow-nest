@@ -1,4 +1,4 @@
-import type { Error } from '../contracts/error';
+import type { Error } from '../error';
 
 export type ErrorResponse = {
   ok: false;

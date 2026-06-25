@@ -1,4 +1,4 @@
-import { Error } from '../contracts/error';
+import { Error } from '../error';
 
 export const unauthorized = (message = 'Não autorizado!') =>
   Error('UNAUTHORIZED', message);

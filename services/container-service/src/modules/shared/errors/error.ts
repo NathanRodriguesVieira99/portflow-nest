@@ -1,4 +1,4 @@
-import type { HttpCodes } from './http-codes';
+import type { HttpCodes } from './exceptions/http-codes';
 
 export type Error = { code: HttpCodes; message: string; details?: unknown };
 
