@@ -1,12 +1,16 @@
 services:
   container-service:
     build:
-      target: builder
-    command: pnpm exec tsx watch src/main.ts
+      target: deps
+    command: pnpm start:dev
     environment:
       CHOKIDAR_USEPOLLING: "true"
+      SWC_WATCH_POLLING: "true"
       NODE_ENV: development
+      DATABASE_URL: postgresql://admin:admin@postgresql:5432/container_service_db
     volumes:
-      # Monta o codigo fonte por cima do que foi copiado no build, permitindo hot-reload sem rebuildar a imagem.
       - ../services/container-service/src:/app/src
-      - ../services/container-service/package.json:/app/package.json
+      - ../services/container-service/nest-cli.json:/app/nest-cli.json
+      - ../services/container-service/tsconfig.json:/app/tsconfig.json
+      - ../services/container-service/tsconfig.build.json:/app/tsconfig.build.json
+      - ../services/container-service/.swcrc:/app/.swcrc
