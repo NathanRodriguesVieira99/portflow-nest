@@ -17,6 +17,7 @@
     "test:unit": "dotenv -e .env.test -- vitest run --project unit --reporter verbose",
     "test:unit:watch": "dotenv -e .env.test -- vitest --project unit --watch",
     "test:unit:cov": "dotenv -e .env.test -- vitest run --project unit --coverage ",
+    "pretest:int": " dotenv -e .env.test prisma migrate deploy",
     "test:int": "dotenv -e .env.test -- vitest run --project integration --reporter verbose",
     "test:int:cov": "dotenv -e .env.test -- vitest run --project integration --coverage",
     "pretest:e2e": " dotenv -e .env.test prisma migrate deploy",
