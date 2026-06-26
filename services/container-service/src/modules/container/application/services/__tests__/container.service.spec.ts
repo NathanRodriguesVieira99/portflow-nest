@@ -9,27 +9,35 @@ import { ContainerService } from '../container.service';
 describe('ContainerService', () => {
   let service: ContainerService;
 
+  const containerRepositoryMock = {
+    registerContainerArrival: vi.fn(),
+    findAllContainers: vi.fn(),
+    findContainerById: vi.fn(),
+    findStatusById: vi.fn(),
+    updateContainerStatus: vi.fn(),
+  };
+
+  const terminalServiceMock = { validateTerminal: vi.fn() };
+
+  const sendPendingDocumentationEvent = {
+    sendPendingDocumentationEvent: vi.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ContainerService,
         {
           provide: IContainerRepository,
-          useValue: {
-            registerContainerArrival: vi.fn(),
-            findAllContainers: vi.fn(),
-            findContainerById: vi.fn(),
-            findStatusById: vi.fn(),
-            updateContainerStatus: vi.fn(),
-          },
+          useValue: containerRepositoryMock,
         },
         {
           provide: TerminalService,
-          useValue: { validateTerminal: vi.fn() },
+          useValue: terminalServiceMock,
         },
         {
           provide: ContainerProducer,
-          useValue: { sendPendingDocumentationEvent: vi.fn() },
+          useValue: sendPendingDocumentationEvent,
         },
       ],
     }).compile();
