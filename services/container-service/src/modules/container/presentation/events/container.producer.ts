@@ -5,8 +5,8 @@ import { Injectable } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 import { ClsService } from 'nestjs-cls';
 
-import { KafkaProducer } from '@/infrastructure/messaging/kafka/producer/kafka.producer';
-import { KAFKA_TOPICS } from '@/infrastructure/messaging/kafka/constants/topics';
+import { KafkaProducer } from '../../../../infrastructure/messaging/kafka/producer/kafka.producer';
+import { KAFKA_TOPICS } from '../../../../infrastructure/messaging/kafka/constants/topics';
 
 import { trace } from '@opentelemetry/api';
 

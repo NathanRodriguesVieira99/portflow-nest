@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 
-import { KAFKA_CLIENTS } from '@/infrastructure/messaging/kafka/constants/clients';
+import { KAFKA_CLIENTS } from '../constants/clients';
 
 import type { ClientKafka } from '@nestjs/microservices';
-import type { IKafkaProducer } from '@/infrastructure/messaging/kafka/producer/kafka.producer.contract';
+import type { IKafkaProducer } from '../producer/kafka.producer.contract';
 
 @Injectable()
 export class KafkaProducer implements IKafkaProducer {

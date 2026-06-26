@@ -1,7 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { CacheModule as NestJsCacheModule } from '@nestjs/cache-manager';
 import KeyvRedis from '@keyv/redis';
-import { env } from '@/config/env';
+import { env } from '../../config/env';
 
 @Global()
 @Module({

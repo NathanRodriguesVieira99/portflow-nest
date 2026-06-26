@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 
-import { KAFKA_TOPICS } from '@/infrastructure/messaging/kafka/constants/topics';
+import { KAFKA_TOPICS } from '../../../../infrastructure/messaging/kafka/constants/topics';
 
 import type { ContainerStatusEvent } from './container.producer';
 
