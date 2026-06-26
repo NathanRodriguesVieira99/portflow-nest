@@ -1,4 +1,4 @@
-import { StatusContainer } from '../enums/status-container.enum';
+import { StatusContainer } from '../../@types/status-container';
 
 export interface IContainer {
   id?: string;

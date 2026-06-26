@@ -1,4 +1,4 @@
-import type { StatusContainer } from '@/modules/container/domain/enums/status-container.enum';
+import type { StatusContainer } from '@/modules/container/@types/status-container';
 
 export interface UpdateContainerStatusDto {
   containerId: string;
