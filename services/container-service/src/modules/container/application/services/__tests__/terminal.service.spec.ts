@@ -6,13 +6,15 @@ import { TerminalService } from '../terminal.service';
 describe('TerminalService', () => {
   let service: TerminalService;
 
+  const mockValidateTerminal = { validateTerminal: vi.fn() };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         TerminalService,
         {
           provide: TerminalHttp,
-          useValue: { validateTerminal: vi.fn() },
+          useValue: mockValidateTerminal,
         },
       ],
     }).compile();
