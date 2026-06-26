@@ -10,7 +10,7 @@ import {
   invalidCredentials,
   unauthorized,
   rateLimited,
-} from '../../exceptions/exceptions';
+} from '../exceptions/exceptions';
 
 describe('Error factories', () => {
   describe('Error', () => {
