@@ -6,8 +6,9 @@ import {
 } from '@nestjs/common';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient, type Prisma } from './generated/client';
+import { env } from '../../../config/env';
 
-const connectionString = process.env.DATABASE_URL;
+const connectionString = env.DATABASE_URL;
 
 @Injectable()
 export class PrismaService
