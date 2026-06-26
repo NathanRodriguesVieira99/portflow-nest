@@ -1,8 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { ClientKafka } from '@nestjs/microservices';
+import { lastValueFrom } from 'rxjs';
 
 import { KAFKA_CLIENTS } from '@/infrastructure/messaging/kafka/constants/clients';
 
+import type { ClientKafka } from '@nestjs/microservices';
 import type { IKafkaProducer } from '@/infrastructure/messaging/kafka/producer/kafka.producer.contract';
 
 @Injectable()
@@ -13,6 +14,6 @@ export class KafkaProducer implements IKafkaProducer {
   ) {}
 
   async produce<P>(topic: string, payload: P): Promise<void> {
-    this.kafka.emit(topic, payload);
+    await lastValueFrom(this.kafka.emit(topic, payload));
   }
 }
