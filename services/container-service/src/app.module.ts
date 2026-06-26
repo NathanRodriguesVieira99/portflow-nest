@@ -19,6 +19,7 @@ import { ContainerModule } from './modules/container/container.module';
     PrismaModule,
     CacheModule,
     KafkaModule,
+
     /* Business Logic */
     ContainerModule,
   ],
