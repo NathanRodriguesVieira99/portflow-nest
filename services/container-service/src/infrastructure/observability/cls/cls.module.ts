@@ -5,7 +5,7 @@ import { Module } from '@nestjs/common';
 import { ClsModule as CLS } from 'nestjs-cls';
 
 /*  
-Kong envia o Header "X-Correlation-ID"
+Kong envia o Header "X-Correlation-Id"
 CLS salva o correlation id
 Se não existir cria um novo correlation id
  */
