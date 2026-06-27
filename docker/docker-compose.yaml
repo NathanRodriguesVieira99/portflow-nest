@@ -18,8 +18,8 @@ services:
   container-service:
         container_name: container-service
         build:
-            context: ../services/container-service/
-            dockerfile: Dockerfile
+            context: ../
+            dockerfile: services/container-service/Dockerfile
         ports:
            - "3333:3333"
         environment:
