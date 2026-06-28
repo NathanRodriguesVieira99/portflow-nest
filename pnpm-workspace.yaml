@@ -5,6 +5,7 @@ allowBuilds:
   '@scarf/scarf': true
   '@swc/core': true
   esbuild: true
+  lefthook: false
   prisma: true
   protobufjs: true
   unrs-resolver: true
