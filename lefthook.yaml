@@ -20,5 +20,6 @@ pre-push:
   parallel: true
   commands:
     test:
+      root: "./services/container-service"
       glob: "*.{ts,tsx,js,jsx}"
       run: pnpm test:unit:cov
