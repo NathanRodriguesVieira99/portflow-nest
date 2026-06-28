@@ -5,7 +5,7 @@ import { Module } from '@nestjs/common';
 import { ClsModule as CLS } from 'nestjs-cls';
 
 /*  
-Kong envia o Header "X-Correlation-ID"
+Kong envia o Header "X-Correlation-Id"
 CLS salva o correlation id
 Se não existir cria um novo correlation id
  */
@@ -15,6 +15,7 @@ Se não existir cria um novo correlation id
       global: true,
       middleware: {
         mount: true,
+        generateId: true,
         idGenerator: (req: Request) => {
           const header = req.headers['x-correlation-id'];
           return typeof header === 'string' ? header : randomUUID();

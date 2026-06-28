@@ -1,4 +1,5 @@
 import { Injectable, Logger, OnModuleInit, Optional } from '@nestjs/common';
+
 import axios, { type AxiosError, type AxiosInstance } from 'axios';
 
 import { IHttpClient, HttpRequest } from './http-client.types';
@@ -38,9 +39,11 @@ export class HttpClient implements IHttpClient, OnModuleInit {
         data: body,
         params,
       });
+
       return data;
     } catch (err) {
       const error = err as AxiosError;
+
       this.logger.error('HTTP ERROR', {
         message: error.message,
         code: error.code,
@@ -48,8 +51,10 @@ export class HttpClient implements IHttpClient, OnModuleInit {
         url: error.config?.url,
         method: error.config?.method,
       });
+
       const status = error.response?.status || 500;
       const message = error.response?.data || error.message;
+
       throw new Error(`Request failed with status ${status}: ${message}`);
     }
   }

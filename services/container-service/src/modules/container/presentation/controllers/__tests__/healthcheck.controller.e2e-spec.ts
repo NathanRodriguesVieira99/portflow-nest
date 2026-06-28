@@ -1,19 +1,38 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { Healthcheck } from '../healthcheck.controller';
+import request from 'supertest';
 
-describe('Healthcheck', () => {
-  let controller: Healthcheck;
+import { AppModule } from '../../../../../app.module';
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [Healthcheck],
+import type { INestApplication } from '@nestjs/common';
+
+describe('E2E - Healthcheck', () => {
+  let app: INestApplication;
+
+  beforeAll(async () => {
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [AppModule],
     }).compile();
 
-    controller = module.get<Healthcheck>(Healthcheck);
+    app = moduleFixture.createNestApplication();
+    await app.init();
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  afterAll(async () => {
+    await app.close();
+  });
+
+  describe('[GET] /api/v1/health', () => {
+    it('should return ok', async () => {
+      const health = await request(app.getHttpServer()).get(`/health`);
+
+      expect(health.status).toBe(200);
+      expect(health.body).toEqual({
+        ok: true,
+        status: 200,
+        content: 'Service: Container',
+        timestamp: expect.any(String),
+      });
+    });
   });
 });

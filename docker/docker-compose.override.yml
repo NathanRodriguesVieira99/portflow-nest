@@ -2,15 +2,15 @@ services:
   container-service:
     build:
       target: deps
-    command: pnpm start:dev
+    command: pnpm -C services/container-service start:dev
     environment:
       CHOKIDAR_USEPOLLING: "true"
       SWC_WATCH_POLLING: "true"
       NODE_ENV: development
       DATABASE_URL: postgresql://admin:admin@postgresql:5432/container_service_db
     volumes:
-      - ../services/container-service/src:/app/src
-      - ../services/container-service/nest-cli.json:/app/nest-cli.json
-      - ../services/container-service/tsconfig.json:/app/tsconfig.json
-      - ../services/container-service/tsconfig.build.json:/app/tsconfig.build.json
-      - ../services/container-service/.swcrc:/app/.swcrc
+      - ../services/container-service/src:/app/services/container-service/src
+      - ../services/container-service/nest-cli.json:/app/services/container-service/nest-cli.json
+      - ../services/container-service/tsconfig.json:/app/services/container-service/tsconfig.json
+      - ../services/container-service/tsconfig.build.json:/app/services/container-service/tsconfig.build.json
+      - ../services/container-service/.swcrc:/app/services/container-service/.swcrc

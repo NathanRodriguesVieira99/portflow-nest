@@ -1,26 +1,34 @@
 _format_version: "3.0"
 
+# ══════════════════════════════════════════════════════════════════════════════
+# Services
+# ══════════════════════════════════════════════════════════════════════════════
 services:
   - name: container-service
     url: http://container-service:3333
-    plugins:
-      - name: request-transformer
-        config:
-          add:
-            headers: ["X-Forwarded-Service:kong"]
     routes:
       - name: container-service-routes
         paths:
           - /container
         strip_path: true
+        methods: [GET, POST, PUT, PATCH, DELETE]
+    plugins:
+      - name: request-transformer
+        config:
+          add:
+            headers: ["X-Forwarded-Service:kong"]
 
+# ══════════════════════════════════════════════════════════════════════════════
+# Global Plugins
+# ══════════════════════════════════════════════════════════════════════════════
 plugins:
   - name: cors
     config:
       origins:
         - "*"
       methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
-      headers: [Accept, Content-Type, Authorization, X-Request-Id]
+      headers:
+        [Accept, Content-Type, Authorization, X-Request-Id, X-Correlation-Id]
 
   - name: prometheus
     config:
@@ -36,7 +44,7 @@ plugins:
       resource_attributes:
         service.name: kong-api-gateway
       header_type: w3c
-      sampling_rate: 1.0 # dev: 100%; prod: 0.1
+      sampling_rate: 1.0
       propagation:
         default_format: w3c
         extract: [w3c]
@@ -44,6 +52,6 @@ plugins:
 
   - name: correlation-id
     config:
-      header_name: X-Correlation-ID
+      header_name: X-Correlation-Id
       generator: uuid
       echo_downstream: true

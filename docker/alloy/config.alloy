@@ -1,0 +1,75 @@
+// 1. Descobre containers via Docker socket
+discovery.docker "containers" {
+  host             = "unix:///var/run/docker.sock"
+  refresh_interval = "5s"
+}
+
+// 2. Relabeling: extrai container name e compose service
+discovery.relabel "containers" {
+  targets = discovery.docker.containers.targets
+
+  rule {
+    source_labels = ["__meta_docker_container_name"]
+    // container name vem com "/" na frente — regex remove o prefixo
+    regex         = "/(.*)"
+    target_label  = "container"
+  }
+
+  rule {
+    source_labels = ["__meta_docker_container_label_com_docker_compose_service"]
+    target_label  = "service"
+  }
+}
+
+// 3. Coleta logs dos containers
+loki.source.docker "portflow" {
+  host       = "unix:///var/run/docker.sock"
+  targets    = discovery.relabel.containers.output
+  forward_to = [loki.process.pino_pipeline.receiver]
+
+  // Mantém posições para não reingerir logs ao reiniciar
+  refresh_interval = "5s"
+}
+
+// 4. Pipeline: parse do JSON do Pino + labels + timestamp
+loki.process "pino_pipeline" {
+  // Extrai campos do JSON do Pino
+  stage.json {
+    expressions = {
+      level         = "level",
+      msg           = "msg",
+      correlationId = "correlationId",
+      pid           = "pid",
+      hostname      = "hostname",
+      time          = "time",
+    }
+  }
+
+  // Promove "level" para label 
+  stage.labels {
+    values = {
+      level = "",
+    }
+  }
+
+  // Converte timestamp epoch ms do Pino para o formato do Loki
+  stage.timestamp {
+    source = "time"
+    format = "Unix"
+  }
+
+  forward_to = [loki.write.loki_instance.receiver]
+}
+
+// 5. Envia para o Loki
+loki.write "loki_instance" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+
+    // Retry config
+    min_backoff_period = "500ms"
+    max_backoff_period = "5m"
+    max_backoff_retries = 10
+  }
+  external_labels = {}
+}

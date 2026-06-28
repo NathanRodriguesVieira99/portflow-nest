@@ -1,0 +1,13 @@
+{
+  "name": "microservices-nest",
+  "version": "0.0.0",
+  "scripts": {
+    "docker:up": "cd docker && docker compose down && docker compose up --build -d",
+    "docker:down": "cd docker && docker compose down"
+  },
+  "author": "@NathanRodriguesVieira99",
+  "packageManager": "pnpm@11.7.0",
+  "devDependencies": {
+    "lefthook": "^2.1.9"
+  }
+}

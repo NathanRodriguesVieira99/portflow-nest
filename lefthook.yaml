@@ -1,0 +1,25 @@
+pre-commit:
+  parallel: true
+  commands:
+    format:
+      root: "./services/container-service"
+      glob: ".{ts,js}"
+      run: "pnpm format --{staged_files}"
+
+    lint:
+      root: "./services/container-service"
+      glob: ".{ts,js}"
+      run: "pnpm lint --{staged_files}"
+
+    typecheck:
+      root: "./services/container-service"
+      glob: ".{ts,js}"
+      run: "pnpm typecheck"
+
+pre-push:
+  parallel: true
+  commands:
+    test:
+      root: "./services/container-service"
+      glob: "*.{ts,js}"
+      run: pnpm test:unit:cov

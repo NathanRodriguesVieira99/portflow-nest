@@ -2,32 +2,24 @@ import './tracing';
 
 import { NestFactory } from '@nestjs/core';
 import { Logger as PinoLogger } from 'nestjs-pino';
+import { AppModule } from './app.module';
+import { kafkaConfig } from './infrastructure/kafka/kafka.config';
+import { env } from './config/env';
 
 import type { MicroserviceOptions } from '@nestjs/microservices';
-
-import { AppModule } from './app.module';
-import { env } from './config/env';
-import { kafkaConfig } from './infrastructure/messaging/kafka/kafka.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
   app.setGlobalPrefix('/api/v1');
 
-  /* CORS */
-  app.enableCors({
-    origin: ['*'],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
-  });
-
+  /* Logs */
   app.useLogger(app.get(PinoLogger));
 
   /*  Kafka */
   app.connectMicroservice<MicroserviceOptions>(kafkaConfig);
   await app.startAllMicroservices();
 
-  /* APP */
+  /* App */
   await app.listen(env.PORT, '0.0.0.0');
 }
 bootstrap().catch((err) => {
