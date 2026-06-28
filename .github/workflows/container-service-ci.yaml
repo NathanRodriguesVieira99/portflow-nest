@@ -129,13 +129,13 @@ jobs:
       - name: Generate Prisma Client
         run: pnpm dlx prisma generate
         working-directory: ./services/container-service
-        env:
-          DATABASE_URL: "postgresql://admin:admin@localhost:5432/container_service_db_test"
-          NODE_ENV: test
 
       - name: Integration Tests
         run: pnpm test:int
         working-directory: ./services/container-service
+        env:
+          DATABASE_URL: "postgresql://admin:admin@localhost:5432/container_service_db_test"
+          NODE_ENV: test
 
   end-to-end-tests:
     runs-on: ubuntu-latest
