@@ -1,4 +1,7 @@
-import 'dotenv/config';
+import * as dotenv from 'dotenv';
+
+const envFile = `.env${process.env.NODE_ENV === 'test' ? '.test' : ''}`;
+dotenv.config({ path: envFile });
 
 import * as z from 'zod';
 import { Logger } from '@nestjs/common';
