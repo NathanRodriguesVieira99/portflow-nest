@@ -28,6 +28,7 @@ services:
            PORT: 3333
            REDIS_HOST: redis
            REDIS_PORT: 6379
+           DATABASE_URL: postgresql://admin:admin@postgresql:5432/container_service_db
            LOKI_URL: http://loki:3100
            OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4318/v1/traces
            KAFKA_BROKER: kafka:29092
@@ -306,7 +307,7 @@ services:
       ports:
         - "3100:3100"
       volumes:
-        - ./loki/loki-config.yaml:/etc/loki/loki-local-config.yaml:ro
+        - ./loki/loki.yaml:/etc/loki/loki-local-config.yaml:ro
       restart: unless-stopped  
       networks:
         - portflow-net
