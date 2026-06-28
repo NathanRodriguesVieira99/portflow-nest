@@ -1,10 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { TerminalService } from '../terminal.service';
-import { ContainerProducer } from '../../../presentation/events/container.producer';
-import { IContainerRepository } from '../../../infra/repositories/container.repository';
-
 import { ContainerService } from '../container.service';
+
+import { ContainerProducer } from '../../../presentation/events/container.producer';
+
+import { ContainerRepositoryContract } from '../../../domain/repositories/container.repository.contract';
 
 describe('ContainerService', () => {
   let service: ContainerService;
@@ -28,7 +29,7 @@ describe('ContainerService', () => {
       providers: [
         ContainerService,
         {
-          provide: IContainerRepository,
+          provide: ContainerRepositoryContract,
           useValue: containerRepositoryMock,
         },
         {
