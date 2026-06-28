@@ -17,7 +17,7 @@ jobs:
         uses: ./.github/actions/setup-node
 
       - name: Generate Prisma Client
-        run: pnpm prisma generate
+        run: pnpm db:generate
 
       - name: Build Microservice
         run: pnpm build
@@ -33,7 +33,7 @@ jobs:
         uses: ./.github/actions/setup-node
 
       - name: Generate Prisma Client
-        run: pnpm prisma generate
+        run: pnpm db:generate
 
       - name: Lint
         run: pnpm lint
@@ -49,7 +49,7 @@ jobs:
         uses: ./.github/actions/setup-node
 
       - name: Generate Prisma Client
-        run: pnpm prisma generate
+        run: pnpm db:generate
 
       - name: Lint
         run: pnpm typecheck
@@ -65,7 +65,7 @@ jobs:
         uses: ./.github/actions/setup-node
 
       - name: Generate Prisma Client
-        run: pnpm prisma generate
+        run: pnpm db:generate
 
       - name: Unit Tests
         run: pnpm test:unit:cov
@@ -112,7 +112,7 @@ jobs:
   #       uses: ./.github/actions/setup-node
 
   #     - name: Generate Prisma Client
-  #       run: pnpm prisma generate
+  #       run: pnpm db:generate
 
   #     - name: Integration Tests
   #       run: pnpm test:int:cov
@@ -159,7 +159,7 @@ jobs:
         uses: ./.github/actions/setup-node
 
       - name: Generate Prisma Client
-        run: pnpm prisma generate
+        run: pnpm db:generate
 
       - name: E2E Tests
         run: pnpm test:e2e
@@ -179,7 +179,7 @@ jobs:
         uses: ./.github/actions/setup-node
 
       - name: Generate Prisma Client
-        run: pnpm prisma generate
+        run: pnpm db:generate
 
       - name: PNPM audit
         run: pnpm audit --audit-level=critical
