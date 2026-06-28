@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 
-import { TerminalHttp } from '../../infra/http/terminal.http';
+import { TerminalHttp } from '../../infra/http/terminal/terminal.http';
 
 import type {
   TerminalValidationRequest,
   TerminalValidationResponse,
-} from '../../infra/http/terminal.http.contract';
+} from '../../infra/http/terminal/terminal.http.contract';
 
 @Injectable()
 export class TerminalService {
