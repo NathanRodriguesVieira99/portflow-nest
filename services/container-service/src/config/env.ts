@@ -4,10 +4,11 @@ import * as z from 'zod';
 import { Logger } from '@nestjs/common';
 
 export const envSchema = z.object({
+  SERVICE_NAME: z.string().default('container-service'),
+  TERMINAL_SERVICE_BASE_URL: z.string().default('http://localhost:3434'),
   NODE_ENV: z
     .enum(['development', 'test', 'production'])
     .default('development'),
-  SERVICE_NAME: z.string().default('container-service'),
   PORT: z.coerce.number(),
   REDIS_HOST: z.string(),
   REDIS_PORT: z.coerce.number(),
