@@ -134,7 +134,7 @@ jobs:
           NODE_ENV: test
 
       - name: Integration Tests
-        run: pnpm test:int:cov
+        run: pnpm test:int
         working-directory: ./services/container-service
 
   end-to-end-tests:
