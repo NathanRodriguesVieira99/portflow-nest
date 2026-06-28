@@ -80,7 +80,7 @@ jobs:
           DATABASE_URL: "postgresql://admin:admin@localhost:5432/container_service_db_test"
 
       - name: Unit Tests
-        run: pnpm test:unit:cov
+        run: pnpm test:unit
         working-directory: ./services/container-service
         env:
           DATABASE_URL: postgresql://admin:admin@localhost:5432/container_service_db_test
