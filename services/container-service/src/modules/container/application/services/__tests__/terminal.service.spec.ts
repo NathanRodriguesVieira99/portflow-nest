@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { TerminalHttp } from '../../../infra/http/terminal.http';
+import { TerminalHttp } from '../../../infra/http/terminal/terminal.http';
 import { TerminalService } from '../terminal.service';
 
 describe('TerminalService', () => {
