@@ -4,3 +4,4 @@ node_modules
 .prettierrc
 README.md
 eslint.config.mjs
+docker/

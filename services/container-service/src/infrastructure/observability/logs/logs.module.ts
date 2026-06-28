@@ -4,8 +4,9 @@ import { LoggerModule } from 'nestjs-pino';
 
 import { env } from '../../../config/env';
 import { trace } from '@opentelemetry/api';
+import { SERVICE_NAME } from '../../../constants/constants';
 
-const isDev = env.NODE_ENV === 'development';
+export const isDev = env.NODE_ENV === 'development';
 
 @Module({
   imports: [
@@ -16,23 +17,20 @@ const isDev = env.NODE_ENV === 'development';
         pinoHttp: {
           level: isDev ? 'debug' : 'info',
 
-          ...(isDev && {
-            formatters: { level: (label: string) => ({ level: label }) },
-          }),
+          formatters: { level: (label: string) => ({ level: label }) },
 
           customProps: () => {
-            const span = trace.getActiveSpan();
-            const spanContext = span?.spanContext();
+            const spanContext = trace.getActiveSpan()?.spanContext();
             return {
               correlationId: cls.getId(),
               traceId: spanContext?.traceId,
               spanId: spanContext?.spanId,
-              service: env.SERVICE_NAME ?? 'Container-Service',
+              ...(isDev && { service: env.SERVICE_NAME ?? SERVICE_NAME }),
             };
           },
 
-          customSuccessMessage: (req, res) =>
-            `${req.method} ${req.url} ${res.statusCode}`,
+          customSuccessMessage: (req, res, responseTime) =>
+            `${req.method} ${req.url} ${res.statusCode} +${responseTime}ms`,
 
           customErrorMessage: (req, res, err) =>
             `${req.method} ${req.url} ${res.statusCode} - ${err.message}`,
@@ -47,22 +45,7 @@ const isDev = env.NODE_ENV === 'development';
                   messageFormat: '[{correlationId}] {msg}',
                 },
               }
-            : // Em produção, envia para Loki diretamente via pino-loki
-              {
-                targets: [
-                  { target: 'pino/file', options: { destination: 1 } },
-                  {
-                    target: 'pino-loki',
-                    options: {
-                      host: env.LOKI_URL ?? 'http://loki:3100',
-                      labels: {
-                        service: env.SERVICE_NAME ?? 'Container-Service',
-                      },
-                      propsToLabels: ['level', 'service'],
-                    },
-                  },
-                ],
-              },
+            : undefined,
         },
       }),
     }),

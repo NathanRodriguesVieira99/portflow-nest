@@ -1,6 +1,5 @@
 {
   "name": "container-service",
-  "version": "0.0.1",
   "description": "",
   "author": "",
   "private": true,
@@ -17,11 +16,12 @@
     "test:unit": "dotenv -e .env.test -- vitest run --project unit --reporter verbose",
     "test:unit:watch": "dotenv -e .env.test -- vitest --project unit --watch",
     "test:unit:cov": "dotenv -e .env.test -- vitest run --project unit --coverage ",
+    "pretest:int": " dotenv -e .env.test prisma migrate deploy",
     "test:int": "dotenv -e .env.test -- vitest run --project integration --reporter verbose",
     "test:int:cov": "dotenv -e .env.test -- vitest run --project integration --coverage",
-    "test:e2e": "dotenv -e .env.test -- vitest run --project e2e --reporter verbose",
-    "test:all": "dotenv -e .env.test -- vitest --run",
-    "test:ci": "dotenv -e .env.test -- vitest --run --coverage",
+    "pretest:e2e": " dotenv -e .env.test prisma migrate deploy",
+    "test:e2e": "dotenv -e .env.test -- vitest run --project e2e --reporter verbose | pino-pretty",
+    "test:all": "pnpm test:unit &&  pnpm test:e2e && pnpm test:int",
     "db:migrate": "prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
     "db:generate": "prisma generate",
@@ -60,21 +60,12 @@
     "opossum": "^9.0.0",
     "pg": "^8.21.0",
     "pino-http": "^11.0.0",
-    "pino-loki": "^3.0.0",
     "prom-client": "^15.1.3",
     "redis": "^6.0.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "vitest": "^4.1.9",
     "zod": "^4.4.3"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@prisma/engines",
-      "prisma",
-      "esbuild",
-      "protobufjs"
-    ]
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",

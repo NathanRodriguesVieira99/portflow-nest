@@ -1,17 +1,6 @@
-import { StatusContainer } from '../enums/status-container.enum';
+import { StatusContainer } from '../../@types/status-container';
 
-export interface IContainer {
-  id?: string;
-  shipId: string;
-  terminalId: string;
-  originCountry: string;
-  destinationCountry: string;
-  cargoType: string;
-  status: StatusContainer;
-  arrivalDate: Date;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
+import type { IContainer } from '../interfaces/container.interface';
 
 export class Container {
   public readonly id?: string;

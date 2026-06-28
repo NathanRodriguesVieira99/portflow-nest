@@ -18,8 +18,8 @@ services:
   container-service:
         container_name: container-service
         build:
-            context: ../services/container-service/
-            dockerfile: Dockerfile
+            context: ../
+            dockerfile: services/container-service/Dockerfile
         ports:
            - "3333:3333"
         environment:
@@ -28,6 +28,7 @@ services:
            PORT: 3333
            REDIS_HOST: redis
            REDIS_PORT: 6379
+           DATABASE_URL: postgresql://admin:admin@postgresql:5432/container_service_db
            LOKI_URL: http://loki:3100
            OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4318/v1/traces
            KAFKA_BROKER: kafka:29092
@@ -49,7 +50,7 @@ services:
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: admin
       POSTGRES_EXTRA_DATABASES: >
-        container_service_db
+        container_service_db, container_service_db_test
     ports:
       - "5432:5432"
     command: # Habilita replicação lógica necessária para CDC via Debezium
@@ -290,6 +291,7 @@ services:
       volumes:
         - ./grafana/provisioning:/etc/grafana/provisioning:ro
         - grafana_data:/var/lib/grafana
+      restart: unless-stopped  
       depends_on:
         - prometheus
         - loki
@@ -304,26 +306,29 @@ services:
       image: grafana/loki:3.2.0
       ports:
         - "3100:3100"
-      environment:
-        - LOKI_CONFIG_FILENAME=/etc/loki/loki-local-config.yaml
       volumes:
-        - ./loki/loki-config.yaml:/etc/loki/loki-local-config.yaml:ro
+        - ./loki/loki.yaml:/etc/loki/loki-local-config.yaml:ro
+      restart: unless-stopped  
       networks:
         - portflow-net
 
   # ---------------------------------------------------------------------------
-  # Promtail
+  # Alloy
   # ---------------------------------------------------------------------------
-  promtail:
-      container_name: promtail
-      image: grafana/promtail:3.2.0
-      command: -config.file=/etc/promtail/promtail.yaml
+  alloy:
+      container_name: alloy
+      image: grafana/alloy:v1.9.1
+      command:
+      - run
+      - /etc/alloy/config.alloy
+      - --server.http.listen-addr=0.0.0.0:12345
+      - --storage.path=/var/lib/alloy/data
       volumes:
-        - /var/lib/docker/containers:/var/lib/docker/containers:ro
-        - /var/run/docker.sock:/var/run/docker.sock:ro
-        - ./promtail/promtail.yaml:/etc/promtail/promtail.yaml:ro
+      - ./alloy/config.alloy:/etc/alloy/config.alloy:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      restart: unless-stopped
       ports:
-        - "9080:9080"
+        - "12345:12345"
       depends_on:
         - loki
       networks:

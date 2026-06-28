@@ -3,7 +3,7 @@ import { Transport, type KafkaOptions } from '@nestjs/microservices';
 import { KAFKA_CLIENTS } from './constants/clients';
 import { KAFKA_CONSUMER_GROUPS } from './constants/groups';
 
-import { env } from '@/config/env';
+import { env } from '../../config/env';
 
 export const kafkaConfig: KafkaOptions = {
   transport: Transport.KAFKA,
@@ -14,7 +14,7 @@ export const kafkaConfig: KafkaOptions = {
     },
     consumer: {
       groupId: KAFKA_CONSUMER_GROUPS.CONTAINER_SERVICE,
-      allowAutoTopicCreation: false,
+      allowAutoTopicCreation: env.NODE_ENV === 'development' ? true : false,
     },
   },
 };
