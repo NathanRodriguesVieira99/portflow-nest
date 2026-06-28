@@ -1,0 +1,27 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  generate-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Generate new version
+        uses: TriPSs/conventional-changelog-action@v5
+        env:
+          LEFTHOOK: 0
+        with:
+          preset: conventionalcommits
+          skip-on-empty: false
