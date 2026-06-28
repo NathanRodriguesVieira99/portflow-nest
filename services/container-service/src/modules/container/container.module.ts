@@ -6,15 +6,13 @@ import { HealthcheckController } from './presentation/controllers/healthcheck.co
 import { ContainerService } from './application/services/container.service';
 import { TerminalService } from './application/services/terminal.service';
 
-import { TerminalHttp } from './infra/http/terminal.http';
+import { TerminalHttp } from './infra/http/terminal/terminal.http';
 
 import { ContainerProducer } from './presentation/events/container.producer';
 import { ContainerConsumer } from './presentation/events/container.consumer';
 
-import {
-  ContainerRepository,
-  IContainerRepository,
-} from './infra/repositories/container.repository';
+import { ContainerRepositoryContract } from './domain/repositories/container.repository.contract';
+import { ContainerRepositoryImplementation } from './infra/repositories/container.repository.implementation';
 
 @Module({
   providers: [
@@ -27,11 +25,20 @@ import {
 
     /* Kafka */
     ContainerProducer,
-    ContainerConsumer,
 
     /* Repositories */
-    { provide: IContainerRepository, useClass: ContainerRepository },
+    {
+      provide: ContainerRepositoryContract,
+      useClass: ContainerRepositoryImplementation,
+    },
   ],
-  controllers: [ContainerController, HealthcheckController],
+  controllers: [
+    /* Business Logic */
+    ContainerController,
+    HealthcheckController,
+
+    /* Kafka */
+    ContainerConsumer,
+  ],
 })
 export class ContainerModule {}
