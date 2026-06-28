@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 
-import { HttpClient } from '../../../../infrastructure/http/http-client';
-import { HttpMethod } from '../../../../infrastructure/http/http-client.types';
+import { HttpClient } from '../../../../../infrastructure/http/http-client';
+import { HttpMethod } from '../../../../../infrastructure/http/http-client.types';
+
+import { TERMINAL_SERVICE_BASE_URL } from '../../../../../constants/constants';
 
 import type {
   TerminalValidationRequest,
   TerminalValidationResponse,
 } from './terminal.http.contract';
-
-const TERMINAL_SERVICE_BASE_URL = 'http://localhost:3434';
 
 @Injectable()
 export class TerminalHttp {
@@ -27,6 +27,7 @@ export class TerminalHttp {
       baseURL: TERMINAL_SERVICE_BASE_URL,
       endpoint: `/terminais/${terminalId}/validacao`,
       method: HttpMethod.POST,
+      headers: {},
       body,
       params: {},
     });
