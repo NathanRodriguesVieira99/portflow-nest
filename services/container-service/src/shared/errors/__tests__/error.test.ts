@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'vitest';
-
 import { Error } from '../error';
 import {
   badRequest,

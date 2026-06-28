@@ -21,7 +21,7 @@
     "test:int": "dotenv -e .env.test -- vitest run --project integration --reporter verbose",
     "test:int:cov": "dotenv -e .env.test -- vitest run --project integration --coverage",
     "pretest:e2e": " dotenv -e .env.test prisma migrate deploy",
-    "test:e2e": "dotenv -e .env.test -- vitest run --project e2e --reporter verbose",
+    "test:e2e": "dotenv -e .env.test -- vitest run --project e2e --reporter verbose | pino-pretty",
     "test:all": "pnpm test:unit &&  pnpm test:e2e && pnpm test:int",
     "db:migrate": "prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
