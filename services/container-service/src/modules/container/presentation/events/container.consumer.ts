@@ -1,21 +1,20 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
+import { Controller, Logger } from '@nestjs/common';
+import { EventPattern } from '@nestjs/microservices';
+import { KAFKA_TOPICS } from '../../../../infrastructure/kafka/constants/topics';
 
-import { KAFKA_TOPICS } from '../../../../infrastructure/messaging/kafka/constants/topics';
+import type { ContainerStatusEvent } from './contracts/container.events';
 
-import type { ContainerStatusEvent } from './container.producer';
-
-@Injectable()
+@Controller()
 export class ContainerConsumer {
   private logger = new Logger(ContainerConsumer.name);
 
-  @MessagePattern(KAFKA_TOPICS.DOCUMENTATION_RELEASED)
+  @EventPattern(KAFKA_TOPICS.DOCUMENTATION_RELEASED)
   receiveDocumentationReleased(event: ContainerStatusEvent) {
     this.logger.log('Event Received!');
     this.logger.log(event);
   }
 
-  @MessagePattern(KAFKA_TOPICS.DOCUMENTATION_REFUSED)
+  @EventPattern(KAFKA_TOPICS.DOCUMENTATION_REFUSED)
   receiveDocumentationRefused(event: ContainerStatusEvent) {
     this.logger.log('Event Refused!');
     this.logger.log(event);
