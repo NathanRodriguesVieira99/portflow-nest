@@ -10,15 +10,17 @@ import { NestInstrumentation } from '@opentelemetry/instrumentation-nestjs-core'
 import { KafkaJsInstrumentation } from '@opentelemetry/instrumentation-kafkajs';
 import { PrismaInstrumentation } from '@prisma/instrumentation';
 
-const serviceName = process.env.SERVICE_NAME ?? 'Container-Service';
+import {
+  OTEL_EXPORTER_OTLP_ENDPOINT,
+  SERVICE_NAME,
+} from './constants/constants';
 
-const otlpEndpoint =
-  process.env.OTEL_EXPORTER_OTLP_ENDPOINT ?? 'http://localhost:4318/v1/traces';
-
-const traceExporter = new OTLPTraceExporter({ url: otlpEndpoint });
+const traceExporter = new OTLPTraceExporter({
+  url: OTEL_EXPORTER_OTLP_ENDPOINT,
+});
 
 export const sdk = new NodeSDK({
-  resource: resourceFromAttributes({ [ATTR_SERVICE_NAME]: serviceName }),
+  resource: resourceFromAttributes({ [ATTR_SERVICE_NAME]: SERVICE_NAME }),
   spanProcessors: [new BatchSpanProcessor(traceExporter)],
   instrumentations: [
     new HttpInstrumentation(),
