@@ -5,23 +5,11 @@ import { Injectable } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 import { ClsService } from 'nestjs-cls';
 
-import { KafkaProducer } from '../../../../infrastructure/messaging/kafka/producer/kafka.producer';
-import { KAFKA_TOPICS } from '../../../../infrastructure/messaging/kafka/constants/topics';
-
-import { trace } from '@opentelemetry/api';
+import { KAFKA_TOPICS } from '../../../../infrastructure/kafka/constants/topics';
+import { KafkaProducer } from '../../../../infrastructure/kafka/producer/kafka.producer';
 
 import type { StatusContainer } from '../../@types/status-container';
-
-export interface ContainerStatusEvent {
-  eventId: string;
-  containerId: string;
-  previousStatus: string;
-  currentStatus: string;
-  description: string;
-  origin: string;
-  dateTime: Date;
-  correlationId: string;
-}
+import type { ContainerStatusEvent } from './contracts/container.events';
 
 @Injectable()
 export class ContainerProducer {
@@ -52,9 +40,6 @@ export class ContainerProducer {
   }
 
   async sendPendingDocumentationEvent(containerId: string): Promise<void> {
-    const span = trace.getActiveSpan();
-    const spanContext = span?.spanContext();
-
     const event = this.buildEvent(
       containerId,
       'ARRIVED',
@@ -62,15 +47,7 @@ export class ContainerProducer {
       `The container ${containerId} is waiting the documentation`,
     );
 
-    this.logger.info(
-      {
-        correlationId: this.cls.getId(),
-        traceId: spanContext?.traceId,
-        spanId: spanContext?.spanId,
-        event,
-      },
-      'sending event to Kafka',
-    );
+    this.logger.info({ event }, 'sending event to Kafka');
 
     await this.kafka.produce(KAFKA_TOPICS.PENDING_DOCUMENTATION, event);
   }
