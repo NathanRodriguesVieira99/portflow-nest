@@ -204,7 +204,7 @@ jobs:
       - name: Run K6 tests
         uses: grafana/run-k6-action@v1
         with:
-          path: ../services/container-service/k6/scripts/*.{ts,js}
+          path: ./services/container-service/k6/scripts/*.{ts,js}
 
   audit:
     runs-on: ubuntu-latest
