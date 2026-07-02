@@ -22,4 +22,4 @@ pre-push:
     test:
       root: "./services/container-service"
       glob: "*.{ts,js}"
-      run: pnpm test:unit:cov
+      run: pnpm test:unit

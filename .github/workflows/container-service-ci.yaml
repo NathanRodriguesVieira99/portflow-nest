@@ -1,6 +1,7 @@
 name: Container Service CI
 
 on:
+  workflow_dispatch:
   push:
     branches: [main, develop]
   pull_request:
@@ -86,56 +87,56 @@ jobs:
           DATABASE_URL: postgresql://admin:admin@localhost:5432/container_service_db_test
           NODE_ENV: test
 
-  # integration-tests:
-  #   runs-on: ubuntu-latest
-  #   services:
-  #     postgresql:
-  #       image: postgres:18.3-alpine
-  #       env:
-  #         POSTGRES_USER: admin
-  #         POSTGRES_PASSWORD: admin
-  #         POSTGRES_DB: container_service_db_test
-  #       ports:
-  #         - "5432:5432"
-  #       options: >-
-  #         --health-cmd "pg_isready -U admin -d container_service_db_test"
-  #         --health-interval 5s
-  #         --health-timeout 5s
-  #         --health-retries 10
-  #     kafka:
-  #       image: confluentinc/cp-kafka:7.8.0
-  #       ports:
-  #         - "29092:29092"
-  #       env:
-  #         CLUSTER_ID: XVmXn3yFSg-B4UD_uAgnC2
-  #         KAFKA_NODE_ID: "1"
-  #         KAFKA_PROCESS_ROLES: broker,controller
-  #         KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-  #         KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:29093
-  #         KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,CONTROLLER://0.0.0.0:29093
-  #         KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:29092
-  #         KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
-  #         KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
-  #         KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: "1"
-  #         KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: "1"
-  #         KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v7
+  integration-tests:
+    runs-on: ubuntu-latest
+    services:
+      postgresql:
+        image: postgres:18.3-alpine
+        env:
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: admin
+          POSTGRES_DB: container_service_db_test
+        ports:
+          - "5432:5432"
+        options: >-
+          --health-cmd "pg_isready -U admin -d container_service_db_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+      kafka:
+        image: confluentinc/cp-kafka:7.8.0
+        ports:
+          - "29092:29092"
+        env:
+          CLUSTER_ID: XVmXn3yFSg-B4UD_uAgnC2
+          KAFKA_NODE_ID: "1"
+          KAFKA_PROCESS_ROLES: broker,controller
+          KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+          KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:29093
+          KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,CONTROLLER://0.0.0.0:29093
+          KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:29092
+          KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+          KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
+          KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: "1"
+          KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: "1"
+          KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
 
-  #     - name: Setup NodeJs and PNPM
-  #       uses: ./.github/actions/setup-node
+      - name: Setup NodeJs and PNPM
+        uses: ./.github/actions/setup-node
 
-  #     - name: Generate Prisma Client
-  #       run: pnpm dlx prisma generate
-  #       working-directory: ./services/container-service
-  #       env:
-  #         DATABASE_URL: "postgresql://admin:admin@localhost:5432/container_service_db_test"
-            # NODE_ENV: test
+      - name: Generate Prisma Client
+        run: pnpm dlx prisma generate
+        working-directory: ./services/container-service
 
-  #     - name: Integration Tests
-  #       run: pnpm test:int:cov
-  #       working-directory: ./services/container-service
+      - name: Integration Tests
+        run: pnpm test:int
+        working-directory: ./services/container-service
+        env:
+          DATABASE_URL: "postgresql://admin:admin@localhost:5432/container_service_db_test"
+          NODE_ENV: test
 
   end-to-end-tests:
     runs-on: ubuntu-latest
@@ -189,6 +190,20 @@ jobs:
         env:
           DATABASE_URL: postgresql://admin:admin@localhost:5432/container_service_db_test
           NODE_ENV: test
+
+  k6:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup K6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Run K6 tests
+        uses: grafana/run-k6-action@v1
+        with:
+          path: ./services/container-service/k6/scripts/*.ts
 
   audit:
     runs-on: ubuntu-latest

@@ -270,6 +270,11 @@ services:
       image: prom/prometheus:v3.11.3
       ports:
         - "9090:9090"
+      healthcheck:
+        test: ["CMD", "wget", "--spider", "-q", "http://localhost:9090/-/healthy"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
       volumes:
         - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       restart: unless-stopped
@@ -298,6 +303,22 @@ services:
         - jaeger
       networks:
         - portflow-net
+
+  # ---------------------------------------------------------------------------
+  # K6
+  # ---------------------------------------------------------------------------
+  k6:
+    container_name: k6
+    image: grafana/k6:latest
+    profiles: ["testing"]
+    volumes:
+      - ../services:/services:ro
+    networks:
+      - portflow-net
+    depends_on:
+       kong:
+          condition: service_healthy
+
   # ---------------------------------------------------------------------------
   # Loki
   # ---------------------------------------------------------------------------
