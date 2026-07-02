@@ -191,7 +191,7 @@ jobs:
           DATABASE_URL: postgresql://admin:admin@localhost:5432/container_service_db_test
           NODE_ENV: test
 
-  k6-tests:
+  k6:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
