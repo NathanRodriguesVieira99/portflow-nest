@@ -5,6 +5,6 @@ import { successResponse } from '../../../../shared/errors/responses/success-res
 export class HealthcheckController {
   @Get()
   health() {
-    return successResponse('Service: Container', 'OK');
+    return successResponse('Container service UP!', 'OK');
   }
 }
