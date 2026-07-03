@@ -1,9 +1,10 @@
 import http from 'k6/http';
 import { check } from 'k6';
 
-const KONG_BASE_URL = `http://${__ENV.NODE_ENV === 'development' ? 'localhost' : 'kong'}:8000/container/api/v1`;
+const KONG_BASE_URL =
+  __ENV.KONG_BASE_URL || `http://kong:8000/container/api/v1`;
 
-export default function () {
+export default function healthcheck() {
   const result = http.get(`${KONG_BASE_URL}/health`);
 
   console.log(result.status);

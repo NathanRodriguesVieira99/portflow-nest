@@ -22,7 +22,7 @@
     "pretest:e2e": " dotenv -e .env.test prisma migrate deploy",
     "test:e2e": "dotenv -e .env.test -- vitest run --project e2e --reporter verbose --passWithNoTests | pino-pretty",
     "test:all": "pnpm test:unit && pnpm test:int && pnpm test:e2e",
-    "k6:load": "cd ../../docker && docker compose --profile testing run --rm k6 run /services/container-service/k6/scripts/load.ts",
+    "test:k6": "cd ../../docker && docker compose --profile testing run --rm k6 run /services/container-service/k6/scenarios/main.ts",
     "db:migrate": "prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
     "db:generate": "prisma generate",

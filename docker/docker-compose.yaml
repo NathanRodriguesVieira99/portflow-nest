@@ -309,7 +309,7 @@ services:
   # ---------------------------------------------------------------------------
   k6:
     container_name: k6
-    image: grafana/k6:latest
+    image: grafana/k6:master
     profiles: ["testing"]
     volumes:
       - ../services:/services:ro
