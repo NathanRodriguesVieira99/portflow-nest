@@ -1,6 +1,9 @@
 apiVersion: 1
 
 datasources:
+  #  ============================================================================
+  #  Métricas
+  #  ============================================================================
   - name: Portflow-Prometheus
     uid: prometheus
     type: prometheus
@@ -13,6 +16,9 @@ datasources:
         - name: traceId
           datasourceUid: jaeger
 
+  #  ============================================================================
+  #  Logs
+  #  ============================================================================
   - name: Portflow-Loki
     uid: loki
     type: loki
@@ -21,10 +27,13 @@ datasources:
     jsonData:
       derivedFields:
         - name: TraceId
-          matcherRegex: '"traceId":"(\w+)"'
+          matcherRegex: '"traceId":"([a-f0-9]+)"'
           url: "$${__value.raw}"
           datasourceUid: jaeger
 
+  #  ============================================================================
+  #  Traces
+  #  ============================================================================
   - name: Portflow-Jaeger
     uid: jaeger
     type: jaeger
