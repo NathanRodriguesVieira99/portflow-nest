@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { HttpClient } from '../../../../infrastructure/http/http-client';
 import { TERMINAL_SERVICE_BASE_URL } from '../../../../shared/constants/constants';
 
 import type { Result } from '../../../../shared/errors/result';
+import type { IHttpClient } from '@/infrastructure/http/http-client.types';
 import type {
   TerminalValidationRequest,
   TerminalValidationResponse,
-} from '../../domain/contracts/terminal.http.contract';
+} from '../../domain/contracts/terminal-validation.input';
 
 @Injectable()
 export class TerminalHttp {
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: IHttpClient) {}
 
   async validateTerminal({
     terminalId,

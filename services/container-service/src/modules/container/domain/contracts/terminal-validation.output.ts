@@ -1,9 +1,4 @@
-export interface TerminalValidationRequest {
-  terminalId: string;
-  cargoType: string;
-}
-
-export interface TerminalValidationResponse {
+export interface TerminalValidationOutput {
   terminalId: string;
   exists: boolean;
   isActive: boolean;
