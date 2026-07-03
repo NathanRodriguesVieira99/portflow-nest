@@ -19,11 +19,15 @@ export const isDev = env.NODE_ENV === 'development';
           formatters: { level: (label: string) => ({ level: label }) },
 
           customProps: () => {
+            const correlationId = cls.getId();
             const spanContext = trace.getActiveSpan()?.spanContext();
+            const traceId = spanContext?.traceId;
+            const spanId = spanContext?.spanId;
+
             return {
-              correlationId: cls.getId(),
-              traceId: spanContext?.traceId,
-              spanId: spanContext?.spanId,
+              correlationId,
+              traceId,
+              spanId,
               ...(isDev && { service: env.SERVICE_NAME ?? SERVICE_NAME }),
             };
           },
