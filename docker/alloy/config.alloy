@@ -89,22 +89,23 @@ loki.write "loki" {
 
 
 // ============================================================================
-// TRACES (OTLP → Jaeger)
+// TRACES (OTLP → Tempo)
 // ============================================================================
+
 otelcol.receiver.otlp "otlp" {
   grpc {}
   http {}
 
   output {
     traces = [
-      otelcol.exporter.otlp.jaeger.input,
+      otelcol.exporter.otlp.tempo.input,
     ]
   }
 }
 
-otelcol.exporter.otlp "jaeger" {
+otelcol.exporter.otlp "tempo" {
   client {
-    endpoint = "jaeger:4317"
+    endpoint = "tempo:4317"
 
     tls {
       insecure = true

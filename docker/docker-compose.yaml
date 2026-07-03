@@ -30,7 +30,7 @@ services:
            REDIS_PORT: 6379
            DATABASE_URL: postgresql://admin:admin@postgresql:5432/container_service_db
            LOKI_URL: http://loki:3100
-           OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4318/v1/traces
+           OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318/v1/traces
            KAFKA_BROKER: kafka:29092
         depends_on:
           - postgresql
@@ -129,7 +129,7 @@ services:
     environment:
       CLUSTER_ID: XVmXn3yFSg-B4UD_uAgnC2
       KAFKA_NODE_ID: "1"
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       KAFKA_PROCESS_ROLES: "broker,controller"
       KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
       KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:29093"
@@ -246,21 +246,6 @@ services:
     networks:
       - portflow-net
 
-  # ---------------------------------------------------------------------------
-  # Jaeger
-  # ---------------------------------------------------------------------------
-  jaeger:
-    container_name: jaeger
-    image: jaegertracing/jaeger:2.19.0
-    ports:
-      - '16686:16686'  # UI
-      - '4317:4317'    # OTLP gRPC
-      - '4318:4318'    # OTLP HTTP
-    environment:
-      - COLLECTOR_OTLP_ENABLED=true
-    restart: unless-stopped
-    networks:
-      - portflow-net
    
   # ---------------------------------------------------------------------------
   # Prometheus
@@ -300,7 +285,7 @@ services:
       depends_on:
         - prometheus
         - loki
-        - jaeger
+        - tempo
       networks:
         - portflow-net
 
@@ -318,6 +303,24 @@ services:
     depends_on:
        kong:
           condition: service_healthy
+
+
+  # ---------------------------------------------------------------------------
+  # Tempo
+  # ---------------------------------------------------------------------------
+  tempo:
+    container_name: tempo
+    image: grafana/tempo:2.6.1
+    command: ["-config.file=/etc/tempo.yaml"]
+    ports:
+      - '3200:3200' # UI
+      - '4317:4317' # gRPC
+      - '4318:4318' # HTTP
+    volumes:
+      - ./tempo/tempo.yaml:/etc/tempo.yaml:ro
+    restart: unless-stopped
+    networks:
+      - portflow-net
 
   # ---------------------------------------------------------------------------
   # Loki

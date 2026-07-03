@@ -29,17 +29,19 @@ datasources:
         - name: TraceId
           matcherRegex: '"traceId":"([a-f0-9]+)"'
           url: "$${__value.raw}"
-          datasourceUid: jaeger
+          datasourceUid: tempo
 
   #  ============================================================================
   #  Traces
   #  ============================================================================
-  - name: Portflow-Jaeger
-    uid: jaeger
-    type: jaeger
+  - name: Portflow-Tempo
+    uid: tempo
+    type: tempo
     access: proxy
-    url: http://jaeger:16686
+    url: http://tempo:3200
     jsonData:
       tracesToLogsV2:
         datasourceUid: loki
         filterByTraceID: true
+      tracesToMetrics:
+        datasourceUid: prometheus
