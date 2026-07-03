@@ -1,25 +1,20 @@
 import { randomUUID } from 'node:crypto';
-
-import { Injectable } from '@nestjs/common';
-
-import { PinoLogger } from 'nestjs-pino';
+import { Injectable, Logger } from '@nestjs/common';
 import { ClsService } from 'nestjs-cls';
-
 import { KAFKA_TOPICS } from '../../../../infrastructure/kafka/constants/topics';
 import { KafkaProducer } from '../../../../infrastructure/kafka/producer/kafka.producer';
 
-import type { StatusContainer } from '../../@types/status-container';
-import type { ContainerStatusEvent } from './contracts/container.events';
+import type { ContainerStatusEvent } from '../../domain/events/container.events';
+import type { StatusContainer } from '../../@types/status-container.type';
 
 @Injectable()
 export class ContainerProducer {
+  private logger = new Logger(ContainerProducer.name);
+
   constructor(
     private readonly kafka: KafkaProducer,
     private readonly cls: ClsService,
-    private readonly logger: PinoLogger,
-  ) {
-    this.logger.setContext(ContainerProducer.name);
-  }
+  ) {}
 
   private buildEvent(
     containerId: string,
@@ -47,8 +42,12 @@ export class ContainerProducer {
       `The container ${containerId} is waiting the documentation`,
     );
 
-    this.logger.info({ event }, 'sending event to Kafka');
+    this.logger.log({ event }, 'sending event to Kafka');
 
-    await this.kafka.produce(KAFKA_TOPICS.PENDING_DOCUMENTATION, event);
+    await this.kafka.produce(
+      KAFKA_TOPICS.PENDING_DOCUMENTATION,
+      containerId,
+      event,
+    );
   }
 }
