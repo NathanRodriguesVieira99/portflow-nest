@@ -1,10 +1,10 @@
 import { Container } from '../models/container.model';
 
-import type { StatusContainer } from '../../@types/status-container';
 import type { ContainerArrivalRequestDto } from '../../presentation/dtos/container-arrival-request.dto';
 import type { ContainerArrivalResponseDto } from '../../presentation/dtos/container-arrival-response.dto';
 import type { UpdateContainerStatusDto } from '../../presentation/dtos/update-container-status.dto';
 import type { Result } from '../../../../shared/errors/result';
+import type { StatusContainer } from '../../@types/status-container.type';
 
 export abstract class ContainerRepositoryContract {
   abstract registerContainerArrival: ({
@@ -24,7 +24,7 @@ export abstract class ContainerRepositoryContract {
     containerId: string,
   ) => Promise<Result<Container>>;
 
-  abstract findStatusById: (
+  abstract findContainerByStatus: (
     containerId: string,
   ) => Promise<Result<StatusContainer>>;
 
