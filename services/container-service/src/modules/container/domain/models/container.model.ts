@@ -1,6 +1,5 @@
-import { StatusContainer } from '../../@types/status-container';
-
-import type { IContainer } from '../interfaces/container.interface';
+import type { ContainerContract } from '../contracts/container.contract';
+import type { StatusContainer } from '../../@types/status-container.type';
 
 export class Container {
   public readonly id?: string;
@@ -14,7 +13,7 @@ export class Container {
   public readonly createdAt?: Date;
   public readonly updatedAt?: Date;
 
-  constructor(data: IContainer) {
+  constructor(data: ContainerContract) {
     Object.assign(this, data);
   }
 }
