@@ -1,11 +1,10 @@
-import { Controller, Get, HttpStatus } from '@nestjs/common';
-
+import { Controller, Get } from '@nestjs/common';
 import { successResponse } from '../../../../shared/errors/responses/success-response';
 
 @Controller('/health')
 export class HealthcheckController {
   @Get()
   health() {
-    return successResponse('Service: Container', HttpStatus.OK);
+    return successResponse('Service: Container', 'OK');
   }
 }
