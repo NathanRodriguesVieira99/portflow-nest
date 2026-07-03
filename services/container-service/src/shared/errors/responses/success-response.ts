@@ -1,16 +1,16 @@
+import type { HttpSuccessCodes } from '../http-codes';
+
 export type SuccessResponse<T> = {
   ok: true;
-  status: number;
-  content: T;
+  data: { code: HttpSuccessCodes; content: T };
   timestamp: string;
 };
 
 export const successResponse = <T = unknown>(
   content: T,
-  status = 200,
+  code: HttpSuccessCodes = 'OK',
 ): SuccessResponse<T> => ({
   ok: true,
-  status,
-  content,
+  data: { code, content },
   timestamp: new Date().toISOString(),
 });
