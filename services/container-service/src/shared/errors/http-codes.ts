@@ -1,4 +1,12 @@
-export const HTTP_CODES = {
+export const HTTP_SUCCESS_CODES = {
+  // Success (200,201,204)
+  OK: { code: 'OK', status: 200 },
+  CREATED: { code: 'CREATED', status: 201 },
+  ACCEPTED: { code: 'ACCEPTED', status: 202 },
+  NO_CONTENT: { code: 'NO_CONTENT', status: 204 },
+} as const;
+
+export const HTTP_ERROR_CODES = {
   // Authentication & Authorization (401, 403)
   UNAUTHORIZED: { code: 'UNAUTHORIZED', status: 401 },
   INVALID_CREDENTIALS: { code: 'INVALID_CREDENTIALS', status: 401 },
@@ -19,4 +27,5 @@ export const HTTP_CODES = {
   DATABASE_ERROR: { code: 'DATABASE_ERROR', status: 500 },
 } as const;
 
-export type HttpCodes = keyof typeof HTTP_CODES;
+export type HttpSuccessCodes = keyof typeof HTTP_SUCCESS_CODES;
+export type HttpErrorCodes = keyof typeof HTTP_ERROR_CODES;
