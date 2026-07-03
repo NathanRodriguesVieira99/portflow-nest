@@ -1,4 +1,4 @@
-import { Error } from '../error';
+import { AppError } from '../error';
 import {
   badRequest,
   conflict,
@@ -11,9 +11,9 @@ import {
 } from '../exceptions/exceptions';
 
 describe('Error factories', () => {
-  describe('Error', () => {
+  describe('AppError', () => {
     it('should return an error with status code and message', () => {
-      const error = Error('BAD_REQUEST', 'Requisição inválida!');
+      const error = AppError('BAD_REQUEST', 'Requisição inválida!');
       expect(error).toEqual({
         code: 'BAD_REQUEST',
         message: 'Requisição inválida!',
@@ -22,7 +22,7 @@ describe('Error factories', () => {
 
     it('should return details when provided', () => {
       const details = { field: 'email' };
-      const error = Error('BAD_REQUEST', 'Requisição inválida!', details);
+      const error = AppError('BAD_REQUEST', 'Requisição inválida!', details);
       expect(error).toEqual({
         code: 'BAD_REQUEST',
         message: 'Requisição inválida!',
@@ -31,7 +31,7 @@ describe('Error factories', () => {
     });
 
     it('should omit details when undefined', () => {
-      const error = Error('BAD_REQUEST', 'Requisição inválida!');
+      const error = AppError('BAD_REQUEST', 'Requisição inválida!');
       expect(error).not.toHaveProperty('details');
     });
   });
@@ -53,7 +53,7 @@ describe('Error factories', () => {
       });
     });
 
-    describe('databaseError()', () => {
+    describe('databaseAppError()', () => {
       it('should return default message', () => {
         const exception = databaseError();
         expect(exception.message).toBe('Database error!');
