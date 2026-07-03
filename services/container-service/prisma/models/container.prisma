@@ -1,14 +1,14 @@
 enum STATUS_CONTAINER {
-  CHEGOU
-  DOCUMENTACAO_PENDENTE
-  DOCUMENTACAO_CRIADA
-  INSPECAO_SOLICITADA
-  INSPECAO_APROVADA
-  INSPECAO_REPROVADA
-  ALFANDEGA_LIBERADA
-  BLOQUEADO
-  ARMAZENADO_NO_PATIO
-  LIBERADO
+  ARRIVED
+  PENDING_DOCUMENTATION
+  DOCUMENTATION_CREATED
+  INSPECTION_REQUESTED
+  INSPECTION_APPROVED
+  INSPECTION_REJECTED
+  CUSTOMS_CLEARED
+  BLOCKED
+  STORED_IN_YARD
+  RELEASED
 }
 
 model Container {
@@ -19,6 +19,7 @@ model Container {
   destinationCountry String           @map("destination_country")
   cargoType          String           @map("cargo_type")
   statusContainer    STATUS_CONTAINER @map("status_container")
+  arrivalDate        DateTime         @map("arrival_date")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

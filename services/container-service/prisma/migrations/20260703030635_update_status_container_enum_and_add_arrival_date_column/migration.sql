@@ -1,0 +1,18 @@
+/*
+  Warnings:
+
+  - The values [CHEGOU,DOCUMENTACAO_PENDENTE,DOCUMENTACAO_CRIADA,INSPECAO_SOLICITADA,INSPECAO_APROVADA,INSPECAO_REPROVADA,ALFANDEGA_LIBERADA,BLOQUEADO,ARMAZENADO_NO_PATIO,LIBERADO] on the enum `STATUS_CONTAINER` will be removed. If these variants are still used in the database, this will fail.
+  - Added the required column `arrival_date` to the `containers` table without a default value. This is not possible if the table is not empty.
+
+*/
+-- AlterEnum
+BEGIN;
+CREATE TYPE "STATUS_CONTAINER_new" AS ENUM ('ARRIVED', 'PENDING_DOCUMENTATION', 'DOCUMENTATION_CREATED', 'INSPECTION_REQUESTED', 'INSPECTION_APPROVED', 'INSPECTION_REJECTED', 'CUSTOMS_CLEARED', 'BLOCKED', 'STORED_IN_YARD', 'RELEASED');
+ALTER TABLE "containers" ALTER COLUMN "status_container" TYPE "STATUS_CONTAINER_new" USING ("status_container"::text::"STATUS_CONTAINER_new");
+ALTER TYPE "STATUS_CONTAINER" RENAME TO "STATUS_CONTAINER_old";
+ALTER TYPE "STATUS_CONTAINER_new" RENAME TO "STATUS_CONTAINER";
+DROP TYPE "public"."STATUS_CONTAINER_old";
+COMMIT;
+
+-- AlterTable
+ALTER TABLE "containers" ADD COLUMN     "arrival_date" TIMESTAMP(3) NOT NULL;
