@@ -14,7 +14,7 @@ export const kafkaConfig: KafkaOptions = {
     },
     consumer: {
       groupId: KAFKA_CONSUMER_GROUPS.CONTAINER_SERVICE,
-      allowAutoTopicCreation: env.NODE_ENV === 'development' ? true : false,
+      allowAutoTopicCreation: false,
     },
   },
 };
