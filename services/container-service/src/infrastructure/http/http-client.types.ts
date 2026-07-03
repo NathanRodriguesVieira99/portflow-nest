@@ -1,10 +1,6 @@
-export enum HttpMethod {
-  GET = 'get',
-  POST = 'post',
-  PUT = 'put',
-  PATCH = 'patch',
-  DELETE = 'delete',
-}
+import { Result } from '../../shared/errors/result';
+
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
 export type HttpRequest<T> = {
   baseURL: string;
@@ -16,5 +12,12 @@ export type HttpRequest<T> = {
 };
 
 export interface IHttpClient {
-  request: <T, R>(request: HttpRequest<T>) => Promise<R>;
+  request: <T, R>({
+    baseURL,
+    endpoint,
+    method,
+    headers,
+    params,
+    body,
+  }: HttpRequest<T>) => Promise<Result<R>>;
 }
