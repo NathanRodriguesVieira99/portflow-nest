@@ -1,10 +1,12 @@
 import { Container } from '../models/container.model';
 
-import type { ContainerArrivalRequestDto } from '../../presentation/dtos/container-arrival-request.dto';
-import type { ContainerArrivalResponseDto } from '../../presentation/dtos/container-arrival-response.dto';
-import type { UpdateContainerStatusDto } from '../../presentation/dtos/update-container-status.dto';
+import type { StatusContainer } from '../types/status-container.type';
+import type { ContainerArrivalInput } from '../contracts/container-arrival.input';
+import type { ContainerArrivalOutput } from '../contracts/container-arrival.output';
+import type { UpdateContainerStatusInput } from '../contracts/update-container-status.input';
 import type { Result } from '../../../../shared/errors/result';
-import type { StatusContainer } from '../../@types/status-container.type';
+import type { PaginationInput } from '../contracts/pagination.input';
+import type { PaginationOutput } from '../contracts/pagination.output';
 
 export abstract class ContainerRepositoryContract {
   abstract registerContainerArrival: ({
@@ -14,11 +16,12 @@ export abstract class ContainerRepositoryContract {
     originCountry,
     destinationCountry,
     cargoType,
-  }: ContainerArrivalRequestDto) => Promise<
-    Result<ContainerArrivalResponseDto>
-  >;
+  }: ContainerArrivalInput) => Promise<Result<ContainerArrivalOutput>>;
 
-  abstract findAllContainers: () => Promise<Result<Container[]>>;
+  abstract findAllContainers: ({
+    page,
+    perPage,
+  }: PaginationInput) => Promise<Result<PaginationOutput<Container>>>;
 
   abstract findContainerById: (
     containerId: string,
@@ -31,5 +34,5 @@ export abstract class ContainerRepositoryContract {
   abstract updateContainerStatus: ({
     containerId,
     newStatus,
-  }: UpdateContainerStatusDto) => Promise<Result<Container>>;
+  }: UpdateContainerStatusInput) => Promise<Result<Container>>;
 }

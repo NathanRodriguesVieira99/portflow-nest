@@ -4,10 +4,12 @@ import { ContainerRepositoryContract } from '../../domain/repositories/container
 
 import type { Container } from '../../domain/models/container.model';
 import type { Result } from '../../../../shared/errors/result';
-import type { StatusContainer } from '../../@types/status-container.type';
-import type { ContainerArrivalRequestDto } from '../../presentation/dtos/container-arrival-request.dto';
-import type { ContainerArrivalResponseDto } from '../../presentation/dtos/container-arrival-response.dto';
-import type { UpdateContainerStatusDto } from '../../presentation/dtos/update-container-status.dto';
+import type { StatusContainer } from '../../domain/types/status-container.type';
+import type { ContainerArrivalInput } from '../../domain/contracts/container-arrival.input';
+import type { ContainerArrivalOutput } from '../../domain/contracts/container-arrival.output';
+import type { UpdateContainerStatusInput } from '../../domain/contracts/update-container-status.input';
+import type { PaginationOutput } from '../../domain/contracts/pagination.output';
+import type { PaginationInput } from '../../domain/contracts/pagination.input';
 
 @Injectable()
 export class ContainerRepositoryImplementation implements ContainerRepositoryContract {
@@ -20,11 +22,12 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
     originCountry,
     destinationCountry,
     cargoType,
-  }: ContainerArrivalRequestDto): Promise<
-    Result<ContainerArrivalResponseDto>
-  > {}
+  }: ContainerArrivalInput): Promise<Result<ContainerArrivalOutput>> {}
 
-  async findAllContainers(): Promise<Result<Container[]>> {}
+  async findAllContainers({
+    page,
+    perPage,
+  }: PaginationInput): Promise<Result<PaginationOutput<Container>>> {}
 
   async findContainerById(containerId: string): Promise<Result<Container>> {}
 
@@ -35,5 +38,5 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
   async updateContainerStatus({
     containerId,
     newStatus,
-  }: UpdateContainerStatusDto): Promise<Result<Container>> {}
+  }: UpdateContainerStatusInput): Promise<Result<Container>> {}
 }
