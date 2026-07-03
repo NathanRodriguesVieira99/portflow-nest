@@ -197,6 +197,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
 
+      - name: Setup dependencies
+        run: docker compose -f docker/docker-compose.yaml up -d postgresql mongodb kafka --wait
+
+      - name: Build and start app
+        run: docker compose -f docker/docker-compose.yaml up -d container-service
+
+      - name: Wait for app to be ready
+        run: |
+          for i in $(seq 1 30); do
+            if curl -s http://localhost:3333/api/v1/health > /dev/null 2>&1; then
+              echo "App is ready!"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "App failed to start"
+          docker compose logs container-service
+          exit 1
+
       - name: Setup K6
         uses: grafana/setup-k6-action@v1
 
@@ -204,6 +223,10 @@ jobs:
         uses: grafana/run-k6-action@v1
         with:
           path: ./services/container-service/k6/scenarios/main.ts
+
+      - name: Cleanup
+        if: always()
+        run: docker compose -f docker/docker-compose.yaml down -v
 
   audit:
     runs-on: ubuntu-latest
