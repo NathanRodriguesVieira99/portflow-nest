@@ -1,14 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { HttpClient } from '../../../../infrastructure/http/http-client';
+import { TERMINAL_SERVICE_BASE_URL } from '../../../../shared/constants/constants';
 
-import { HttpClient } from '../../../../../infrastructure/http/http-client';
-import { HttpMethod } from '../../../../../infrastructure/http/http-client.types';
-
-import { TERMINAL_SERVICE_BASE_URL } from '../../../../../constants/constants';
-
+import type { Result } from '../../../../shared/errors/result';
 import type {
   TerminalValidationRequest,
   TerminalValidationResponse,
-} from './terminal.http.contract';
+} from '../../domain/contracts/terminal.http.contract';
 
 @Injectable()
 export class TerminalHttp {
@@ -17,7 +15,7 @@ export class TerminalHttp {
   async validateTerminal({
     terminalId,
     cargoType,
-  }: TerminalValidationRequest): Promise<TerminalValidationResponse> {
+  }: TerminalValidationRequest): Promise<Result<TerminalValidationResponse>> {
     const body = { terminalId, cargoType };
 
     const validateTerminal = await this.http.request<
@@ -25,8 +23,8 @@ export class TerminalHttp {
       TerminalValidationResponse
     >({
       baseURL: TERMINAL_SERVICE_BASE_URL,
-      endpoint: `/terminais/${terminalId}/validacao`,
-      method: HttpMethod.POST,
+      endpoint: `/terminals/${terminalId}/validacao`,
+      method: 'POST',
       headers: {},
       body,
       params: {},
