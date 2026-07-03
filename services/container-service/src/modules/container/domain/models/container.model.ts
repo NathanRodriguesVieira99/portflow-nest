@@ -1,5 +1,17 @@
-import type { ContainerContract } from '../contracts/container.contract';
-import type { StatusContainer } from '../../@types/status-container.type';
+import type { StatusContainer } from '../types/status-container.type';
+
+interface ContainerProps {
+  id?: string;
+  shipId: string;
+  terminalId: string;
+  originCountry: string;
+  destinationCountry: string;
+  cargoType: string;
+  status: StatusContainer;
+  arrivalDate: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
 
 export class Container {
   public readonly id?: string;
@@ -13,7 +25,7 @@ export class Container {
   public readonly createdAt?: Date;
   public readonly updatedAt?: Date;
 
-  constructor(data: ContainerContract) {
+  constructor(data: ContainerProps) {
     Object.assign(this, data);
   }
 }
