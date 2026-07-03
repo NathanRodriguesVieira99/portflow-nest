@@ -202,6 +202,8 @@ jobs:
 
       - name: Run K6 tests
         uses: grafana/run-k6-action@v1
+        env:
+          KONG_BASE_URL: http://localhost:8000/container/api/v1
         with:
           path: ./services/container-service/k6/scripts/*.ts
 
