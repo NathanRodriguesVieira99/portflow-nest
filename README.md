@@ -14,19 +14,19 @@ Serviço responsável pela gestão de contêineres.
 
 #### Tech Stack
 
-| Tecnologia                              |                                                                                                |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| **NodeJS**                              | Runtime JavaScript                                                                             |
-| **TypeScript**                          | Tipagem estática                                                                               |
-| **NestJS**                              | Framework modular e opinado, compatível com Clean Architecture e injeção de dependência nativa |
-| **Prisma**                              | Type safety nas queries, migrations declarativas, cliente gerado com tipos exatos do banco     |
-| **kafkaJS** + **@nestjs/microservices** | Mensageria assíncrona                                                                          |
-| **Redis**                               | Cache                                                                                          |
-| **OpenTelemetry**                       | Tracing distribuído ponta a ponta                                                              |
-| **Pino**                                | Logging estruturado com transporte para Loki                                                   |
-| **Zod**                                 | Validação de variáveis de ambiente em runtime                                                  |
-| **Vitest**                              | Test runner rápido, suporta unit / integração / e2e no mesmo config                            |
-| **SWC**                                 | Compilação rápida para hot-reload em desenvolvimento                                           |
+| Tecnologia                              |                                                                     |
+| --------------------------------------- | ------------------------------------------------------------------- |
+| **NodeJS**                              | Runtime JavaScript                                                  |
+| **TypeScript**                          | Tipagem estática                                                    |
+| **NestJS**                              | Framework NodeJs                                                    |
+| **Prisma**                              | ORM                                                                 |
+| **kafkaJS** + **@nestjs/microservices** | Mensageria assíncrona                                               |
+| **Redis**                               | Cache                                                               |
+| **OpenTelemetry**                       | Tracing distribuído ponta a ponta                                   |
+| **Pino**                                | Logging estruturado com transporte para Loki                        |
+| **Zod**                                 | Validação de variáveis de ambiente em runtime                       |
+| **Vitest**                              | Test runner rápido, suporta unit / integração / e2e no mesmo config |
+| **SWC**                                 | Compilação rápida para hot-reload em desenvolvimento                |
 
 #### Endpoints
 
@@ -57,26 +57,26 @@ src/
 │
 ├── modules/
 │   └── container/
-│       ├── application/services/       # Casos de uso
+│       ├── application/services/    # Casos de uso
 │       │   ├── container.service.ts
 │       │   └── terminal.service.ts
 │       │
 │       ├── domain/
-│       │   ├── contracts/              # Contratos dos inputs e outputs para os métodos não precisarem usar os DTOs da camada de presentation
-│       │   ├── events/                 # Contratos para eventos do Kafka
-│       │   ├── models/                 # Entidades de domínio
-│       │   ├── repositories/           # Contratos para os repositórios
-│       │   └── types/                  # Tipos e/ou Value objects
+│       │   ├── contracts/       # Contratos dos inputs e outputs para os métodos não precisarem usar os DTOs da camada de presentation
+│       │   ├── events/          # Contratos para eventos do Kafka
+│       │   ├── models/          # Entidades de domínio
+│       │   ├── repositories/    # Contratos para os repositórios
+│       │   └── types/           # Tipos e/ou Value objects
 │       │
 │       ├── infrastructure/
-│       │   ├── events/                 # Eventos Kafka (Producers e Consumers)
-│       │   ├── http/                   # HTTP clients construídos encima do HTTP Client customizado do axios para comunicação síncrona entre microservices
-│       │   ├── mappers/                # Mappers entre Prisma e domain
-│       │   └── repositories/           # Implementação dos repositórios
+│       │   ├── events/          # Eventos Kafka (Producers e Consumers)
+│       │   ├── http/            # HTTP clients construídos encima do HTTP Client customizado do axios para comunicação síncrona entre microservices
+│       │   ├── mappers/         # Mappers entre Prisma e domain
+│       │   └── repositories/    # Implementação dos repositórios
 │       │
 │       └── presentation/
-│           ├── controllers/            # Endpoints
-│           └── dtos/                   # DTOs
+│           ├── controllers/     # Endpoints
+│           └── dtos/            # DTOs
 │
 └── shared/
     ├── config/                 # Zod schema para validar variáveis de ambiente em runtime
