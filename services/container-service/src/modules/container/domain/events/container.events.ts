@@ -1,4 +1,4 @@
-import type { StatusContainer } from '../../@types/status-container.type';
+import type { StatusContainer } from '../types/status-container.type';
 
 export interface ContainerStatusEvent {
   eventId: string;

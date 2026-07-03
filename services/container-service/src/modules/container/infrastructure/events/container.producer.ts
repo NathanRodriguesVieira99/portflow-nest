@@ -5,7 +5,7 @@ import { KAFKA_TOPICS } from '../../../../infrastructure/kafka/constants/topics'
 import { KafkaProducer } from '../../../../infrastructure/kafka/producer/kafka.producer';
 
 import type { ContainerStatusEvent } from '../../domain/events/container.events';
-import type { StatusContainer } from '../../@types/status-container.type';
+import type { StatusContainer } from '../../domain/types/status-container.type';
 
 @Injectable()
 export class ContainerProducer {
