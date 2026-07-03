@@ -205,7 +205,7 @@ jobs:
         env:
           KONG_BASE_URL: http://localhost:8000/container/api/v1
         with:
-          path: ./services/container-service/k6/scripts/*.ts
+          path: ./services/container-service/k6/scenarios/main.ts
 
   audit:
     runs-on: ubuntu-latest
