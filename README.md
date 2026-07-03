@@ -6,42 +6,6 @@ Sistema de gestão portuária baseado em microsserviços com NestJS, mensageria 
 
 A comunicação combina REST APIs (síncrona) e eventos Kafka (assíncrona).
 
-## Arquitetura
-
-```mermaid
-flowchart TB
-    KONG[Kong API Gateway]
-
-    subgraph SERVICES
-        CS[container-service]
-        TS[terminal-service]
-    end
-
-    subgraph INFRA
-        PG[(PostgreSQL)]
-        RD[(Redis)]
-        KF[Kafka Broker]
-    end
-
-    subgraph OBSERVABILITY
-        PR[Prometheus]
-        GF[Grafana]
-        LK[Loki]
-        TP[Tempo]
-        AL[Alloy]
-    end
-
-    CLIENT[Client] --> KONG
-    KONG --> CS
-    CS --> PG
-    CS --> RD
-    CS --> KF
-    CS --> PR
-    CS --> LK
-    CS --> TP
-    KF --> TS
-```
-
 ## Microservices
 
 ### container-service
@@ -63,6 +27,20 @@ Serviço responsável pela gestão de contêineres.
 | **Zod**                                 | Validação de variáveis de ambiente em runtime                                                  |
 | **Vitest**                              | Test runner rápido, suporta unit / integração / e2e no mesmo config                            |
 | **SWC**                                 | Compilação rápida para hot-reload em desenvolvimento                                           |
+
+#### Endpoints
+
+| Método | Rota | Descrição |
+| ------ | ---- | --------- |
+|        |      |           |
+
+#### Kafka Events
+
+| Tópico                                      | Producer          | Consumer          |
+| ------------------------------------------- | ----------------- | ----------------- |
+| `portflow.container.pending_documentation`  | container-service |                   |
+| `portflow.container.documentation_released` |                   | container-service |
+| `portflow.container.documentation_refused`  |                   | container-service |
 
 #### Arquitetura do serviço
 
