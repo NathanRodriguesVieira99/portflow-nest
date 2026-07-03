@@ -21,6 +21,9 @@ export const validationError = (message = 'Validation error!') =>
 export const notFound = (resource: string) =>
   AppError('RESOURCE_NOT_FOUND', `${resource} not found!`);
 
+export const internalServerError = (message = 'Internal server error!') =>
+  AppError('INTERNAL_SERVER_ERROR', message);
+
 export const databaseError = (message = 'Database error!') =>
   AppError('DATABASE_ERROR', message);
 
