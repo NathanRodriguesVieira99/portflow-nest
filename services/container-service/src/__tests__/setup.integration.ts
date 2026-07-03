@@ -1,7 +1,7 @@
 import { PinoLogger } from 'nestjs-pino';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../infrastructure/database/prisma/generated/client';
-import { env } from '../config/env';
+import { env } from '../shared/config/env';
 
 const logger = new PinoLogger({ renameContext: 'Setup Integration tests' });
 

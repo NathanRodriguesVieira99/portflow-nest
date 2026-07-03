@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
+import { trace } from '@opentelemetry/api';
 import { ClsService } from 'nestjs-cls';
 import { LoggerModule } from 'nestjs-pino';
-
-import { env } from '../../../config/env';
-import { trace } from '@opentelemetry/api';
-import { SERVICE_NAME } from '../../../constants/constants';
+import { env } from '../../../shared/config/env';
+import { SERVICE_NAME } from '../../../shared/constants/constants';
 
 export const isDev = env.NODE_ENV === 'development';
 
