@@ -11,7 +11,7 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY services/container-service/package.json services/container-service/
 
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 
 FROM base AS builder
 
