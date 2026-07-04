@@ -1,3 +1,5 @@
+## [0.1.2](https://github.com/NathanRodriguesVieira99/portflow-nest/compare/v0.1.1...v0.1.2) (2026-07-04)
+
 ## [0.1.1](https://github.com/NathanRodriguesVieira99/portflow-nest/compare/v0.1.0...v0.1.1) (2026-07-04)
 
 ## [0.1.0](https://github.com/NathanRodriguesVieira99/portflow-nest/compare/3a74ac4c0151ea95e467af7b8595e08197f48849...v0.1.0) (2026-06-28)

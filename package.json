@@ -1,6 +1,6 @@
 {
   "name": "microservices-nest",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "scripts": {
     "docker:up": "cd docker && docker compose up --build -d",
     "docker:down": "cd docker && docker compose down"
