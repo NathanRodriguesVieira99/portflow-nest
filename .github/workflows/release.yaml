@@ -36,7 +36,7 @@ jobs:
 
       - name: Setup .env file
         run: cp .env.example .env
-        working-directory: ./services/container-service
+        working-directory: ./container-service
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
