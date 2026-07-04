@@ -64,5 +64,5 @@ jobs:
           target: production
           platforms: linux/amd64,linux/arm64
           tags: |
-            ghcr.io/NathanRodriguesVieira99/container-service:${{ steps.get_tag.outputs.tag }}
-            ghcr.io/NathanRodriguesVieira99/container-service:latest
+            ghcr.io/nathanrodriguesvieira99/container-service:${{ steps.get_tag.outputs.tag }}
+            ghcr.io/nathanrodriguesvieira99/container-service:latest
