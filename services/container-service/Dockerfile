@@ -30,7 +30,7 @@ RUN pnpm build
 
 WORKDIR /app
 
-RUN pnpm deploy --filter container-service --prod /prod
+RUN pnpm deploy --legacy --filter container-service --prod /prod
 
 FROM base AS production
 
