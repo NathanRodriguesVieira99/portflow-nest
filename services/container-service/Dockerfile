@@ -2,7 +2,7 @@ ARG NODE_VERSION=22.18.0
 
 FROM node:${NODE_VERSION}-alpine AS base
 
-RUN npm i -g pnpm
+RUN npm i -g pnpm@11.7.0
 
 FROM base AS deps
 
@@ -43,3 +43,15 @@ RUN pnpm prune --prod
 EXPOSE 3333
 
 CMD ["node", "dist/src/main.js"]
+
+FROM node:${NODE_VERSION}-alpine AS dev
+
+RUN apk add --no-cache curl
+
+RUN corepack enable pnpm && corepack install -g pnpm@11.7.0
+
+RUN pnpm config set store-dir /tmp/.pnpm-store
+
+WORKDIR /app
+
+CMD ["sh", "-c", "pnpm install && pnpm --filter container-service start:dev"]

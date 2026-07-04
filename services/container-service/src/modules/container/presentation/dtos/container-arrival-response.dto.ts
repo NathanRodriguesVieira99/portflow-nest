@@ -1,4 +1,4 @@
-import type { StatusContainer } from '@/modules/container/@types/status-container';
+import type { StatusContainer } from '../../domain/types/status-container.type';
 
 export interface ContainerArrivalResponseDto {
   shipId: string;

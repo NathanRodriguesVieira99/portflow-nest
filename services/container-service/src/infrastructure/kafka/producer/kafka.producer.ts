@@ -15,15 +15,21 @@ export class KafkaProducer implements IKafkaProducer {
     private readonly cls: ClsService,
   ) {}
 
-  async produce<P>(topic: string, payload: P): Promise<void> {
+  async produce<P>(topic: string, key: string, payload: P): Promise<void> {
     const otelHeaders: Record<string, string> = {};
 
     propagation.inject(context.active(), otelHeaders);
 
+    const headers = {
+      ...otelHeaders,
+      'x-correlation-id': this.cls.getId() ?? '',
+    };
+
     await lastValueFrom(
       this.kafka.emit(topic, {
+        key,
         value: payload,
-        headers: { ...otelHeaders, 'x-correlation-id': this.cls.getId() ?? '' },
+        headers,
       }),
     );
   }

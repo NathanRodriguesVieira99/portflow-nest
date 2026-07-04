@@ -21,6 +21,7 @@ export class CacheService implements CacheRepository, OnModuleInit {
     const duration = Date.now() - start;
 
     const hit = cachedValue !== undefined && cachedValue !== null;
+
     this.logger.debug({
       key,
       type: 'cache',
@@ -38,7 +39,7 @@ export class CacheService implements CacheRepository, OnModuleInit {
 
   async del(key: string): Promise<void> {
     await this.cache.del(key);
-    this.logger.debug(`CACHE DEL key${key}`);
+    this.logger.debug(`CACHE DEL key=${key}`);
   }
 
   async clear(): Promise<void> {
