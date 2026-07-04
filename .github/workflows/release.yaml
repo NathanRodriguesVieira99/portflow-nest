@@ -7,7 +7,8 @@ on:
       - main
 
 permissions:
-  contents: write
+  contents: read
+  packages: write
 
 jobs:
   generate-version:
@@ -53,8 +54,7 @@ jobs:
           git fetch --tags
           TAG=$(git describe --tags --abbrev=0)
           echo "tag=$TAG" >> $GITHUB_OUTPUT
-        
-      
+
       - name: Build and push Docker images
         uses: docker/build-push-action@v5.1.0
         with:
