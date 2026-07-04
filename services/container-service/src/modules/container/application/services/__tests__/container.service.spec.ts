@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TerminalService } from '../terminal.service';
 import { ContainerService } from '../container.service';
 
-import { ContainerProducer } from '../../../presentation/events/container.producer';
+import { ContainerProducer } from '../../../infrastructure/events/container.producer';
 
 import { ContainerRepositoryContract } from '../../../domain/repositories/container.repository.contract';
 

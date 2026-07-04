@@ -1,4 +1,4 @@
-import { Error } from '../error';
+import { AppError } from '../error';
 import {
   badRequest,
   conflict,
@@ -8,30 +8,31 @@ import {
   invalidCredentials,
   unauthorized,
   rateLimited,
+  internalServerError,
 } from '../exceptions/exceptions';
 
 describe('Error factories', () => {
-  describe('Error', () => {
+  describe('AppError', () => {
     it('should return an error with status code and message', () => {
-      const error = Error('BAD_REQUEST', 'Requisição inválida!');
+      const error = AppError('BAD_REQUEST', 'Invalid request!');
       expect(error).toEqual({
         code: 'BAD_REQUEST',
-        message: 'Requisição inválida!',
+        message: 'Invalid request!',
       });
     });
 
     it('should return details when provided', () => {
       const details = { field: 'email' };
-      const error = Error('BAD_REQUEST', 'Requisição inválida!', details);
+      const error = AppError('BAD_REQUEST', 'Invalid request!', details);
       expect(error).toEqual({
         code: 'BAD_REQUEST',
-        message: 'Requisição inválida!',
+        message: 'Invalid request!',
         details,
       });
     });
 
     it('should omit details when undefined', () => {
-      const error = Error('BAD_REQUEST', 'Requisição inválida!');
+      const error = AppError('BAD_REQUEST', 'Invalid request!');
       expect(error).not.toHaveProperty('details');
     });
   });
@@ -40,7 +41,7 @@ describe('Error factories', () => {
     describe('badRequest()', () => {
       it('should return default message', () => {
         const exception = badRequest();
-        expect(exception.message).toBe('Requisição inválida!');
+        expect(exception.message).toBe('Invalid request!');
         expect(exception.code).toBe('BAD_REQUEST');
       });
     });
@@ -48,8 +49,16 @@ describe('Error factories', () => {
     describe('conflict()', () => {
       it('should return default message', () => {
         const exception = conflict();
-        expect(exception.message).toBe('Conflito!');
+        expect(exception.message).toBe('Conflict!');
         expect(exception.code).toBe('CONFLICT');
+      });
+    });
+
+    describe('internalServerError()', () => {
+      it('should return default message', () => {
+        const exception = internalServerError();
+        expect(exception.message).toBe('Internal server error!');
+        expect(exception.code).toBe('INTERNAL_SERVER_ERROR');
       });
     });
 
@@ -64,15 +73,15 @@ describe('Error factories', () => {
     describe('forbidden()', () => {
       it('should return default message', () => {
         const exception = forbidden();
-        expect(exception.message).toBe('Permissão insuficiente!');
+        expect(exception.message).toBe('Insufficient permissions!');
         expect(exception.code).toBe('FORBIDDEN');
       });
     });
 
     describe('notFound()', () => {
       it('should return default message', () => {
-        const exception = notFound('Recurso x');
-        expect(exception.message).toBe('Recurso x não encontrado!');
+        const exception = notFound('Resource x');
+        expect(exception.message).toBe('Resource x not found!');
         expect(exception.code).toBe('RESOURCE_NOT_FOUND');
       });
     });
@@ -80,7 +89,7 @@ describe('Error factories', () => {
     describe('invalidCredentials()', () => {
       it('should return default message', () => {
         const exception = invalidCredentials();
-        expect(exception.message).toBe('Credenciais inválidas!');
+        expect(exception.message).toBe('Invalid credential!');
         expect(exception.code).toBe('INVALID_CREDENTIALS');
       });
     });
@@ -88,7 +97,7 @@ describe('Error factories', () => {
     describe('unauthorized()', () => {
       it('should return default message', () => {
         const exception = unauthorized();
-        expect(exception.message).toBe('Não autorizado!');
+        expect(exception.message).toBe('Unauthorized!');
         expect(exception.code).toBe('UNAUTHORIZED');
       });
     });
@@ -96,15 +105,15 @@ describe('Error factories', () => {
     describe('rateLimited()', () => {
       it('should return default message', () => {
         const exception = rateLimited();
-        expect(exception.message).toBe('Muitas requisições');
+        expect(exception.message).toBe('Too many requests');
         expect(exception.code).toBe('RATE_LIMITED');
       });
     });
 
     describe('Custom message', () => {
       it('should return custom message', () => {
-        const exception = unauthorized('Usuário não autorizado!');
-        expect(exception.message).toBe('Usuário não autorizado!');
+        const exception = unauthorized('User not authorized!');
+        expect(exception.message).toBe('User not authorized!');
         expect(exception.code).toBe('UNAUTHORIZED');
       });
     });

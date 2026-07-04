@@ -1,24 +1,31 @@
-import { Error } from '../error';
+import { AppError } from '../error';
 
-export const unauthorized = (message = 'Não autorizado!') =>
-  Error('UNAUTHORIZED', message);
+export const unauthorized = (message = 'Unauthorized!') =>
+  AppError('UNAUTHORIZED', message);
 
-export const invalidCredentials = (message = 'Credenciais inválidas!') =>
-  Error('INVALID_CREDENTIALS', message);
+export const invalidCredentials = (message = 'Invalid credential!') =>
+  AppError('INVALID_CREDENTIALS', message);
 
-export const badRequest = (message = 'Requisição inválida!') =>
-  Error('BAD_REQUEST', message);
+export const badRequest = (message = 'Invalid request!') =>
+  AppError('BAD_REQUEST', message);
 
-export const forbidden = (message = 'Permissão insuficiente!') =>
-  Error('FORBIDDEN', message);
+export const forbidden = (message = 'Insufficient permissions!') =>
+  AppError('FORBIDDEN', message);
 
-export const conflict = (message = 'Conflito!') => Error('CONFLICT', message);
+export const conflict = (message = 'Conflict!') =>
+  AppError('CONFLICT', message);
+
+export const validationError = (message = 'Validation error!') =>
+  AppError('VALIDATION_ERROR', message);
 
 export const notFound = (resource: string) =>
-  Error('RESOURCE_NOT_FOUND', `${resource} não encontrado!`);
+  AppError('RESOURCE_NOT_FOUND', `${resource} not found!`);
+
+export const internalServerError = (message = 'Internal server error!') =>
+  AppError('INTERNAL_SERVER_ERROR', message);
 
 export const databaseError = (message = 'Database error!') =>
-  Error('DATABASE_ERROR', message);
+  AppError('DATABASE_ERROR', message);
 
-export const rateLimited = (message = 'Muitas requisições'): Error =>
-  Error('RATE_LIMITED', message);
+export const rateLimited = (message = 'Too many requests') =>
+  AppError('RATE_LIMITED', message);

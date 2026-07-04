@@ -1,12 +1,16 @@
-import type { HttpCodes } from './exceptions/http-codes';
+import type { HttpErrorCodes } from './http-codes';
 
-export type Error = { code: HttpCodes; message: string; details?: unknown };
+export type AppError = {
+  code: HttpErrorCodes;
+  message: string;
+  details?: unknown;
+};
 
-export const Error = (
-  code: HttpCodes,
+export const AppError = (
+  code: HttpErrorCodes,
   message: string,
   details?: unknown,
-): Error => ({
+): AppError => ({
   code,
   message,
   ...(details !== undefined && { details }),
