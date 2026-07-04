@@ -2,7 +2,7 @@ ARG NODE_VERSION=22.18.0
 
 FROM node:${NODE_VERSION}-alpine AS base
 
-RUN npm i -g pnpm@11.7.0
+RUN corepack enable && corepack prepare pnpm@11.7.0
 
 FROM base AS deps
 
@@ -28,17 +28,15 @@ WORKDIR /app/services/container-service
 RUN pnpm prisma generate
 RUN pnpm build
 
+WORKDIR /app
+
+RUN pnpm deploy --filter container-service --prod /prod
+
 FROM base AS production
 
 WORKDIR /app
 
-COPY --from=builder /app/services/container-service/dist ./dist
-COPY --from=builder /app/services/container-service/src/infrastructure/database/prisma/generated ./src/infrastructure/database/prisma/generated
-
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-COPY services/container-service/package.json services/container-service/
-
-RUN pnpm prune --prod
+COPY --from=builder /prod ./
 
 EXPOSE 3333
 
@@ -48,7 +46,7 @@ FROM node:${NODE_VERSION}-alpine AS dev
 
 RUN apk add --no-cache curl
 
-RUN corepack enable pnpm && corepack install -g pnpm@11.7.0
+RUN corepack enable && corepack prepare pnpm@11.7.0
 
 RUN pnpm config set store-dir /tmp/.pnpm-store
 
