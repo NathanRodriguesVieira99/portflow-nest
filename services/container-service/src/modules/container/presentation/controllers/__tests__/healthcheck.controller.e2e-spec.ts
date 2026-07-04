@@ -29,8 +29,10 @@ describe('E2E - Healthcheck', () => {
       expect(health.status).toBe(200);
       expect(health.body).toEqual({
         ok: true,
-        status: 200,
-        content: 'Service: Container',
+        data: {
+          code: 'OK',
+          content: 'Container service UP!',
+        },
         timestamp: expect.any(String),
       });
     });

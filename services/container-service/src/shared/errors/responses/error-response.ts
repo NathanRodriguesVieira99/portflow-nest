@@ -1,22 +1,19 @@
-import type { Error } from '../error';
+import type { HttpErrorCodes } from '../http-codes';
 
 export type ErrorResponse = {
   ok: false;
-  status: number;
   error: {
-    code: Error['code'];
+    code: HttpErrorCodes;
     message: string;
   };
   timestamp: string;
 };
 
 export const errorResponse = (
-  code: Error['code'],
-  status: number,
+  code: HttpErrorCodes,
   message: string,
 ): ErrorResponse => ({
   ok: false,
-  status,
   error: { code, message },
   timestamp: new Date().toISOString(),
 });

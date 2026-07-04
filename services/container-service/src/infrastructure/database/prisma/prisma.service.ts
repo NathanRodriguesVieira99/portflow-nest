@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient, type Prisma } from './generated/client';
-import { env } from '../../../config/env';
+import { env } from '../../../shared/config/env';
 
 const connectionString = env.DATABASE_URL;
 
@@ -41,7 +41,7 @@ export class PrismaService
       this.logger.log('Database connected!');
 
       this.$on('query' as never, (e: Prisma.QueryEvent) => {
-        this.logger.debug({
+        this.logger.log({
           QUERY: e.query,
           DURATION: `${e.duration.toFixed(2)}ms`,
         });

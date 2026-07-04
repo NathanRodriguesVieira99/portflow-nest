@@ -1,11 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { TerminalHttp } from '../../infrastructure/http/terminal.http';
 
-import { TerminalHttp } from '../../infra/http/terminal/terminal.http';
-
-import type {
-  TerminalValidationRequest,
-  TerminalValidationResponse,
-} from '../../infra/http/terminal/terminal.http.contract';
+import type { Result } from '../../../../shared/errors/result';
+import type { TerminalValidationInput } from '../../domain/contracts/terminal-validation.input';
+import type { TerminalValidationOutput } from '../../domain/contracts/terminal-validation.output';
 
 @Injectable()
 export class TerminalService {
@@ -14,7 +12,7 @@ export class TerminalService {
   async validateTerminal({
     terminalId,
     cargoType,
-  }: TerminalValidationRequest): Promise<TerminalValidationResponse> {
+  }: TerminalValidationInput): Promise<Result<TerminalValidationOutput>> {
     return this.http.validateTerminal({ terminalId, cargoType });
   }
 }
