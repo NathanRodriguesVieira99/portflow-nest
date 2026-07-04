@@ -36,8 +36,8 @@ export class ContainerConsumer {
 
   @EventPattern(KAFKA_TOPICS.DOCUMENTATION_REFUSED)
   receiveDocumentationRefused(
-    @Ctx() kafkaContext: KafkaContext,
     event: ContainerStatusEvent,
+    @Ctx() kafkaContext: KafkaContext,
   ) {
     const headersComingFromKafka = kafkaContext.getMessage().headers ?? {};
 
