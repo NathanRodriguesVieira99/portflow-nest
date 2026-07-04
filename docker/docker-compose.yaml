@@ -20,24 +20,28 @@ services:
         build:
             context: ../
             dockerfile: services/container-service/Dockerfile
+            target: dev
         ports:
            - "3333:3333"
         environment:
-           SERVICE_NAME: container-service
-           NODE_ENV: production
-           PORT: 3333
-           REDIS_HOST: redis
-           REDIS_PORT: 6379
-           DATABASE_URL: postgresql://admin:admin@postgresql:5432/container_service_db
-           LOKI_URL: http://loki:3100
-           OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318/v1/traces
-           KAFKA_BROKER: kafka:29092
+          - CHOKIDAR_USEPOLLING=1
+        env_file:
+              - ../services/container-service/.env
+        volumes:
+          - ../:/app
+          - /app/node_modules
+          - /app/services/container-service/node_modules
+        healthcheck:
+          test: ["CMD", "curl", "-f", "http://localhost:3333/api/v1/health"]
+          interval: 10s
+          timeout: 10s
+          retries: 5
         depends_on:
-          - postgresql
-          - mongodb
-          - kafka
+            - postgresql
+            - mongodb
+            - kafka
         networks:
-           - portflow-net
+            - portflow-net
 
   # ---------------------------------------------------------------------------
   # PostgreSQL
