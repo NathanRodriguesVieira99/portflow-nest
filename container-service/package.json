@@ -3,6 +3,7 @@
   "description": "",
   "author": "",
   "private": true,
+  "packageManager": "pnpm@11.7.0",
   "license": "UNLICENSED",
   "scripts": {
     "start": "nest start",

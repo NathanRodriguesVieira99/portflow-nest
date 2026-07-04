@@ -120,7 +120,7 @@ pnpm docker:up
 ### Como rodar localmente
 
 ```bash
-cd services/nome-do-microservice
+cd nome-do-microservice
 pnpm install
 cp .env.example .env
 pnpm db:generate
@@ -131,7 +131,7 @@ pnpm start:dev
 ### Testes
 
 ```bash
-cd services/nome-do-microservice
+cd nome-do-microservice
 
 pnpm test:unit              # Unitários
 pnpm test:int               # Integração

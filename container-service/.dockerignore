@@ -1,7 +1,14 @@
 .git
 node_modules
+.pnpm-store
 .gitignore
 .prettierrc
 README.md
 eslint.config.mjs
 docker/
+dist/
+coverage/
+k6/
+.env
+.env.*
+vite.config.ts

@@ -18,19 +18,18 @@ services:
   container-service:
         container_name: container-service
         build:
-            context: ../
-            dockerfile: services/container-service/Dockerfile
+            context: ../container-service
+            dockerfile: Dockerfile
             target: dev
         ports:
            - "3333:3333"
         environment:
           - CHOKIDAR_USEPOLLING=1 # hot reload em dev
         env_file:
-              - ../services/container-service/.env
+              - ../container-service/.env
         volumes:
-          - ../:/app                    # sincroniza codigo host/container (hot reload)
-          - /app/node_modules           # usa node_modules do container, nao do host
-          - /app/services/container-service/node_modules # usa node_modules do microservice no container, nao do host
+          - ../container-service:/app
+          - /app/node_modules
         healthcheck:
           test: ["CMD", "curl", "-f", "http://localhost:3333/api/v1/health"]
           interval: 10s
