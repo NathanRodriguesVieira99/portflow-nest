@@ -17,6 +17,7 @@ describe('Error factories', () => {
       const error = AppError('BAD_REQUEST', 'Invalid request!');
       expect(error).toEqual({
         code: 'BAD_REQUEST',
+        status: 400,
         message: 'Invalid request!',
       });
     });
@@ -26,6 +27,7 @@ describe('Error factories', () => {
       const error = AppError('BAD_REQUEST', 'Invalid request!', details);
       expect(error).toEqual({
         code: 'BAD_REQUEST',
+        status: 400,
         message: 'Invalid request!',
         details,
       });
