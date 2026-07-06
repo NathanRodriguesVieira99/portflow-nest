@@ -44,4 +44,4 @@ RUN apk add --no-cache curl
 
 WORKDIR /app
 
-CMD ["pnpm", "start:dev"]
+CMD ["sh","-c", "pnpm db:migrate:deploy && pnpm db:seed && pnpm start:dev "]
