@@ -1,6 +1,6 @@
 import type { StatusContainer } from '../types/status-container.type';
 
-interface ContainerProps {
+interface IContainer {
   id?: string;
   shipId: string;
   terminalId: string;
@@ -13,7 +13,7 @@ interface ContainerProps {
   updatedAt?: Date;
 }
 
-export class Container {
+export class Container implements IContainer {
   public readonly id?: string;
   public readonly shipId!: string;
   public readonly terminalId!: string;
@@ -25,7 +25,7 @@ export class Container {
   public readonly createdAt?: Date;
   public readonly updatedAt?: Date;
 
-  constructor(data: ContainerProps) {
+  constructor(data: IContainer) {
     Object.assign(this, data);
   }
 }
