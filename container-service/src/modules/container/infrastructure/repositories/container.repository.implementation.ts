@@ -1,18 +1,28 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../../../../infrastructure/database/prisma/prisma.service';
+import { Container } from '../../domain/models/container.model';
 import { ContainerRepositoryContract } from '../../domain/repositories/container.repository.contract';
+import { PrismaContainerMapper } from '../mappers/prisma/container.mapper';
+import { err, ok } from '../../../../shared/errors/result';
+import {
+  badRequest,
+  conflict,
+  databaseError,
+  notFound,
+} from '../../../../shared/errors/exceptions/exceptions';
 
-import type { Container } from '../../domain/models/container.model';
 import type { Result } from '../../../../shared/errors/result';
-import type { StatusContainer } from '../../domain/types/status-container.type';
 import type { ContainerArrivalInput } from '../../domain/contracts/container-arrival.input';
 import type { ContainerArrivalOutput } from '../../domain/contracts/container-arrival.output';
-import type { UpdateContainerStatusInput } from '../../domain/contracts/update-container-status.input';
 import type { PaginationOutput } from '../../domain/contracts/pagination.output';
+import type { UpdateContainerStatusInput } from '../../domain/contracts/update-container-status.input';
 import type { PaginationInput } from '../../domain/contracts/pagination.input';
+import type { StatusContainer } from '../../domain/types/status-container.type';
 
 @Injectable()
 export class ContainerRepositoryImplementation implements ContainerRepositoryContract {
+  private readonly logger = new Logger(ContainerRepositoryImplementation.name);
+
   constructor(private readonly prisma: PrismaService) {}
 
   async registerContainerArrival({
@@ -22,22 +32,163 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
     originCountry,
     destinationCountry,
     cargoType,
-  }: ContainerArrivalInput): Promise<Result<ContainerArrivalOutput>> {}
+  }: ContainerArrivalInput): Promise<Result<ContainerArrivalOutput>> {
+    try {
+      const containerAlreadyArrived = await this.prisma.container.findUnique({
+        where: { id: containerId },
+      });
 
-  async findAllContainers({
-    page,
-    perPage,
-  }: PaginationInput): Promise<Result<PaginationOutput<Container>>> {}
+      if (containerAlreadyArrived) {
+        return err(conflict('Container already arrived!'));
+      }
 
-  async findContainerById(containerId: string): Promise<Result<Container>> {}
+      const container = await this.prisma.container.create({
+        data: {
+          id: containerId,
+          shipId,
+          terminalId,
+          originCountry,
+          destinationCountry,
+          cargoType,
+          statusContainer: 'PENDING_DOCUMENTATION',
+          arrivalDate: new Date(),
+        },
+      });
 
-  async findContainerByStatus({
-    {page,perPage}: PaginationInput,
+      if (container.statusContainer !== 'PENDING_DOCUMENTATION') {
+        return err(badRequest('This container cannot be released!'));
+      }
+
+      return ok({
+        containerId: container.id,
+        shipId: container.shipId,
+        terminalId: container.terminalId,
+        originCountry: container.originCountry,
+        destinationCountry: container.destinationCountry,
+        cargoType: container.cargoType,
+        arrivalDate: container.arrivalDate,
+        statusContainer: container.statusContainer,
+      });
+    } catch {
+      return err(databaseError('Failed to register container arrival'));
+    }
+  }
+
+  async findContainerById(containerId: string): Promise<Result<Container>> {
+    try {
+      const raw = await this.prisma.container.findUnique({
+        where: { id: containerId },
+      });
+
+      if (!raw) return err(notFound('Container'));
+
+      return ok(PrismaContainerMapper.toDomain(raw));
+    } catch {
+      return err(databaseError('Failed to find container'));
+    }
+  }
+
+  async findAllContainers(
+    queryParams: PaginationInput,
+  ): Promise<Result<PaginationOutput<Container>>> {
+    const { page = 1, perPage = 10 } = queryParams;
+
+    const take = Number(perPage);
+    const skip = Number((page - 1) * take);
+    try {
+      const [containers, totalContainers] = await this.prisma.$transaction(
+        async (tx) => {
+          const containers = await tx.container.findMany({
+            take,
+            skip,
+            orderBy: { createdAt: 'asc' },
+          });
+
+          const totalContainers = await tx.container.count();
+
+          return [containers, totalContainers];
+        },
+      );
+
+      const totalPages = Math.ceil(totalContainers / take);
+      const hasNextPage = Boolean(page * take < totalContainers);
+      const hasPreviousPage = Boolean(page > 1);
+
+      return ok({
+        data: containers.map(PrismaContainerMapper.toDomain),
+        meta: {
+          totalItems: totalContainers,
+          page: Number(page),
+          perPage: Number(perPage),
+          totalPages,
+          hasNextPage,
+          hasPreviousPage,
+        },
+      });
+    } catch {
+      return err(databaseError('Failed find containers'));
+    }
+  }
+
+  async findContainerByStatus(
+    queryParams: PaginationInput,
     status: StatusContainer,
-  }): Promise<Result<PaginationOutput<Container>>> {}
+  ): Promise<Result<PaginationOutput<Container>>> {
+    const { page = 1, perPage = 10 } = queryParams;
+
+    const take = Number(perPage);
+    const skip = Number((page - 1) * take);
+    try {
+      const [containers, totalContainers] = await this.prisma.$transaction(
+        async (tx) => {
+          const containers = await tx.container.findMany({
+            take,
+            skip,
+            where: { statusContainer: status },
+            orderBy: { createdAt: 'asc' },
+          });
+
+          const totalContainers = await tx.container.count();
+
+          return [containers, totalContainers];
+        },
+      );
+
+      const totalPages = Math.ceil(totalContainers / take);
+      const hasNextPage = Boolean(page * take < totalContainers);
+      const hasPreviousPage = Boolean(page > 1);
+
+      return ok({
+        data: containers.map(PrismaContainerMapper.toDomain),
+        meta: {
+          totalItems: totalContainers,
+          page: Number(page),
+          perPage: Number(perPage),
+          totalPages,
+          hasNextPage,
+          hasPreviousPage,
+        },
+      });
+    } catch {
+      return err(databaseError('Failed find containers'));
+    }
+  }
 
   async updateContainerStatus({
     containerId,
     newStatus,
-  }: UpdateContainerStatusInput): Promise<Result<Container>> {}
+  }: UpdateContainerStatusInput): Promise<Result<Container>> {
+    try {
+      const raw = await this.prisma.container.update({
+        where: { id: containerId },
+        data: { statusContainer: newStatus },
+      });
+
+      if (!raw) return err(notFound('Container'));
+
+      return ok(PrismaContainerMapper.toDomain(raw));
+    } catch {
+      return err(databaseError('Failed to update container status'));
+    }
+  }
 }
