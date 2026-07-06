@@ -25,6 +25,7 @@ services:
            - "3333:3333"
         environment:
           - CHOKIDAR_USEPOLLING=1 # hot reload em dev
+          - DATABASE_URL=postgresql://admin:admin@postgresql:5432/container_service_db
         env_file:
               - ../container-service/.env
         volumes:
@@ -141,7 +142,7 @@ services:
     environment:
       CLUSTER_ID: XVmXn3yFSg-B4UD_uAgnC2
       KAFKA_NODE_ID: "1"
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       KAFKA_PROCESS_ROLES: "broker,controller"
       KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
       KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:29093"
@@ -310,6 +311,7 @@ services:
     profiles: ["testing"]
     volumes:
       - ../services:/services:ro
+      - ../container-service:/container-service:ro
     networks:
       - portflow-net
     depends_on:
