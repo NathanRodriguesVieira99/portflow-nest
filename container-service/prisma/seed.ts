@@ -1,5 +1,4 @@
 import 'dotenv/config';
-import { randomUUID } from 'node:crypto';
 import {
   PrismaClient,
   STATUS_CONTAINER,
@@ -15,16 +14,16 @@ async function main() {
   await prisma.container.deleteMany();
   for (let i = 0; i < 10; i++) {
     const containers = Array.from({ length: 10 }, () => ({
-      id: randomUUID(),
-      shipId: randomUUID(),
-      terminalId: randomUUID(),
+      id: faker.string.uuid(),
+      shipId: faker.string.uuid(),
+      terminalId: faker.string.uuid(),
       originCountry: faker.location.country(),
       destinationCountry: faker.location.country(),
       cargoType: faker.commerce.productMaterial(),
-      statusContainer: STATUS_CONTAINER.PENDING_DOCUMENTATION,
+      statusContainer: faker.helpers.arrayElement(
+        Object.values(STATUS_CONTAINER),
+      ),
       arrivalDate: faker.date.recent(),
-      createdAt: faker.date.recent(),
-      updatedAt: faker.date.recent(),
     }));
     await prisma.container.createMany({ data: containers });
   }
