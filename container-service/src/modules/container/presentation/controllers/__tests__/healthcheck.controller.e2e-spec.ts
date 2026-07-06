@@ -1,7 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-
 import request from 'supertest';
-
 import { AppModule } from '../../../../../app.module';
 
 import type { INestApplication } from '@nestjs/common';
@@ -22,8 +20,8 @@ describe('E2E - Healthcheck', () => {
     await app.close();
   });
 
-  describe('[GET] /api/v1/health', () => {
-    it('should return ok', async () => {
+  describe('[E2E] GET /health', () => {
+    it('should return 200', async () => {
       const health = await request(app.getHttpServer()).get(`/health`);
 
       expect(health.status).toBe(200);
@@ -31,6 +29,7 @@ describe('E2E - Healthcheck', () => {
         ok: true,
         data: {
           code: 'OK',
+          status: 200,
           content: 'Container service UP!',
         },
         timestamp: expect.any(String),
