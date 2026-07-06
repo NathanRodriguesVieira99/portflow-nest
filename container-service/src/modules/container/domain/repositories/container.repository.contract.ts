@@ -28,8 +28,9 @@ export abstract class ContainerRepositoryContract {
   ) => Promise<Result<Container>>;
 
   abstract findContainerByStatus: (
-    containerId: string,
-  ) => Promise<Result<StatusContainer>>;
+    { page, perPage }: PaginationInput,
+    status: StatusContainer,
+  ) => Promise<Result<PaginationOutput<Container>>>;
 
   abstract updateContainerStatus: ({
     containerId,

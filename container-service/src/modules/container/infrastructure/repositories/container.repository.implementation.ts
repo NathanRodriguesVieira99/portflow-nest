@@ -31,9 +31,10 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
 
   async findContainerById(containerId: string): Promise<Result<Container>> {}
 
-  async findContainerByStatus(
-    containerId: string,
-  ): Promise<Result<StatusContainer>> {}
+  async findContainerByStatus({
+    {page,perPage}: PaginationInput,
+    status: StatusContainer,
+  }): Promise<Result<PaginationOutput<Container>>> {}
 
   async updateContainerStatus({
     containerId,
