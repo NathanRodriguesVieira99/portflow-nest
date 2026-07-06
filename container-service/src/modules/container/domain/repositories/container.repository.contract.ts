@@ -18,14 +18,14 @@ export abstract class ContainerRepositoryContract {
     cargoType,
   }: ContainerArrivalInput) => Promise<Result<ContainerArrivalOutput>>;
 
+  abstract findContainerById: (
+    containerId: string,
+  ) => Promise<Result<Container>>;
+
   abstract findAllContainers: ({
     page,
     perPage,
   }: PaginationInput) => Promise<Result<PaginationOutput<Container>>>;
-
-  abstract findContainerById: (
-    containerId: string,
-  ) => Promise<Result<Container>>;
 
   abstract findContainerByStatus: (
     { page, perPage }: PaginationInput,
