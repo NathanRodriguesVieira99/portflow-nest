@@ -1,18 +1,41 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { ContainerController } from '../container.controller';
+import request from 'supertest';
+import { Test } from '@nestjs/testing';
+import { AppModule } from '../../../../../app.module';
+
+import type { INestApplication } from '@nestjs/common';
 
 describe('ContainerController', () => {
-  let controller: ContainerController;
+  let app: INestApplication;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [ContainerController],
+  beforeAll(async () => {
+    const module = await Test.createTestingModule({
+      imports: [AppModule],
     }).compile();
 
-    controller = module.get<ContainerController>(ContainerController);
+    app = module.createNestApplication();
+
+    await app.init();
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  afterAll(async () => await app.close());
+
+  describe('[E2E] POST /containers/arrivals', () => {
+    it.todo('should ', () => {});
+  });
+
+  describe('[E2E] GET /containers', () => {
+    it.todo('should ', () => {});
+  });
+
+  describe('[E2E] GET /containers/status', () => {
+    it.todo('should ', () => {});
+  });
+
+  describe('[E2E] GET /containers/:containerId', () => {
+    it.todo('should ', () => {});
+  });
+
+  describe('[E2E] PUT /containers/:containerId/update-status', () => {
+    it.todo('should ', () => {});
   });
 });
