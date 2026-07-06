@@ -32,10 +32,9 @@ export default defineConfig({
             '**/node_modules/**',
             '**/dist/**',
             '**/__tests__/*.e2e-{test,spec}.ts',
-            '**/__tests__/*.{test,spec}.ts',
           ],
           setupFiles: ['src/__tests__/setup.integration.ts'],
-          testTimeout: 15000,
+          testTimeout: 30000,
         },
       },
       {

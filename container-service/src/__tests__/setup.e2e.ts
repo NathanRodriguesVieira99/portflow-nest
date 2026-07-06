@@ -1,27 +1,53 @@
+import { execSync } from 'node:child_process';
+import {
+  PostgreSqlContainer,
+  StartedPostgreSqlContainer,
+} from '@testcontainers/postgresql';
+import { KafkaContainer, StartedKafkaContainer } from '@testcontainers/kafka';
+import { PrismaService } from '../infrastructure/database/prisma/prisma.service';
 import { PinoLogger } from 'nestjs-pino';
-import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient } from '../infrastructure/database/prisma/generated/client';
-import { env } from '../shared/config/env';
 
-const logger = new PinoLogger({ renameContext: 'Setup E2E tests' });
+const logger = new PinoLogger({ renameContext: 'E2E tests' });
 
-const connectionString = env.DATABASE_URL;
+let prisma: PrismaService;
+let postgres: StartedPostgreSqlContainer;
+let kafka: StartedKafkaContainer;
 
-const prisma = new PrismaClient({
-  adapter: new PrismaPg({ connectionString }),
-});
+const setupKafka = async () => {
+  kafka = await new KafkaContainer('confluentinc/cp-kafka:7.8.0')
+    .withKraft()
+    .start();
+
+  process.env.KAFKA_BROKER = `${kafka.getHost()}:${kafka.getMappedPort(9093)}`;
+
+  logger.info('E2E tests kafka connected!');
+};
+
+const setupPostgres = async () => {
+  postgres = await new PostgreSqlContainer('postgres:18-alpine')
+    .withExposedPorts(5432)
+    .withDatabase('container_service_test_db')
+    .withUsername('admin')
+    .withPassword('admin')
+    .start();
+
+  const connectionString = postgres.getConnectionUri();
+  process.env.DATABASE_URL = connectionString;
+
+  execSync('pnpm prisma migrate deploy', {
+    env: process.env,
+    stdio: 'inherit',
+  });
+
+  prisma = new PrismaService();
+  await prisma.$connect();
+
+  logger.info('E2E tests database connected!');
+};
 
 beforeAll(async () => {
-  if (env.NODE_ENV !== 'test') {
-    throw new Error('Wrong test environment');
-  }
-
-  if (!env.DATABASE_URL.includes('test')) {
-    throw new Error('Wrong test database');
-  }
-
-  logger.info('E2E database connected!');
-  await prisma.$connect();
+  await setupKafka();
+  await setupPostgres();
 });
 
 beforeEach(async () => {
@@ -31,5 +57,7 @@ beforeEach(async () => {
 
 afterAll(async () => {
   await prisma.$disconnect();
+  await kafka.stop();
+  await postgres.stop();
   logger.info('E2E database disconnected!');
 });
