@@ -14,20 +14,17 @@ export class TerminalHttp {
     terminalId,
     cargoType,
   }: TerminalValidationInput): Promise<Result<TerminalValidationOutput>> {
-    const body = { terminalId, cargoType };
-
-    const validateTerminal = await this.http.request<
+    const response = await this.http.request<
       TerminalValidationInput,
       TerminalValidationOutput
     >({
       baseURL: TERMINAL_SERVICE_BASE_URL,
       endpoint: `/terminals/${terminalId}/validacao`,
-      method: 'POST',
+      method: 'GET',
       headers: {},
-      body,
-      params: {},
+      params: { cargoType },
     });
 
-    return validateTerminal;
+    return response;
   }
 }
