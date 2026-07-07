@@ -31,9 +31,13 @@ Serviço responsável pela gestão de contêineres.
 
 #### Endpoints
 
-| Método | Rota | Descrição |
-| ------ | ---- | --------- |
-|        |      |           |
+| Método | Rota                                            | Descrição                         | Parâmetros                                        | Body                                                                                |
+| ------ | ----------------------------------------------- | --------------------------------- | ------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `POST` | `/api/v1/containers/arrivals`                   | Registrar chegada de um contêiner | —                                                 | `{ containerId, shipId, terminalId, originCountry, destinationCountry, cargoType }` |
+| `GET`  | `/api/v1/containers`                            | Listar contêineres com paginação  | `?page=1&perPage=10`                              | —                                                                                   |
+| `GET`  | `/api/v1/containers/status`                     | Listar contêineres por status     | `?status=PENDING_DOCUMENTATION&page=1&perPage=10` | —                                                                                   |
+| `GET`  | `/api/v1/containers/:containerId`               | Buscar contêiner por ID           | —                                                 | —                                                                                   |
+| `PUT`  | `/api/v1/containers/:containerId/update-status` | Atualizar status do contêiner     | —                                                 | `{ newStatus: "DOCUMENTATION_CREATED" }`                                            |
 
 #### Kafka Events
 
