@@ -14,30 +14,30 @@ Serviço responsável pela gestão de contêineres.
 
 #### Tech Stack
 
-| Tecnologia                              |                                                                                    |
-| --------------------------------------- | ---------------------------------------------------------------------------------- |
-| **NodeJS**                              | Runtime JavaScript                                                                 |
-| **TypeScript**                          | Tipagem estática                                                                   |
-| **NestJS**                              | Framework NodeJs                                                                   |
-| **Prisma**                              | ORM                                                                                |
-| **kafkaJS** + **@nestjs/microservices** | Mensageria assíncrona                                                              |
-| **Redis**                               | Cache                                                                              |
-| **OpenTelemetry**                       | Tracing distribuído ponta a ponta                                                  |
-| **Pino**                                | Logging estruturado com transporte para Loki                                       |
-| **Zod**                                 | Validação de variáveis de ambiente em runtime                                      |
-| **Vitest**                              | Test runner rápido, suporta unit / integração / e2e no mesmo config                |
-| **Testcontainers**                      | Provisionamento de infra real em containers Docker para testes de integração e e2e |
-| **SWC**                                 | Compilação rápida para hot-reload em desenvolvimento                               |
+| Tecnologia                                                                                                              |                                                                                    |
+| ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| **[NodeJS](https://nodejs.org/docs/latest/api/)**                                                                       | Runtime JavaScript                                                                 |
+| **[TypeScript](https://www.typescriptlang.org/docs/)**                                                                  | Tipagem estática                                                                   |
+| **[NestJS](https://docs.nestjs.com/)**                                                                                  | Framework NodeJs                                                                   |
+| **[Prisma](https://www.prisma.io/docs/)**                                                                               | ORM                                                                                |
+| **[kafkaJS](https://kafka.js.org/docs/)** + **[`@nestjs/microservices`](https://docs.nestjs.com/microservices/basics)** | Mensageria assíncrona                                                              |
+| **[Redis](https://redis.io/docs/)**                                                                                     | Cache                                                                              |
+| **[OpenTelemetry](https://opentelemetry.io/docs/)**                                                                     | Tracing distribuído ponta a ponta                                                  |
+| **[Pino](https://getpino.io/#/)**                                                                                       | Logging estruturado com transporte para Loki                                       |
+| **[Zod](https://zod.dev/)**                                                                                             | Validação de variáveis de ambiente em runtime                                      |
+| **[Vitest](https://vitest.dev/guide/)**                                                                                 | Test runner rápido, suporta unit / integração / e2e no mesmo config                |
+| **[Testcontainers](https://node.testcontainers.org/)**                                                                  | Provisionamento de infra real em containers Docker para testes de integração e e2e |
+| **[SWC](https://swc.rs/docs/)**                                                                                         | Compilação rápida para hot-reload em desenvolvimento                               |
 
 #### Endpoints
 
-| Método | Rota                                            | Descrição                         | Parâmetros                                        | Body                                                                                |
-| ------ | ----------------------------------------------- | --------------------------------- | ------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `POST` | `/api/v1/containers/arrivals`                   | Registrar chegada de um contêiner | —                                                 | `{ containerId, shipId, terminalId, originCountry, destinationCountry, cargoType }` |
-| `GET`  | `/api/v1/containers`                            | Listar contêineres com paginação  | `?page=1&perPage=10`                              | —                                                                                   |
-| `GET`  | `/api/v1/containers/status`                     | Listar contêineres por status     | `?status=PENDING_DOCUMENTATION&page=1&perPage=10` | —                                                                                   |
-| `GET`  | `/api/v1/containers/:containerId`               | Buscar contêiner por ID           | —                                                 | —                                                                                   |
-| `PUT`  | `/api/v1/containers/:containerId/update-status` | Atualizar status do contêiner     | —                                                 | `{ newStatus: "DOCUMENTATION_CREATED" }`                                            |
+| Método | Rota                                           | Parâmetros                                                                                         |
+| ------ | ---------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `POST` | `api/v1/containers/arrivals`                   | `containerId`, `shipId`, `terminalId`, `originCountry`, `destinationCountry`, `cargoType` _(body)_ |
+| `GET`  | `api/v1/containers`                            | `page`, `perPage` _(query)_                                                                        |
+| `GET`  | `api/v1/containers/status`                     | `status`, `page`, `perPage` _(query)_                                                              |
+| `GET`  | `api/v1/containers/:containerId`               | `containerId` _(path)_                                                                             |
+| `PUT`  | `api/v1/containers/:containerId/update-status` | `containerId` _(path)_, `newStatus` _(body)_                                                       |
 
 #### Kafka Events
 
@@ -93,20 +93,20 @@ src/
 
 ## Infraestrutura (Docker)
 
-| Serviço        | Tecnologia               |
-| -------------- | ------------------------ |
-| API Gateway    | Kong                     |
-| Mensageria     | Kafka (KRaft) + Kafka UI |
-| CDC            | Kafka Connect (Debezium) |
-| Banco SQL      | PostgreSQL 18            |
-| Banco NoSQL    | MongoDB                  |
-| Cache          | Redis                    |
-| Métricas       | Prometheus               |
-| Dashboard      | Grafana                  |
-| Logs           | Loki                     |
-| Tracing        | Tempo                    |
-| Coletor        | Alloy                    |
-| Teste de carga | K6                       |
+| Serviço        | Tecnologia                                                                                                        |
+| -------------- | ----------------------------------------------------------------------------------------------------------------- |
+| API Gateway    | [Kong](https://docs.konghq.com/)                                                                                  |
+| Mensageria     | [Kafka](https://kafka.apache.org/documentation/) (KRaft) + [Kafka UI](https://docs.kafka-ui.com/)                 |
+| CDC            | [Kafka Connect](https://kafka.apache.org/documentation/#connect) ([Debezium](https://debezium.io/documentation/)) |
+| Banco SQL      | [PostgreSQL 18](https://www.postgresql.org/docs/)                                                                 |
+| Banco NoSQL    | [MongoDB](https://www.mongodb.com/docs/)                                                                          |
+| Cache          | [Redis](https://redis.io/docs/)                                                                                   |
+| Métricas       | [Prometheus](https://prometheus.io/docs/)                                                                         |
+| Dashboard      | [Grafana](https://grafana.com/docs/)                                                                              |
+| Logs           | [Loki](https://grafana.com/docs/loki/)                                                                            |
+| Tracing        | [Tempo](https://grafana.com/docs/tempo/)                                                                          |
+| Coletor        | [Alloy](https://grafana.com/docs/alloy/)                                                                          |
+| Teste de carga | [K6](https://grafana.com/docs/k6/)                                                                                |
 
 ## Como Rodar o projeto
 
