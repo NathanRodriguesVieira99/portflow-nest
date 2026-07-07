@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { errorResponse } from '../../../../shared/errors/responses/error-response';
 import { successResponse } from '../../../../shared/errors/responses/success-response';
 import { Container } from '../../domain/models/container.model';
@@ -22,7 +31,10 @@ export class ContainerController {
   ): Promise<RequestResponse<ContainerArrivalResponseDto>> {
     const result = await this.containerService.registerContainerArrival(dto);
     if (!result.ok) {
-      return errorResponse(result.error.code, result.error.message);
+      throw new HttpException(
+        errorResponse(result.error.code, result.error.message),
+        result.error.status,
+      );
     }
     return successResponse(result.value, 'CREATED');
   }
@@ -33,7 +45,10 @@ export class ContainerController {
   ): Promise<RequestResponse<PaginationOutput<Container>>> {
     const result = await this.containerService.findAllContainers(queryParams);
     if (!result.ok) {
-      return errorResponse(result.error.code, result.error.message);
+      throw new HttpException(
+        errorResponse(result.error.code, result.error.message),
+        result.error.status,
+      );
     }
     return successResponse(result.value, 'OK');
   }
@@ -48,7 +63,10 @@ export class ContainerController {
       status,
     );
     if (!result.ok) {
-      return errorResponse(result.error.code, result.error.message);
+      throw new HttpException(
+        errorResponse(result.error.code, result.error.message),
+        result.error.status,
+      );
     }
     return successResponse(result.value, 'OK');
   }
@@ -59,7 +77,10 @@ export class ContainerController {
   ): Promise<RequestResponse<Container>> {
     const result = await this.containerService.findContainerById(containerId);
     if (!result.ok) {
-      return errorResponse(result.error.code, result.error.message);
+      throw new HttpException(
+        errorResponse(result.error.code, result.error.message),
+        result.error.status,
+      );
     }
     return successResponse(result.value, 'OK');
   }
@@ -74,7 +95,10 @@ export class ContainerController {
       newStatus,
     });
     if (!result.ok) {
-      return errorResponse(result.error.code, result.error.message);
+      throw new HttpException(
+        errorResponse(result.error.code, result.error.message),
+        result.error.status,
+      );
     }
     return successResponse(result.value, 'OK');
   }
