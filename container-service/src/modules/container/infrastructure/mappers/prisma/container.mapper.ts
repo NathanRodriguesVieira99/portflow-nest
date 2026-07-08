@@ -27,7 +27,7 @@ export class PrismaContainerMapper {
       originCountry: container.originCountry,
       destinationCountry: container.destinationCountry,
       cargoType: container.cargoType,
-      status: container.status,
+      statusContainer: container.status,
       arrivalDate: container.arrivalDate,
       createdAt: container.createdAt,
       updatedAt: container.updatedAt,
