@@ -1,5 +1,5 @@
 import { Injectable, Logger, OnModuleInit, Optional } from '@nestjs/common';
-import axios, { type AxiosError, type AxiosInstance } from 'axios';
+import axios, { AxiosError, type AxiosInstance } from 'axios';
 import { IHttpClient, HttpRequest } from './http-client.types';
 import { err, ok, type Result } from '../../shared/errors/result';
 import { HTTP_ERROR_CODES } from '../../shared/errors/http-codes';
@@ -15,15 +15,19 @@ export class HttpClient implements IHttpClient, OnModuleInit {
    Em vez disso, ele deixa o parâmetro undefined ou com o valor default.
    */
   constructor(
-    @Optional() private readonly api: AxiosInstance = axios,
-    private readonly cls: ClsService,
+    @Optional() private readonly api: AxiosInstance,
+    private readonly cls?: ClsService,
   ) {}
 
-  onModuleInit() {
-    this.logger.log('Axios HTTP Client Started!');
+  static create(): HttpClient {
+    return new HttpClient(axios);
   }
 
-  async request<T, R>({
+  onModuleInit() {
+    this.logger.log('Axios Http Client Started!');
+  }
+
+  async request<R, T = unknown>({
     baseURL,
     endpoint,
     method,
@@ -32,19 +36,19 @@ export class HttpClient implements IHttpClient, OnModuleInit {
     body,
   }: HttpRequest<T>): Promise<Result<R>> {
     try {
-      const { data } = await this.api.request<R>({
+      const { data: responseData } = await this.api.request<R>({
         baseURL,
         url: endpoint,
         method,
         headers: {
           ...headers,
-          'x-correlation-id': this.cls.getId() ?? '', // toda request HTTP recebe o correlationId automaticamente via headers
+          'x-correlation-id': this.cls?.getId() ?? '', // toda request HTTP recebe o correlationId automaticamente via headers
         },
         data: body,
         params,
       });
 
-      return ok(data);
+      return ok(responseData);
     } catch (e) {
       const error = e as AxiosError;
 
@@ -61,7 +65,9 @@ export class HttpClient implements IHttpClient, OnModuleInit {
       const message = error.response?.data || error.message;
 
       return err(
-        internalServerError(`Request failed with status ${status}: ${message}`),
+        internalServerError(
+          `Request failed with status ${status} : ${message}`,
+        ),
       );
     }
   }
