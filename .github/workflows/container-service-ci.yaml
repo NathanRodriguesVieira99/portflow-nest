@@ -16,6 +16,8 @@ jobs:
 
       - name: Setup NodeJs and PNPM
         uses: ./.github/actions/setup-node
+        with:
+          working-directory: ./container-service
 
       - name: Generate Prisma Client
         run: pnpm dlx prisma generate
@@ -35,6 +37,8 @@ jobs:
 
       - name: Setup NodeJs and PNPM
         uses: ./.github/actions/setup-node
+        with:
+          working-directory: ./container-service
 
       - name: Generate Prisma Client
         run: pnpm dlx prisma generate
@@ -73,6 +77,8 @@ jobs:
 
       - name: Setup NodeJs and PNPM
         uses: ./.github/actions/setup-node
+        with:
+          working-directory: ./container-service
 
       - name: Generate Prisma Client
         run: pnpm dlx prisma generate
@@ -132,6 +138,8 @@ jobs:
 
       - name: Setup NodeJs and PNPM
         uses: ./.github/actions/setup-node
+        with:
+          working-directory: ./container-service
 
       - name: Generate Prisma Client
         run: pnpm dlx prisma generate
@@ -183,6 +191,8 @@ jobs:
 
       - name: Setup NodeJs and PNPM
         uses: ./.github/actions/setup-node
+        with:
+          working-directory: ./container-service
 
       - name: Generate Prisma Client
         run: pnpm dlx prisma generate
@@ -219,6 +229,8 @@ jobs:
 
       - name: Setup NodeJs and PNPM
         uses: ./.github/actions/setup-node
+        with:
+          working-directory: ./container-service
 
       - name: Generate Prisma Client
         run: pnpm dlx prisma generate
