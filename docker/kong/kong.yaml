@@ -9,8 +9,9 @@ services:
     routes:
       - name: container-service-routes
         paths:
-          - /container
-        strip_path: true
+          - /api/v1/containers
+          - /api/v1/health
+        strip_path: false
         methods: [GET, POST, PUT, PATCH, DELETE]
     plugins:
       - name: request-transformer

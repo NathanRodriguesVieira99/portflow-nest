@@ -18,19 +18,19 @@ services:
   container-service:
         container_name: container-service
         build:
-            context: ../
-            dockerfile: services/container-service/Dockerfile
+            context: ../container-service
+            dockerfile: Dockerfile
             target: dev
         ports:
            - "3333:3333"
         environment:
           - CHOKIDAR_USEPOLLING=1 # hot reload em dev
+          - DATABASE_URL=postgresql://admin:admin@postgresql:5432/container_service_db
         env_file:
-              - ../services/container-service/.env
+              - ../container-service/.env
         volumes:
-          - ../:/app                    # sincroniza codigo host/container (hot reload)
-          - /app/node_modules           # usa node_modules do container, nao do host
-          - /app/services/container-service/node_modules # usa node_modules do microservice no container, nao do host
+          - ../container-service:/app
+          - /app/node_modules
         healthcheck:
           test: ["CMD", "curl", "-f", "http://localhost:3333/api/v1/health"]
           interval: 10s
@@ -42,6 +42,15 @@ services:
             - kafka
         networks:
             - portflow-net
+
+  # ---------------------------------------------------------------------------
+  # ToxiProxy
+  # ---------------------------------------------------------------------------
+  toxiproxy:
+    container_name: toxiproxy
+    image: ghcr.io/shopify/toxiproxy:2.12.0
+    ports:
+      - "8474:8474"
 
   # ---------------------------------------------------------------------------
   # PostgreSQL
@@ -133,7 +142,7 @@ services:
     environment:
       CLUSTER_ID: XVmXn3yFSg-B4UD_uAgnC2
       KAFKA_NODE_ID: "1"
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       KAFKA_PROCESS_ROLES: "broker,controller"
       KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
       KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:29093"
@@ -302,6 +311,7 @@ services:
     profiles: ["testing"]
     volumes:
       - ../services:/services:ro
+      - ../container-service:/container-service:ro
     networks:
       - portflow-net
     depends_on:
