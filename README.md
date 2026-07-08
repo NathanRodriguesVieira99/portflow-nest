@@ -1,4 +1,4 @@
-\*\*\*\*# Portflow
+# Portflow
 
 ## Sobre
 
@@ -51,7 +51,7 @@ Serviço responsável pela gestão de contêineres.
 
 ```txt
 src/
-├── __tests__/                  # Arquivos de setup dos testes, mocks e factories
+├── __tests__/                  # Arquivos de setup dos testes, helpers, mocks e factories
 │
 ├── infrastructure/             # Infra global do microservice
 │   ├── cache/                  # Configuração do Redis
