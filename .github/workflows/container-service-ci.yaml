@@ -19,13 +19,13 @@ jobs:
 
       - name: Generate Prisma Client
         run: pnpm dlx prisma generate
-        working-directory: ./container-service
+        working-directory: ../container-service
         env:
           DATABASE_URL: "postgresql://admin:admin@localhost:5432/container_service_db_test"
 
       - name: Build Container Microservice
         run: pnpm build
-        working-directory: ./container-service
+        working-directory: ../container-service
 
   lint:
     runs-on: ubuntu-latest
@@ -38,13 +38,13 @@ jobs:
 
       - name: Generate Prisma Client
         run: pnpm dlx prisma generate
-        working-directory: ./container-service
+        working-directory: ../container-service
         env:
           DATABASE_URL: "postgresql://admin:admin@localhost:5432/container_service_db_test"
 
       - name: Lint
         run: pnpm lint
-        working-directory: ./container-service
+        working-directory: ../container-service
 
   # typecheck:
   #   runs-on: ubuntu-latest
@@ -57,13 +57,13 @@ jobs:
 
   #     - name: Generate Prisma Client
   #       run: pnpm dlx prisma generate
-  #       working-directory: ./container-service
+  #       working-directory: ../container-service
   #       env:
   #         DATABASE_URL: "postgresql://admin:admin@localhost:5432/container_service_db_test"
 
   #     - name: Typecheck
   #       run: pnpm typecheck
-  #       working-directory: ./container-service
+  #       working-directory: ../container-service
 
   unit-tests:
     runs-on: ubuntu-latest
@@ -76,13 +76,13 @@ jobs:
 
       - name: Generate Prisma Client
         run: pnpm dlx prisma generate
-        working-directory: ./container-service
+        working-directory: ../container-service
         env:
           DATABASE_URL: "postgresql://admin:admin@localhost:5432/container_service_db_test"
 
       - name: Unit Tests
         run: pnpm test:unit:cov
-        working-directory: ./container-service
+        working-directory: ../container-service
         env:
           DATABASE_URL: postgresql://admin:admin@localhost:5432/container_service_db_test
           NODE_ENV: test
@@ -135,11 +135,11 @@ jobs:
 
       - name: Generate Prisma Client
         run: pnpm dlx prisma generate
-        working-directory: ./container-service
+        working-directory: ../container-service
 
       - name: Integration Tests
         run: pnpm test:int
-        working-directory: ./container-service
+        working-directory: ../container-service
         env:
           DATABASE_URL: "postgresql://admin:admin@localhost:5432/container_service_db_test"
           NODE_ENV: test
@@ -186,13 +186,13 @@ jobs:
 
       - name: Generate Prisma Client
         run: pnpm dlx prisma generate
-        working-directory: ./container-service
+        working-directory: ../container-service
         env:
           DATABASE_URL: "postgresql://admin:admin@localhost:5432/container_service_db"
 
       - name: E2E Tests
         run: pnpm test:e2e
-        working-directory: ./container-service
+        working-directory: ../container-service
         env:
           DATABASE_URL: postgresql://admin:admin@localhost:5432/container_service_db_test
           NODE_ENV: test
@@ -222,10 +222,10 @@ jobs:
 
       - name: Generate Prisma Client
         run: pnpm dlx prisma generate
-        working-directory: ./container-service
+        working-directory: ../container-service
         env:
           DATABASE_URL: "postgresql://admin:admin@localhost:5432/container_service_db_test"
 
       - name: PNPM audit
         run: pnpm audit --audit-level=critical
-        working-directory: ./container-service
+        working-directory: ../container-service
