@@ -1,17 +1,34 @@
 import { execSync } from 'node:child_process';
+import { Test } from '@nestjs/testing';
+import { AppModule } from '../app.module';
+import { PinoLogger } from 'nestjs-pino';
 import {
   PostgreSqlContainer,
   StartedPostgreSqlContainer,
 } from '@testcontainers/postgresql';
 import { KafkaContainer, StartedKafkaContainer } from '@testcontainers/kafka';
-import { PrismaService } from '../infrastructure/database/prisma/prisma.service';
-import { PinoLogger } from 'nestjs-pino';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { PrismaClient } from '../infrastructure/database/prisma/generated/client';
+
+import type { INestApplication } from '@nestjs/common';
 
 const logger = new PinoLogger({ renameContext: 'E2E tests' });
 
-let prisma: PrismaService;
+let app: INestApplication;
+let prisma: PrismaClient;
 let postgres: StartedPostgreSqlContainer;
 let kafka: StartedKafkaContainer;
+
+const setupTestingModule = async () => {
+  const module = await Test.createTestingModule({
+    imports: [AppModule],
+  }).compile();
+
+  app = module.createNestApplication();
+
+  await app.init();
+  logger.info('NestJs testing module started!');
+};
 
 const setupKafka = async () => {
   kafka = await new KafkaContainer('confluentinc/cp-kafka:7.8.0')
@@ -20,7 +37,7 @@ const setupKafka = async () => {
 
   process.env.KAFKA_BROKER = `${kafka.getHost()}:${kafka.getMappedPort(9093)}`;
 
-  logger.info('E2E tests kafka connected!');
+  logger.info('Kafka connected!');
 };
 
 const setupPostgres = async () => {
@@ -31,33 +48,46 @@ const setupPostgres = async () => {
     .withPassword('admin')
     .start();
 
+  logger.info('PostgreSQL connected!');
+
+  process.env.DATABASE_URL = postgres.getConnectionUri();
+
   const connectionString = postgres.getConnectionUri();
-  process.env.DATABASE_URL = connectionString;
 
-  execSync('pnpm prisma migrate deploy', {
-    env: process.env,
-    stdio: 'inherit',
-  });
+  const adapter = new PrismaPg({ connectionString });
 
-  prisma = new PrismaService();
+  prisma = new PrismaClient({ adapter });
+
   await prisma.$connect();
 
-  logger.info('E2E tests database connected!');
+  logger.info('Prisma connected!');
 };
 
 beforeAll(async () => {
+  await setupTestingModule();
   await setupKafka();
   await setupPostgres();
 });
 
 beforeEach(async () => {
-  await prisma.$executeRawUnsafe(`TRUNCATE TABLE containers CASCADE`);
-  logger.info('E2E database reset!');
+  execSync('pnpm prisma migrate reset --force', {
+    env: process.env,
+  });
+
+  execSync('pnpm prisma migrate deploy', {
+    env: process.env,
+  });
+
+  logger.info('Database reset!');
 });
 
 afterAll(async () => {
   await prisma.$disconnect();
+  logger.info('Prisma disconnected!');
   await kafka.stop();
+  logger.info('Kafka disconnected!');
   await postgres.stop();
-  logger.info('E2E database disconnected!');
+  logger.info('PostgreSQL disconnected!');
+  await app.close();
+  logger.info('NestJs testing module closed!');
 });

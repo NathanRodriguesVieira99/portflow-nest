@@ -35,6 +35,7 @@ export default defineConfig({
           ],
           setupFiles: ['src/__tests__/setup.integration.ts'],
           testTimeout: 30000,
+          hookTimeout: 60000,
         },
       },
       {
@@ -52,6 +53,7 @@ export default defineConfig({
           ],
           setupFiles: ['src/__tests__/setup.e2e.ts'],
           testTimeout: 30000,
+          hookTimeout: 60000,
         },
       },
     ],
