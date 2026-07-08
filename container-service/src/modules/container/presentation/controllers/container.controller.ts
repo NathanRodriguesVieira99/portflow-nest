@@ -26,8 +26,7 @@ export class ContainerController {
 
   @Post('/arrivals')
   async registerContainerArrival(
-    @Body()
-    dto: ContainerArrivalRequestDto,
+    @Body() dto: ContainerArrivalRequestDto,
   ): Promise<RequestResponse<ContainerArrivalResponseDto>> {
     const result = await this.containerService.registerContainerArrival(dto);
     if (!result.ok) {
@@ -87,7 +86,7 @@ export class ContainerController {
 
   @Put(':containerId/update-status')
   async updateContainerStatus(
-    @Param('containerId') containerId,
+    @Param('containerId') containerId: string,
     @Body('newStatus') newStatus: StatusContainer,
   ): Promise<RequestResponse<Container>> {
     const result = await this.containerService.updateContainerStatus({
