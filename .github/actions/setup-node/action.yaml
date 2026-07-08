@@ -1,18 +1,27 @@
 name: Setup NodeJs and dependencies
 description: Setup NodeJs, PNPM and Prisma
 
+inputs:
+  working-directory:
+    description: "Diretório do microservice"
+    required: true
+
 runs:
   using: "composite"
   steps:
     - name: Setup PNPM
       uses: pnpm/action-setup@v3
+      with:
+        package_json_file: ${{inputs.working-directory}}/package.json
 
     - name: Setup NodeJs
       uses: actions/setup-node@v4
       with:
         node-version: 22.18.0
         cache: pnpm
+        cache-dependency-path: ${{inputs.working-directory}}/pnpm-lock.yaml
 
     - name: Install dependencies
       run: pnpm install --frozen-lockfile
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
