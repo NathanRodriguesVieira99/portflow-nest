@@ -3,7 +3,7 @@ import { TERMINAL_SERVICE_BASE_URL } from '../../../../shared/constants/constant
 import { HttpClient } from '../../../../infrastructure/http/http-client';
 
 import type { Result } from '../../../../shared/errors/result';
-import type { TerminalValidationInput } from '../../domain/contracts/terminal-validation.input';
+import type { TerminalValidationParams } from '../../domain/contracts/terminal-validation.params';
 import type { TerminalValidationOutput } from '../../domain/contracts/terminal-validation.output';
 
 @Injectable()
@@ -13,11 +13,8 @@ export class TerminalHttp {
   async validateTerminal({
     terminalId,
     cargoType,
-  }: TerminalValidationInput): Promise<Result<TerminalValidationOutput>> {
-    const response = await this.http.request<
-      TerminalValidationInput,
-      TerminalValidationOutput
-    >({
+  }: TerminalValidationParams): Promise<Result<TerminalValidationOutput>> {
+    const response = await this.http.request<TerminalValidationOutput, never>({
       baseURL: TERMINAL_SERVICE_BASE_URL,
       endpoint: `/terminals/${terminalId}/validacao`,
       method: 'GET',
