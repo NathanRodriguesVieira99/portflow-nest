@@ -2,7 +2,7 @@ import { Result } from '../../shared/errors/result';
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
-export type HttpRequest<T> = {
+export type HttpRequest<T = unknown> = {
   baseURL: string;
   endpoint: string;
   method: HttpMethod;
@@ -12,7 +12,7 @@ export type HttpRequest<T> = {
 };
 
 export interface IHttpClient {
-  request: <T, R>({
+  request: <R, T = unknown>({
     baseURL,
     endpoint,
     method,
