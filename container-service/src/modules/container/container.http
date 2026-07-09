@@ -39,7 +39,7 @@ GET {{baseUrl}}/containers/e8821bd8-371f-4e2d-a701-fa19bf61b0fa
 ###
 
 # @name find_containers_by_status_isolated
-GET {{baseUrl}}/containers/status?status=DOCUMENTATION_CREATED&page=1&perPage=5
+GET {{baseUrl}}/containers/status?status=DOCUMENTATION_CREATED&page=1&perPage=10
 
 ###
 
