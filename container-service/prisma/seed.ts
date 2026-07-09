@@ -1,4 +1,5 @@
 import 'dotenv/config';
+
 import {
   PrismaClient,
   STATUS_CONTAINER,
@@ -31,7 +32,6 @@ async function main() {
 
 main()
   .then(async () => {
-    console.log('🌱 Database seeded');
     await prisma.$disconnect();
   })
   .catch(async (e) => {
