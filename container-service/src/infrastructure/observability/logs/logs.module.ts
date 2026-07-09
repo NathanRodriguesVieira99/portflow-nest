@@ -32,6 +32,12 @@ export const isDev = env.NODE_ENV === 'development';
             };
           },
 
+          customLogLevel: (_req, res, err) => {
+            if (err || res.statusCode >= 500) return 'error'; /* 5xx = ERROR */
+            if (res.statusCode >= 400) return 'warn'; /* 4xx = WARN */
+            return 'info'; /* 2xx = INFO */
+          },
+
           customSuccessMessage: (req, res, responseTime) =>
             `${req.method} ${req.url} ${res.statusCode} +${responseTime}ms`,
 
