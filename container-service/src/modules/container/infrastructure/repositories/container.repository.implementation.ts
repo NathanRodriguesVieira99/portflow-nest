@@ -39,7 +39,9 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
       });
 
       if (containerAlreadyArrived) {
-        return err(conflict('Container already arrived!'));
+        const error = conflict('Container already arrived!');
+        this.logger.warn(error.message);
+        return err(error);
       }
 
       const container = await this.prisma.container.create({
@@ -56,7 +58,9 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
       });
 
       if (container.statusContainer !== 'PENDING_DOCUMENTATION') {
-        return err(badRequest('This container cannot be released!'));
+        const error = badRequest('This container cannot be released!');
+        this.logger.warn(error.message);
+        return err(error);
       }
 
       return ok({
@@ -70,7 +74,9 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
         statusContainer: container.statusContainer,
       });
     } catch {
-      return err(databaseError('Failed to register container arrival'));
+      const error = databaseError('Failed to register container arrival');
+      this.logger.error(error.message);
+      return err(error);
     }
   }
 
@@ -80,11 +86,17 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
         where: { id: containerId },
       });
 
-      if (!raw) return err(notFound('Container'));
+      if (!raw) {
+        const error = notFound('Container');
+        this.logger.warn(error.message);
+        return err(error);
+      }
 
       return ok(PrismaContainerMapper.toDomain(raw));
     } catch {
-      return err(databaseError('Failed to find container'));
+      const error = databaseError('Failed to find container');
+      this.logger.error(error.message);
+      return err(error);
     }
   }
 
@@ -126,7 +138,9 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
         },
       });
     } catch {
-      return err(databaseError('Failed find containers'));
+      const error = databaseError('Failed find containers');
+      this.logger.error(error.message);
+      return err(error);
     }
   }
 
@@ -170,7 +184,9 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
         },
       });
     } catch {
-      return err(databaseError('Failed find containers'));
+      const error = databaseError('Failed find containers');
+      this.logger.error(error.message);
+      return err(error);
     }
   }
 
@@ -184,11 +200,17 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
         data: { statusContainer: newStatus },
       });
 
-      if (!raw) return err(notFound('Container'));
+      if (!raw) {
+        const error = notFound('Container');
+        this.logger.warn(error.message);
+        return err(error);
+      }
 
       return ok(PrismaContainerMapper.toDomain(raw));
     } catch {
-      return err(databaseError('Failed to update container status'));
+      const error = databaseError('Failed to update container status');
+      this.logger.error(error.message);
+      return err(error);
     }
   }
 }
