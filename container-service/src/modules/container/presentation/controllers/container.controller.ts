@@ -8,6 +8,7 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { WithDocs } from 'nestjs-docfy';
 import { errorResponse } from '../../../../shared/responses/error-response';
 import { successResponse } from '../../../../shared/responses/success-response';
 import { Container } from '../../domain/models/container.model';
@@ -20,6 +21,7 @@ import type { StatusContainer } from '../../domain/types/status-container.type';
 import type { ContainerArrivalRequestDto } from '../dtos/container-arrival-request.dto';
 import type { ContainerArrivalResponseDto } from '../dtos/container-arrival-response.dto';
 
+@WithDocs()
 @Controller('containers')
 export class ContainerController {
   constructor(private readonly containerService: ContainerService) {}
