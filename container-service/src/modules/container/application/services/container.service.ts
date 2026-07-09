@@ -3,10 +3,10 @@ import { TerminalService } from './terminal.service';
 import { ContainerProducer } from '../../infrastructure/events/container.producer';
 import { ContainerRepositoryContract } from '../../domain/repositories/container.repository.contract';
 import { Container } from '../../domain/models/container.model';
-import { unauthorized } from '../../../../shared/errors/exceptions/exceptions';
-import { err, ok } from '../../../../shared/errors/result';
+import { unauthorized } from '../../../../shared/exceptions';
+import { err, ok } from '../../../../shared/result';
 
-import type { Result } from '../../../../shared/errors/result';
+import type { Result } from '../../../../shared/result';
 import type { ContainerArrivalInput } from '../../domain/contracts/container-arrival.input';
 import type { ContainerArrivalOutput } from '../../domain/contracts/container-arrival.output';
 import type { PaginationInput } from '../../domain/contracts/pagination.input';

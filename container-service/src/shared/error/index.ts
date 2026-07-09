@@ -1,4 +1,4 @@
-import { HTTP_ERROR_CODES, type HttpErrorCodes } from './http-codes';
+import { HTTP_ERROR_CODES, type HttpErrorCodes } from '../constants/http-codes';
 
 export type AppError = {
   code: HttpErrorCodes;

@@ -1,4 +1,4 @@
-import { Result } from '../../shared/errors/result';
+import { Result } from '../../shared/result';
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 

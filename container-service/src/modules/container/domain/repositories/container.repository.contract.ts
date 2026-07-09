@@ -4,7 +4,7 @@ import type { StatusContainer } from '../types/status-container.type';
 import type { ContainerArrivalInput } from '../contracts/container-arrival.input';
 import type { ContainerArrivalOutput } from '../contracts/container-arrival.output';
 import type { UpdateContainerStatusInput } from '../contracts/update-container-status.input';
-import type { Result } from '../../../../shared/errors/result';
+import type { Result } from '../../../../shared/result';
 import type { PaginationInput } from '../contracts/pagination.input';
 import type { PaginationOutput } from '../contracts/pagination.output';
 

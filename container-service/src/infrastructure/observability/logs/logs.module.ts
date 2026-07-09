@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { trace } from '@opentelemetry/api';
 import { ClsService } from 'nestjs-cls';
 import { LoggerModule } from 'nestjs-pino';
-import { env } from '../../../shared/config/env';
+import { env } from '../../../shared/env';
 import { SERVICE_NAME } from '../../../shared/constants/constants';
 
 export const isDev = env.NODE_ENV === 'development';

@@ -8,13 +8,13 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { errorResponse } from '../../../../shared/errors/responses/error-response';
-import { successResponse } from '../../../../shared/errors/responses/success-response';
+import { errorResponse } from '../../../../shared/responses/error-response';
+import { successResponse } from '../../../../shared/responses/success-response';
 import { Container } from '../../domain/models/container.model';
 import { ContainerService } from '../../application/services/container.service';
 
 import type { PaginationOutput } from '../../domain/contracts/pagination.output';
-import type { RequestResponse } from '../../../../shared/errors/responses/response';
+import type { RequestResponse } from '../../../../shared/responses/response';
 import type { PaginationInput } from '../../domain/contracts/pagination.input';
 import type { StatusContainer } from '../../domain/types/status-container.type';
 import type { ContainerArrivalRequestDto } from '../dtos/container-arrival-request.dto';

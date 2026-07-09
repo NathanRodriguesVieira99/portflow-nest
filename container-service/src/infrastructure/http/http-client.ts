@@ -1,9 +1,9 @@
 import { Injectable, Logger, OnModuleInit, Optional } from '@nestjs/common';
 import axios, { AxiosError, type AxiosInstance } from 'axios';
 import { IHttpClient, HttpRequest } from './http-client.types';
-import { err, ok, type Result } from '../../shared/errors/result';
-import { HTTP_ERROR_CODES } from '../../shared/errors/http-codes';
-import { internalServerError } from '../../shared/errors/exceptions/exceptions';
+import { err, ok, type Result } from '../../shared/result';
+import { HTTP_ERROR_CODES } from '../../shared/constants/http-codes';
+import { internalServerError } from '../../shared/exceptions';
 import { ClsService } from 'nestjs-cls';
 
 @Injectable()

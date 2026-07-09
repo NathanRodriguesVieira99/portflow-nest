@@ -3,15 +3,15 @@ import { PrismaService } from '../../../../infrastructure/database/prisma/prisma
 import { Container } from '../../domain/models/container.model';
 import { ContainerRepositoryContract } from '../../domain/repositories/container.repository.contract';
 import { PrismaContainerMapper } from '../mappers/prisma/container.mapper';
-import { err, ok } from '../../../../shared/errors/result';
+import { err, ok } from '../../../../shared/result';
 import {
   badRequest,
   conflict,
   databaseError,
   notFound,
-} from '../../../../shared/errors/exceptions/exceptions';
+} from '../../../../shared/exceptions';
 
-import type { Result } from '../../../../shared/errors/result';
+import type { Result } from '../../../../shared/result';
 import type { ContainerArrivalInput } from '../../domain/contracts/container-arrival.input';
 import type { ContainerArrivalOutput } from '../../domain/contracts/container-arrival.output';
 import type { PaginationOutput } from '../../domain/contracts/pagination.output';

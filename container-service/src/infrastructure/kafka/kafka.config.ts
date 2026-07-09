@@ -3,7 +3,7 @@ import { Transport, type KafkaOptions } from '@nestjs/microservices';
 import { KAFKA_CLIENTS } from './constants/clients';
 import { KAFKA_CONSUMER_GROUPS } from './constants/groups';
 
-import { env } from '../../shared/config/env';
+import { env } from '../../shared/env';
 
 export const kafkaConfig: KafkaOptions = {
   transport: Transport.KAFKA,

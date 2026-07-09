@@ -1,4 +1,4 @@
-import { AppError } from './error';
+import { AppError } from '.';
 
 describe('AppError', () => {
   it('should return an error with status code and message', () => {

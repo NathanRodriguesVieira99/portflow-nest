@@ -1,4 +1,4 @@
-import { HttpErrorCodes, HTTP_ERROR_CODES } from '../http-codes';
+import { HttpErrorCodes, HTTP_ERROR_CODES } from '../constants/http-codes';
 
 export type ErrorResponse = {
   ok: false;

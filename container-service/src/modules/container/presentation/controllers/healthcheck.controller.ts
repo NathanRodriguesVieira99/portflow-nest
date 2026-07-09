@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { successResponse } from '../../../../shared/errors/responses/success-response';
+import { successResponse } from '../../../../shared/responses/success-response';
 
 @Controller('/health')
 export class HealthcheckController {

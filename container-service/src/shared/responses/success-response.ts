@@ -1,4 +1,7 @@
-import { HTTP_SUCCESS_CODES, type HttpSuccessCodes } from '../http-codes';
+import {
+  HTTP_SUCCESS_CODES,
+  type HttpSuccessCodes,
+} from '../constants/http-codes';
 
 export type SuccessResponse<T> = {
   ok: true;

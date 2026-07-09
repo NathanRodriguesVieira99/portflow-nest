@@ -8,7 +8,7 @@ import {
   unauthorized,
   rateLimited,
   internalServerError,
-} from './exceptions';
+} from '.';
 
 describe('Exceptions', () => {
   describe('badRequest()', () => {

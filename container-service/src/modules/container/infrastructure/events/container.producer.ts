@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
 import { ClsService } from 'nestjs-cls';
-import { env } from '../../../../shared/config/env';
+import { env } from '../../../../shared/env';
 import { KAFKA_TOPICS } from '../../../../infrastructure/kafka/constants/topics';
 import { KafkaProducer } from '../../../../infrastructure/kafka/producer/kafka.producer';
 
