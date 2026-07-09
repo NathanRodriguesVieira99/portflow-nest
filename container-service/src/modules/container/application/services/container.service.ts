@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { TerminalService } from './terminal.service';
 import { ContainerProducer } from '../../infrastructure/events/container.producer';
 import { ContainerRepositoryContract } from '../../domain/repositories/container.repository.contract';
@@ -16,8 +16,10 @@ import type { UpdateContainerStatusInput } from '../../domain/contracts/update-c
 
 @Injectable()
 export class ContainerService {
+  private readonly logger = new Logger(ContainerService.name);
+
   constructor(
-    private readonly repository: ContainerRepositoryContract,
+    private readonly repo: ContainerRepositoryContract,
     private readonly terminal: TerminalService,
     private readonly kafka: ContainerProducer,
   ) {}
@@ -31,10 +33,12 @@ export class ContainerService {
     });
 
     if (!terminalValidation.ok) {
-      return err(unauthorized('Container is unauthorized to proceed!'));
+      const error = unauthorized(`Container is unauthorized to proceed!`);
+      this.logger.warn(error.message);
+      return err(error);
     }
 
-    const request = await this.repository.registerContainerArrival({
+    const request = await this.repo.registerContainerArrival({
       containerId: input.containerId,
       shipId: input.shipId,
       terminalId: input.terminalId,
@@ -47,11 +51,15 @@ export class ContainerService {
 
     await this.kafka.sendPendingDocumentationEvent(request.value.containerId);
 
+    this.logger.log(
+      `Container ${request.value.containerId} arrived at terminal ${request.value.terminalId}`,
+    );
+
     return ok(request.value);
   }
 
   async findContainerById(containerId: string): Promise<Result<Container>> {
-    const request = await this.repository.findContainerById(containerId);
+    const request = await this.repo.findContainerById(containerId);
     if (!request.ok) return request;
     return ok(request.value);
   }
@@ -59,7 +67,7 @@ export class ContainerService {
   async findAllContainers(
     queryParams: PaginationInput,
   ): Promise<Result<PaginationOutput<Container>>> {
-    const result = await this.repository.findAllContainers(queryParams);
+    const result = await this.repo.findAllContainers(queryParams);
     if (!result.ok) return result;
     return ok(result.value);
   }
@@ -68,10 +76,7 @@ export class ContainerService {
     queryParams: PaginationInput,
     status: StatusContainer,
   ): Promise<Result<PaginationOutput<Container>>> {
-    const result = await this.repository.findContainerByStatus(
-      queryParams,
-      status,
-    );
+    const result = await this.repo.findContainerByStatus(queryParams, status);
     if (!result.ok) return result;
     return ok(result.value);
   }
@@ -79,7 +84,7 @@ export class ContainerService {
   async updateContainerStatus(
     input: UpdateContainerStatusInput,
   ): Promise<Result<Container>> {
-    const result = await this.repository.updateContainerStatus({
+    const result = await this.repo.updateContainerStatus({
       containerId: input.containerId,
       newStatus: input.newStatus,
     });
