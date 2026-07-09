@@ -10,7 +10,7 @@ export default defineConfig({
           name: 'unit',
           environment: 'node',
           globals: true,
-          include: ['src/**/__tests__/*.{test,spec}.ts'],
+          include: ['src/**/*.{test,spec}.ts'],
           exclude: [
             '**/node_modules/**',
             '**/dist/**',
@@ -27,7 +27,7 @@ export default defineConfig({
           name: 'integration',
           environment: 'node',
           globals: true,
-          include: ['src/**/__tests__/*.integration.{test,spec}.ts'],
+          include: ['src/**/*.integration.{test,spec}.ts'],
           exclude: [
             '**/node_modules/**',
             '**/dist/**',
@@ -44,7 +44,7 @@ export default defineConfig({
           name: 'e2e',
           environment: 'node',
           globals: true,
-          include: ['src/**/__tests__/*.e2e-{test,spec}.ts'],
+          include: ['src/**/*.e2e-{test,spec}.ts'],
           exclude: [
             '**/node_modules/**',
             '**/dist/**',

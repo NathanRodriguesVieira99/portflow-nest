@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { app } from '../../../../../__tests__/helpers/setup-app';
+import { app } from '../../../../__tests__/helpers';
 
 describe('E2E - Healthcheck', () => {
   describe('[E2E] GET /health', () => {
@@ -9,7 +9,7 @@ describe('E2E - Healthcheck', () => {
       expect(health.status).toBe(200);
       expect(health.body).toEqual({
         ok: true,
-        data: {
+        response: {
           code: 'OK',
           status: 200,
           content: 'Container service UP!',

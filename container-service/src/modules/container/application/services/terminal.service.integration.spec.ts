@@ -1,22 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-
-import { TerminalHttp } from '../../../infrastructure/http/terminal.http';
-import { TerminalService } from '../terminal.service';
+import { ClsModule } from 'nestjs-cls';
+import { HttpClient } from '../../../../infrastructure/http/http-client';
+import { TerminalHttp } from '../../infrastructure/http/terminal.http';
+import { TerminalService } from './terminal.service';
 
 describe('TerminalService', () => {
   let service: TerminalService;
 
-  const mockValidateTerminal = { validateTerminal: vi.fn() };
-
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        TerminalService,
-        {
-          provide: TerminalHttp,
-          useValue: mockValidateTerminal,
-        },
-      ],
+      imports: [ClsModule],
+      providers: [TerminalService, TerminalHttp, HttpClient],
     }).compile();
 
     service = module.get<TerminalService>(TerminalService);

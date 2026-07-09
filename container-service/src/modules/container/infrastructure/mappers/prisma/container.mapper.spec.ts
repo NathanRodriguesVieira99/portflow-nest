@@ -1,9 +1,9 @@
 import {
   Container as PrismaContainer,
   STATUS_CONTAINER,
-} from '../../../../../../infrastructure/database/prisma/generated/client';
-import { Container } from '../../../../domain/models/container.model';
-import { PrismaContainerMapper } from '../container.mapper';
+} from '../../../../../../src/infrastructure/database/prisma/generated/client';
+import { Container } from '../../../../../../src/modules/container/domain/models/container.model';
+import { PrismaContainerMapper } from '../../../../../../src/modules/container/infrastructure/mappers/prisma/container.mapper';
 import { fakerPT_BR as faker } from '@faker-js/faker';
 
 describe('Prisma Container Mapper', () => {
