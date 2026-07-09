@@ -13,8 +13,8 @@ const prisma = new PrismaClient({ adapter });
 
 async function main() {
   await prisma.container.deleteMany();
-  for (let i = 0; i < 10; i++) {
-    const containers = Array.from({ length: 10 }, () => ({
+  for (let i = 0; i < 50; i++) {
+    const containers = {
       id: faker.string.uuid(),
       shipId: faker.string.uuid(),
       terminalId: faker.string.uuid(),
@@ -25,7 +25,7 @@ async function main() {
         Object.values(STATUS_CONTAINER),
       ),
       arrivalDate: faker.date.recent(),
-    }));
+    };
     await prisma.container.createMany({ data: containers });
   }
 }
