@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ClsService } from 'nestjs-cls';
+import { env } from '../../../../shared/config/env';
 import { KAFKA_TOPICS } from '../../../../infrastructure/kafka/constants/topics';
 import { KafkaProducer } from '../../../../infrastructure/kafka/producer/kafka.producer';
 
@@ -9,8 +10,6 @@ import type { StatusContainer } from '../../domain/types/status-container.type';
 
 @Injectable()
 export class ContainerProducer {
-  private logger = new Logger(ContainerProducer.name);
-
   constructor(
     private readonly kafka: KafkaProducer,
     private readonly cls: ClsService,
@@ -28,7 +27,7 @@ export class ContainerProducer {
       previousStatus,
       currentStatus,
       description,
-      origin: 'container-service',
+      origin: env.SERVICE_NAME ?? 'container-service',
       dateTime: new Date(),
       correlationId: this.cls.getId(),
     };
@@ -41,8 +40,6 @@ export class ContainerProducer {
       'PENDING_DOCUMENTATION',
       `The container ${containerId} is waiting the documentation`,
     );
-
-    this.logger.log({ event }, 'sending event to Kafka');
 
     await this.kafka.produce(
       KAFKA_TOPICS.PENDING_DOCUMENTATION,
