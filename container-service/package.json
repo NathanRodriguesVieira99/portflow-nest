@@ -26,7 +26,10 @@
     "db:migrate:deploy": "prisma migrate deploy",
     "db:generate": "prisma generate",
     "db:studio": "prisma studio",
-    "db:seed": "pnpm prisma db seed"
+    "db:seed": "pnpm prisma db seed",
+    "docs:generate": "nestjs-docfy generate",
+    "docs:lint": "nestjs-docfy lint",
+    "docs:cov": "nestjs-docfy coverage --min 95"
   },
   "dependencies": {
     "@keyv/redis": "^5.1.6",
@@ -56,6 +59,7 @@
     "dotenv": "^17.4.2",
     "kafkajs": "^2.2.4",
     "nestjs-cls": "^6.2.1",
+    "nestjs-docfy": "^0.3.5",
     "nestjs-pino": "^4.6.1",
     "opossum": "^9.0.0",
     "pg": "^8.21.0",

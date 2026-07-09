@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { DocfyModule } from 'nestjs-docfy';
 import { CacheModule } from './infrastructure/cache/cache.module';
 import { PrismaModule } from './infrastructure/database/prisma/prisma.module';
 import { LogsModule } from './infrastructure/observability/logs/logs.module';
@@ -17,6 +18,7 @@ import { ContainerModule } from './modules/container/container.module';
     PrismaModule,
     CacheModule,
     KafkaModule,
+    DocfyModule.forRoot({ strict: true }),
     ContainerModule,
   ],
 })

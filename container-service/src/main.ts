@@ -4,7 +4,9 @@ import { NestFactory } from '@nestjs/core';
 import { Logger as PinoLogger } from 'nestjs-pino';
 import { AppModule } from './app.module';
 import { kafkaConfig } from './infrastructure/kafka/kafka.config';
-import { env } from './shared/config/env';
+import { DocfyUiModule } from 'nestjs-docfy';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { env } from './shared/env';
 
 import type { MicroserviceOptions } from '@nestjs/microservices';
 
@@ -14,6 +16,19 @@ async function bootstrap() {
   app.setGlobalPrefix('/api/v1');
 
   app.useLogger(app.get(PinoLogger));
+
+  DocfyUiModule.setup('/docs', app);
+
+  const document = SwaggerModule.createDocument(
+    app,
+    new DocumentBuilder()
+      .setTitle('Container Service')
+      .setDescription('API documentation for the Container Microservice.')
+      .setVersion('1.0')
+      .build(),
+  );
+
+  SwaggerModule.setup('api', app, document);
 
   app.connectMicroservice<MicroserviceOptions>(kafkaConfig);
 
