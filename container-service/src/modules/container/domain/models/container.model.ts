@@ -1,31 +1,87 @@
+import { randomUUID } from 'node:crypto';
+
 import type { StatusContainer } from '../types/status-container.type';
+import type { CreateContainerParams } from '../contracts/create-container.params';
 
-interface IContainer {
-  id?: string;
-  shipId: string;
-  terminalId: string;
-  originCountry: string;
-  destinationCountry: string;
-  cargoType: string;
-  status: StatusContainer;
-  arrivalDate: Date;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
+export class Container {
+  private constructor(
+    private id: string,
+    private shipId: string,
+    private terminalId: string,
+    private originCountry: string,
+    private destinationCountry: string,
+    private cargoType: string,
+    private status: StatusContainer,
+    private arrivalDate: Date,
+    private createdAt: Date,
+    private updatedAt: Date,
+  ) {}
 
-export class Container implements IContainer {
-  public readonly id?: string;
-  public readonly shipId!: string;
-  public readonly terminalId!: string;
-  public readonly originCountry!: string;
-  public readonly destinationCountry!: string;
-  public readonly cargoType!: string;
-  public readonly status!: StatusContainer;
-  public readonly arrivalDate!: Date;
-  public readonly createdAt?: Date;
-  public readonly updatedAt?: Date;
+  static create({
+    id,
+    shipId,
+    terminalId,
+    originCountry,
+    destinationCountry,
+    cargoType,
+    status,
+    arrivalDate,
+    createdAt,
+    updatedAt,
+  }: CreateContainerParams): Container {
+    const now = new Date();
 
-  constructor(data: IContainer) {
-    Object.assign(this, data);
+    return new Container(
+      id ?? randomUUID(),
+      shipId,
+      terminalId,
+      originCountry,
+      destinationCountry,
+      cargoType,
+      status,
+      arrivalDate,
+      createdAt ?? now,
+      updatedAt ?? now,
+    );
+  }
+
+  getId() {
+    return this.id;
+  }
+
+  getShipId() {
+    return this.shipId;
+  }
+
+  getTerminalId() {
+    return this.terminalId;
+  }
+
+  getOriginCountry() {
+    return this.originCountry;
+  }
+
+  getDestinationCountry() {
+    return this.destinationCountry;
+  }
+
+  getCargoType() {
+    return this.cargoType;
+  }
+
+  getStatus() {
+    return this.status;
+  }
+
+  getArrivalDate() {
+    return this.arrivalDate;
+  }
+
+  getCreatedAt() {
+    return this.createdAt;
+  }
+
+  getUpdatedAt() {
+    return this.updatedAt;
   }
 }
