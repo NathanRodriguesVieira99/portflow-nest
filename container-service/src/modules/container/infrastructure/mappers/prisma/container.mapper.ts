@@ -4,7 +4,7 @@ import { Container as PrismaContainer } from '../../../../../infrastructure/data
 export class PrismaContainerMapper {
   /* Quando o dado vem do banco se usa o toDomain(). */
   static toDomain(raw: PrismaContainer) {
-    return new Container({
+    return Container.create({
       id: raw.id,
       shipId: raw.shipId,
       terminalId: raw.terminalId,
@@ -21,16 +21,16 @@ export class PrismaContainerMapper {
   /* Quando o dado vai para o banco se usa toPrisma(). */
   static toPrisma(container: Container) {
     return {
-      id: container.id,
-      shipId: container.shipId,
-      terminalId: container.terminalId,
-      originCountry: container.originCountry,
-      destinationCountry: container.destinationCountry,
-      cargoType: container.cargoType,
-      statusContainer: container.status,
-      arrivalDate: container.arrivalDate,
-      createdAt: container.createdAt,
-      updatedAt: container.updatedAt,
+      id: container.getId(),
+      shipId: container.getShipId(),
+      terminalId: container.getTerminalId(),
+      originCountry: container.getOriginCountry(),
+      destinationCountry: container.getDestinationCountry(),
+      cargoType: container.getCargoType(),
+      statusContainer: container.getStatus(),
+      arrivalDate: container.getArrivalDate(),
+      createdAt: container.getCreatedAt(),
+      updatedAt: container.getUpdatedAt(),
     };
   }
 }
