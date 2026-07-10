@@ -6,7 +6,7 @@ import {
   setupKafka,
   setupPrismaAndPostgres,
   setupTestingModule,
-} from './helpers';
+} from '../helpers';
 
 beforeAll(async () => {
   await setupTestingModule();

@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { app } from '../../../../__tests__/helpers';
+import { app } from '../../../../../helpers';
 
 describe('E2E - Healthcheck', () => {
   describe('[E2E] GET /health', () => {

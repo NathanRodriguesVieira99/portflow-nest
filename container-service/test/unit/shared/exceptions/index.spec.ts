@@ -8,7 +8,8 @@ import {
   unauthorized,
   rateLimited,
   internalServerError,
-} from '.';
+  validationError,
+} from '../../../../src/shared/exceptions';
 
 describe('Exceptions', () => {
   describe('badRequest()', () => {
@@ -72,6 +73,14 @@ describe('Exceptions', () => {
       const exception = unauthorized();
       expect(exception.message).toBe('Unauthorized!');
       expect(exception.code).toBe('UNAUTHORIZED');
+    });
+  });
+
+  describe('validationError()', () => {
+    it('should return default message', () => {
+      const exception = validationError();
+      expect(exception.message).toBe('Validation error!');
+      expect(exception.code).toBe('VALIDATION_ERROR');
     });
   });
 

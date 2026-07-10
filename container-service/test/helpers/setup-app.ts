@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { PinoLogger } from 'nestjs-pino';
-import { AppModule } from '../../app.module';
+import { AppModule } from '../../src/app.module';
 
 import type { INestApplication } from '@nestjs/common';
 

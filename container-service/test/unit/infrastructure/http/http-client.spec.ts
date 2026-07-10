@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
-import { HttpClient } from './http-client';
-import { internalServerError } from '../../shared/exceptions';
+import { HttpClient } from '../../../../src/infrastructure/http/http-client';
+import { internalServerError } from '../../../../src/shared/exceptions';
 
 describe('Http Client', () => {
   const http = HttpClient.create();
