@@ -25,50 +25,42 @@ describe('Prisma Container Mapper', () => {
       const result = PrismaContainerMapper.toDomain(raw);
 
       expect(result).toBeInstanceOf(Container);
-      expect(result).toEqual({
-        id: raw.id,
-        shipId: raw.shipId,
-        terminalId: raw.terminalId,
-        originCountry: raw.originCountry,
-        destinationCountry: raw.destinationCountry,
-        cargoType: raw.cargoType,
-        status: raw.statusContainer,
-        arrivalDate: raw.arrivalDate,
-        createdAt: raw.createdAt,
-        updatedAt: raw.updatedAt,
-      });
+      expect(result.getId()).toEqual(raw.id);
+      expect(result.getShipId()).toBe(raw.shipId);
+      expect(result.getTerminalId()).toBe(raw.terminalId);
+      expect(result.getOriginCountry()).toBe(raw.originCountry);
+      expect(result.getDestinationCountry()).toBe(raw.destinationCountry);
+      expect(result.getCargoType()).toBe(raw.cargoType);
+      expect(result.getStatus()).toBe(raw.statusContainer);
+      expect(result.getArrivalDate()).toBe(raw.arrivalDate);
+      expect(result.getCreatedAt()).toBe(raw.createdAt);
+      expect(result.getUpdatedAt()).toBe(raw.updatedAt);
     });
   });
 
   describe('toPrisma()', () => {
     it('should map the domain model to Prisma model', () => {
-      const container = new Container({
-        id: faker.string.uuid(),
+      const container = Container.create({
         shipId: faker.string.uuid(),
         terminalId: faker.string.uuid(),
         originCountry: faker.location.country(),
         destinationCountry: faker.location.country(),
         cargoType: faker.commerce.productMaterial(),
-        status: 'PENDING_DOCUMENTATION',
+        status: 'ARRIVED',
         arrivalDate: faker.date.recent(),
-        createdAt: faker.date.recent(),
-        updatedAt: faker.date.recent(),
       });
 
       const result = PrismaContainerMapper.toPrisma(container);
 
-      expect(result).toEqual({
-        id: container.id,
-        shipId: container.shipId,
-        terminalId: container.terminalId,
-        originCountry: container.originCountry,
-        destinationCountry: container.destinationCountry,
-        cargoType: container.cargoType,
-        statusContainer: container.status,
-        arrivalDate: container.arrivalDate,
-        createdAt: container.createdAt,
-        updatedAt: container.updatedAt,
-      });
+      expect(container.getId()).toBe(result.id);
+      expect(container.getShipId()).toBe(result.shipId);
+      expect(container.getTerminalId()).toBe(result.terminalId);
+      expect(container.getOriginCountry()).toBe(result.originCountry);
+      expect(container.getDestinationCountry()).toBe(result.destinationCountry);
+      expect(container.getStatus()).toBe(result.statusContainer);
+      expect(container.getArrivalDate()).toBe(result.arrivalDate);
+      expect(container.getCreatedAt()).toBe(result.createdAt);
+      expect(container.getUpdatedAt()).toBe(result.updatedAt);
     });
   });
 });
