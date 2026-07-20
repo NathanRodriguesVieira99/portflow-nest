@@ -28,8 +28,7 @@ export class HttpClient implements IHttpClient, OnModuleInit {
   }
 
   async request<R, T = unknown>({
-    baseURL,
-    endpoint,
+    url,
     method,
     headers,
     params,
@@ -37,8 +36,7 @@ export class HttpClient implements IHttpClient, OnModuleInit {
   }: HttpRequest<T>): Promise<Result<R>> {
     try {
       const { data: responseData } = await this.api.request<R>({
-        baseURL,
-        url: endpoint,
+        url,
         method,
         headers: {
           ...headers,

@@ -1,4 +1,3 @@
-import path from 'node:path';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
@@ -17,7 +16,7 @@ export default defineConfig({
             '**/*.integration.{test,spec}.ts',
             '**/*.e2e-{test,spec}.ts',
           ],
-          setupFiles: ['test/unit/setup.unit.ts'],
+          setupFiles: ['src/__tests__/setup.unit.ts'],
           testTimeout: 5000,
         },
       },
@@ -85,8 +84,6 @@ export default defineConfig({
     },
   },
   resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './'),
-    },
+    tsconfigPaths: true,
   },
 });

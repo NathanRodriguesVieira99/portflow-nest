@@ -3,8 +3,7 @@ import { Result } from '../../shared/result';
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
 export type HttpRequest<T = unknown> = {
-  baseURL: string;
-  endpoint: string;
+  url: string;
   method: HttpMethod;
   headers?: Record<string, string>;
   params?: Record<string, unknown>;
@@ -13,8 +12,7 @@ export type HttpRequest<T = unknown> = {
 
 export interface IHttpClient {
   request: <R, T = unknown>({
-    baseURL,
-    endpoint,
+    url,
     method,
     headers,
     params,

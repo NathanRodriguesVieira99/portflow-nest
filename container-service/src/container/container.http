@@ -1,0 +1,115 @@
+@baseUrl= http://localhost:3333/api/v1
+@kongUrl= http://localhost:8000/api/v1
+
+
+# ---------------------------------------------------------------------------
+# Microservice isolado
+# ---------------------------------------------------------------------------
+
+###
+
+# @name healthcheck_isolated
+GET {{baseUrl}}/health
+
+###
+
+# @name register_container_arrival_isolated
+POST {{baseUrl}}/containers/arrivals
+Content-Type: application/json
+
+{
+  "containerId": "b7e91d2a-3f4c-5e6d-8f9a-0b1c2d3e4f5a",
+  "shipId": "dab312d6-d3e1-40c6-bda5-686d8ed7915e",
+  "terminalId": "868f5c69-3bba-4c8e-976d-ca7ea2e5e7f6",
+  "originCountry": "Brazil",
+  "destinationCountry": "United States",
+  "cargoType": "electronics"
+}
+
+###
+
+# @name find_all_containers_isolated
+GET {{baseUrl}}/containers?page=1&perPage=10
+
+###
+
+# @name find_container_by_id_isolated
+GET {{baseUrl}}/containers/e8821bd8-371f-4e2d-a701-fa19bf61b0fa
+
+###
+
+# @name find_containers_by_status_isolated
+GET {{baseUrl}}/containers/status?status=DOCUMENTATION_CREATED&page=1&perPage=10
+
+###
+
+# @name update_container_status_isolated
+PUT {{baseUrl}}/containers/e8821bd8-371f-4e2d-a701-fa19bf61b0fa/update-status
+Content-Type: application/json
+
+{
+  "newStatus": "DOCUMENTATION_CREATED"
+}
+
+###
+
+# @name remove_container_isolado
+DELETE {{baseUrl}}/containers/
+
+###
+
+# ---------------------------------------------------------------------------
+# Via Kong API Gateway
+# ---------------------------------------------------------------------------
+
+###
+
+# @name healthcheck_gateway
+GET {{kongUrl}}/health
+
+###
+
+# @name register_container_arrival_gateway
+POST {{kongUrl}}/containers/arrivals
+Content-Type: application/json
+
+{
+  "containerId": "c8d9e0f1-2a3b-4c5d-6e7f-8a9b0c1d2e3f",
+  "shipId": "dab312d6-d3e1-40c6-bda5-686d8ed7915e",
+  "terminalId": "868f5c69-3bba-4c8e-976d-ca7ea2e5e7f6",
+  "originCountry": "Germany",
+  "destinationCountry": "Japan",
+  "cargoType": "machinery"
+}
+
+###
+
+# @name find_all_containers_gateway
+GET {{kongUrl}}/containers?page=1&perPage=10
+
+###
+
+# @name find_container_by_id_gateway
+GET {{kongUrl}}/containers/bc2d6d4e-dbcb-4b5d-bd33-6a9a5ed7fe8b
+
+###
+
+# @name find_containers_by_status_gateway
+GET {{kongUrl}}/containers/status?status=PENDING_DOCUMENTATION&page=1&perPage=10
+
+###
+
+# @name update_container_status_gateway
+PUT {{kongUrl}}/containers/7008a9bd-0d3e-4c16-873c-6dc1525c167f/update-status
+Content-Type: application/json
+
+{
+  "newStatus": "DOCUMENTATION_CREATED"
+}
+
+###
+
+# @name remove_container_gateway
+DELETE {{baseUrl}}/containers/bc2d6d4e-dbcb-4b5d-bd33-6a9a5ed7fe8b
+
+###

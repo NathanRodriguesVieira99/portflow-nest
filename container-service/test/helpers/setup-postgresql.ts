@@ -5,7 +5,7 @@ import {
   StartedPostgreSqlContainer,
 } from '@testcontainers/postgresql';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient } from '../../infrastructure/database/prisma/generated/client';
+import { PrismaClient } from '../../src/infrastructure/database/prisma/generated/client';
 
 const logger = new PinoLogger({ renameContext: 'Setup PostgreSQL' });
 

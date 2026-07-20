@@ -90,8 +90,8 @@ importers:
         specifier: ^6.2.1
         version: 6.2.1(@nestjs/common@11.1.27(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.27)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       nestjs-docfy:
-        specifier: ^0.3.5
-        version: 0.3.5(@nestjs/common@11.1.27(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.4.5(@nestjs/common@11.1.27(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.27)(reflect-metadata@0.2.2))(@types/react@19.2.17)(openapi-types@12.1.3)(reflect-metadata@0.2.2)
+        specifier: ^0.3.6
+        version: 0.3.6(@nestjs/common@11.1.27(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.4.5(@nestjs/common@11.1.27(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.27)(reflect-metadata@0.2.2))(@types/react@19.2.17)(openapi-types@12.1.3)(reflect-metadata@0.2.2)
       nestjs-pino:
         specifier: ^4.6.1
         version: 4.6.1(@nestjs/common@11.1.27(reflect-metadata@0.2.2)(rxjs@7.8.2))(pino-http@11.0.0)(pino@10.3.1)(rxjs@7.8.2)
@@ -3983,8 +3983,8 @@ packages:
       reflect-metadata: '*'
       rxjs: '>= 7'
 
-  nestjs-docfy@0.3.5:
-    resolution: {integrity: sha512-dCbQq4oaBdSpG26BaRGFC80c8zhJYB5Sgmua6oQS7Q5YnJ0+hO0Hl8dckLK+6iSxnLOTGU51BPyy49d/C0JIow==}
+  nestjs-docfy@0.3.6:
+    resolution: {integrity: sha512-78jwZuGifDPxdIzNMoY0gKoNRgSS1Z3xQ55rgUSMhWplwW3qqfDWds/rb8amC4imc1gUfkb0NyxYHfiJijIJ7g==}
     engines: {node: '>=16.0.0'}
     hasBin: true
     peerDependencies:
@@ -7839,10 +7839,10 @@ snapshots:
 
   cmdk@1.1.1(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
     dependencies:
-      '@radix-ui/react-compose-refs': 1.1.2(@types/react@19.2.17)(react@19.2.7)
+      '@radix-ui/react-compose-refs': 1.1.3(@types/react@19.2.17)(react@19.2.7)
       '@radix-ui/react-dialog': 1.1.19(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@radix-ui/react-id': 1.1.2(@types/react@19.2.17)(react@19.2.7)
-      '@radix-ui/react-primitive': 2.1.3(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@radix-ui/react-primitive': 2.1.7(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
     transitivePeerDependencies:
@@ -8992,7 +8992,7 @@ snapshots:
       reflect-metadata: 0.2.2
       rxjs: 7.8.2
 
-  nestjs-docfy@0.3.5(@nestjs/common@11.1.27(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.4.5(@nestjs/common@11.1.27(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.27)(reflect-metadata@0.2.2))(@types/react@19.2.17)(openapi-types@12.1.3)(reflect-metadata@0.2.2):
+  nestjs-docfy@0.3.6(@nestjs/common@11.1.27(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.4.5(@nestjs/common@11.1.27(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.27)(reflect-metadata@0.2.2))(@types/react@19.2.17)(openapi-types@12.1.3)(reflect-metadata@0.2.2):
     dependencies:
       '@nestjs/common': 11.1.27(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/swagger': 11.4.5(@nestjs/common@11.1.27(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.27)(reflect-metadata@0.2.2)
