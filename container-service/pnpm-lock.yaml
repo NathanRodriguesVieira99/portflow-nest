@@ -80,6 +80,9 @@ importers:
       cache-manager:
         specifier: ^7.2.8
         version: 7.2.9
+      cockatiel:
+        specifier: ^4.0.0
+        version: 4.0.0
       dotenv:
         specifier: ^17.4.2
         version: 17.4.2
@@ -95,9 +98,6 @@ importers:
       nestjs-pino:
         specifier: ^4.6.1
         version: 4.6.1(@nestjs/common@11.1.27(reflect-metadata@0.2.2)(rxjs@7.8.2))(pino-http@11.0.0)(pino@10.3.1)(rxjs@7.8.2)
-      opossum:
-        specifier: ^9.0.0
-        version: 9.0.0
       pg:
         specifier: ^8.21.0
         version: 8.22.0
@@ -165,9 +165,6 @@ importers:
       '@types/node':
         specifier: ^24.0.0
         version: 24.13.2
-      '@types/opossum':
-        specifier: ^8.1.9
-        version: 8.1.9
       '@types/pg':
         specifier: ^8.20.0
         version: 8.20.0
@@ -2145,9 +2142,6 @@ packages:
   '@types/node@24.13.2':
     resolution: {integrity: sha512-fRa09kZTgu8o71KFcDjUFuc7F+dEbZYZmkI0mg5YBTRs0yMKjYHsq/c0urDKeDb+D5qVgXOdFcuu+DZPKOITwA==}
 
-  '@types/opossum@8.1.9':
-    resolution: {integrity: sha512-Jm/tYxuJFefiwRYs+/EOsUP3ktk0c8siMgAHPLnA4PXF4wKghzcjqf88dY+Xii5jId5Txw4JV0FMKTpjbd7KJA==}
-
   '@types/pg@8.20.0':
     resolution: {integrity: sha512-bEPFOaMAHTEP1EzpvHTbmwR8UsFyHSKsRisLIHVMXnpNefSbGA1bD6CVy+qKjGSqmZqNqBDV2azOBo8TgkcVow==}
 
@@ -2787,6 +2781,10 @@ packages:
     peerDependencies:
       react: ^18 || ^19 || ^19.0.0-rc
       react-dom: ^18 || ^19 || ^19.0.0-rc
+
+  cockatiel@4.0.0:
+    resolution: {integrity: sha512-XpUZJnogsd03BGB19T9sv7Xb8SwvD8JddZV2Tlp0LNspopZ6Idv24ZwCl8vAGJ6JwODZ0zLRYVj3NWvmRcUDqA==}
+    engines: {node: '>=22'}
 
   code-block-writer@13.0.3:
     resolution: {integrity: sha512-Oofo0pq3IKnsFtuHqSF7TqBfr71aeyZDVJ0HpmqB7FBM2qEigL0iPONSCZSO9pE9dZTAxANe5XHG9Uy0YMv8cg==}
@@ -4063,10 +4061,6 @@ packages:
 
   openapi-types@12.1.3:
     resolution: {integrity: sha512-N4YtSYJqghVu4iek2ZUvcN/0aqH1kRDuNqzcycDxhOUpg7GdvLa2F3DgS6yBNhInhv2r/6I0Flkn7CqL8+nIcw==}
-
-  opossum@9.0.0:
-    resolution: {integrity: sha512-K76U0QkxOfUZamneQuzz+AP0fyfTJcCplZ2oZL93nxeupuJbN4s6uFNbmVCt4eWqqGqRnnowdFuBicJ1fLMVxw==}
-    engines: {node: ^24 || ^22 || ^20}
 
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
@@ -7054,10 +7048,6 @@ snapshots:
     dependencies:
       undici-types: 7.18.2
 
-  '@types/opossum@8.1.9':
-    dependencies:
-      '@types/node': 24.13.2
-
   '@types/pg@8.20.0':
     dependencies:
       '@types/node': 24.13.2
@@ -7848,6 +7838,8 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react'
       - '@types/react-dom'
+
+  cockatiel@4.0.0: {}
 
   code-block-writer@13.0.3: {}
 
@@ -9066,8 +9058,6 @@ snapshots:
       mimic-fn: 4.0.0
 
   openapi-types@12.1.3: {}
-
-  opossum@9.0.0: {}
 
   optionator@0.9.4:
     dependencies:
