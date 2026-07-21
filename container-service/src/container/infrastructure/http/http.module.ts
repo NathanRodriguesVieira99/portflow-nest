@@ -1,5 +1,5 @@
 import { Global, Module } from '@nestjs/common';
-import { HttpClient } from './http-client';
+import { HttpClient } from './clients/http-client';
 
 @Global()
 @Module({

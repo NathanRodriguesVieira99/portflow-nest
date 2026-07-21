@@ -1,24 +1,22 @@
 import { Module } from '@nestjs/common';
-// import { DocfyModule } from 'nestjs-docfy';
-import { CacheModule } from './infrastructure/cache/cache.module';
-import { PrismaModule } from './infrastructure/database/prisma/prisma.module';
-import { LogsModule } from './infrastructure/observability/logs/logs.module';
-import { HttpModule } from './infrastructure/http/http.module';
-import { KafkaModule } from './infrastructure/messaging/kafka/kafka.module';
-import { PrometheusModule } from './infrastructure/observability/prometheus/prometheus.module';
-import { ClsModule } from './infrastructure/observability/cls/cls.module';
+import { CacheModule } from '@Infra/cache/cache.module';
+import { LoggerModule } from '@Infra/logger/logger.module';
+import { HttpModule } from '@Infra/http/http.module';
+import { PrometheusModule } from '@Infra/observability/prometheus.module';
+import { ClsModule } from '@Infra/observability/cls.module';
 import { ContainerModule } from './container/container.module';
+import { PrismaModule } from '@Infra/persistence/database/prisma/prisma.module';
+import { KafkaModule } from '@Infra/messaging/kafka.module';
 
 @Module({
   imports: [
     ClsModule,
-    LogsModule,
+    LoggerModule,
     PrometheusModule,
     HttpModule,
     PrismaModule,
     CacheModule,
     KafkaModule,
-    // DocfyModule.forRoot({ strict: true }),
     ContainerModule,
   ],
 })
