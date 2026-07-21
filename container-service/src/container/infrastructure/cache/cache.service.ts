@@ -1,10 +1,15 @@
 import { Inject, Injectable, Logger, type OnModuleInit } from '@nestjs/common';
 import { CACHE_MANAGER, type Cache } from '@nestjs/cache-manager';
 
-import type { CacheRepository } from '../repositories/cache/cache.repository';
+export interface ICacheService {
+  get<T>(key: string): Promise<T | undefined>;
+  set<T>(key: string, value: T, ttl?: number): Promise<void>;
+  del(key: string): Promise<void>;
+  clear(): Promise<void>;
+}
 
 @Injectable()
-export class CacheService implements CacheRepository, OnModuleInit {
+export class CacheService implements ICacheService, OnModuleInit {
   private logger = new Logger(CacheService.name);
 
   constructor(@Inject(CACHE_MANAGER) private readonly cache: Cache) {}
