@@ -11,16 +11,18 @@ import {
 } from '@nestjs/common';
 // import { WithDocs } from 'nestjs-docfy';
 import { Container } from '@Models/container.model';
-import { ContainerService } from '@Services/container.service';
-import { errorResponse } from '@Shared/responses/error-response';
-import { successResponse } from '@Shared/responses/success-response';
+import { ContainerService } from '@/container/application/services/container/container.service';
+import {
+  errorResponse,
+  successResponse,
+  type RequestResponse,
+} from '@Shared/responses';
 
-import type { PaginationOutput } from '@Contracts/pagination.output';
-import type { PaginationInput } from '@Contracts/pagination.input';
+import type { PaginationOutput } from '@/container/application/contracts/pagination.output';
+import type { PaginationInput } from '@/container/application/contracts/pagination.input';
 import type { StatusContainer } from '@Types/status-container.type';
 import type { ContainerArrivalRequestDto } from '@Dtos/container-arrival-request.dto';
 import type { ContainerArrivalResponseDto } from '@Dtos/container-arrival-response.dto';
-import type { RequestResponse } from '@Shared/responses/response';
 
 // @WithDocs()
 @Controller('containers')

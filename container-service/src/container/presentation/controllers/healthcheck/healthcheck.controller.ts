@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { WithDocs } from 'nestjs-docfy';
-import { successResponse } from '@Shared/responses/success-response';
+import { successResponse } from '@Shared/responses';
 
 @WithDocs()
 @Controller('/health')
