@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { ContainerError } from '../errors/container.model.errors';
+import { ContainerException } from '../exceptions';
 import {
   validateContainerId,
   validateShipId,
@@ -7,7 +7,7 @@ import {
 } from '@Shared/utils/container.model.validations';
 
 import type { StatusContainer } from '@Types/status-container.type';
-import type { CreateContainerParams } from '../contracts/create-container.params';
+import type { CreateContainerParams } from '../../application/contracts/create-container.params';
 
 export class Container {
   private constructor(
@@ -22,9 +22,9 @@ export class Container {
     private createdAt: Date,
     private updatedAt: Date,
   ) {
-    if (!validateContainerId) throw new ContainerError('Invalid Container');
-    if (!validateShipId) throw new ContainerError('Invalid Ship');
-    if (!validateTerminalId) throw new ContainerError('Invalid Terminal');
+    if (!validateContainerId) throw new ContainerException('Invalid Container');
+    if (!validateShipId) throw new ContainerException('Invalid Ship');
+    if (!validateTerminalId) throw new ContainerException('Invalid Terminal');
   }
 
   static create({
@@ -57,11 +57,11 @@ export class Container {
 
   validateArrival(): void {
     if (this.status !== 'PENDING_DOCUMENTATION') {
-      throw new ContainerError('Container is not awaiting documentation');
+      throw new ContainerException('Container is not awaiting documentation');
     }
 
     if (!this.arrivalDate) {
-      throw new ContainerError('Arrival date is required');
+      throw new ContainerException('Arrival date is required');
     }
   }
 

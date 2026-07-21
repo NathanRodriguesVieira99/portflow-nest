@@ -1,4 +1,4 @@
-export class ContainerError extends Error {
+export class ContainerException extends Error {
   constructor(message: string) {
     super(message);
   }
