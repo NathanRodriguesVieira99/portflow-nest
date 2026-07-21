@@ -48,6 +48,10 @@ export class CircuitBreaker {
     });
   }
 
+  static create() {
+    return new CircuitBreaker();
+  }
+
   /**
    * Executa uma operação protegida pelo Circuit Breaker.
    */
