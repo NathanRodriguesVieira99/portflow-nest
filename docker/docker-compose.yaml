@@ -81,7 +81,7 @@ services:
       retries: 5
     restart: unless-stopped
     volumes:
-      - pg_data:/var/lib/postgresql/data
+      - pg_data:/var/lib/postgresql
       - ./postgres/init:/docker-entrypoint-initdb.d:ro
     networks:
       - portflow-net
