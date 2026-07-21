@@ -1,18 +1,18 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { TerminalService } from './terminal.service';
-import { ContainerProducer } from '@Infra/messaging/kafka/container.producer';
-import { ContainerRepositoryContract } from '@Infra/repositories/prisma/container.repository.contract';
+import { TerminalService } from '../terminal/terminal.service';
+import { SendPendingDocumentationEvent } from '@/container/infrastructure/messaging/events/producers/send-pending-documentation.event';
+import { ContainerRepositoryContract } from '@Infra/persistence/repositories/prisma/container.repository.contract';
 import { Container } from '@Models/container.model';
-import { badRequest, unauthorized } from '@Shared/exceptions';
+import { badRequest, unauthorized } from '@/container/application/exceptions';
 import { err, ok } from '@Shared/result';
 
 import type { Result } from '@Shared/result';
 import type { StatusContainer } from '@Types/status-container.type';
-import type { ContainerArrivalInput } from '@Contracts/container-arrival.input';
-import type { ContainerArrivalOutput } from '@Contracts/container-arrival.output';
-import type { PaginationInput } from '@Contracts/pagination.input';
-import type { UpdateContainerStatusInput } from '@Contracts/update-container-status.input';
-import type { PaginationOutput } from '@Contracts/pagination.output';
+import type { ContainerArrivalInput } from '@/container/application/contracts/container-arrival.input';
+import type { ContainerArrivalOutput } from '@/container/application/contracts/container-arrival.output';
+import type { PaginationInput } from '@/container/application/contracts/pagination.input';
+import type { UpdateContainerStatusInput } from '@/container/application/contracts/update-container-status.input';
+import type { PaginationOutput } from '@/container/application/contracts/pagination.output';
 
 @Injectable()
 export class ContainerService {
@@ -21,7 +21,7 @@ export class ContainerService {
   constructor(
     private readonly repo: ContainerRepositoryContract,
     private readonly terminal: TerminalService,
-    private readonly kafka: ContainerProducer,
+    private readonly kafka: SendPendingDocumentationEvent,
   ) {}
 
   async registerContainerArrival({
@@ -69,7 +69,7 @@ export class ContainerService {
 
     if (!saved.ok) return saved;
 
-    await this.kafka.sendPendingDocumentationEvent(saved.value.getId());
+    await this.kafka.sendPendingDocumentation(saved.value.getId());
 
     return ok({
       containerId: saved.value.getId(),
@@ -116,7 +116,7 @@ export class ContainerService {
     containerId,
     newStatus,
   }: UpdateContainerStatusInput): Promise<Result<Container>> {
-    const containerResult = await this.repo.findById(containerId);
+    const containerResult = await this.repo.findById(containerId); // ? Talvez usar uma transaction do prisma
 
     if (!containerResult.ok) return containerResult;
 
@@ -128,7 +128,7 @@ export class ContainerService {
       return err(badRequest('Invalid status transition'));
     }
 
-    const saved = await this.repo.save(container);
+    const saved = await this.repo.save(container); //! Corrigir erro 500 ao salvar o container (provavelmente criar um método update no repo)
 
     if (!saved.ok) return saved;
 

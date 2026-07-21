@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { TerminalHttp } from '@Infra/http/terminal.http';
+import { TerminalHttp } from '@/container/infrastructure/http/terminal/terminal.http';
 
 import type { Result } from '@Shared/result';
-import type { TerminalValidationParams } from '@Contracts/terminal-validation.params';
-import type { TerminalValidationOutput } from '@Contracts/terminal-validation.output';
+import type { TerminalValidationParams } from '@/container/application/contracts/terminal-validation.params';
+import type { TerminalValidationOutput } from '@/container/application/contracts/terminal-validation.output';
 
 @Injectable()
 export class TerminalService {
