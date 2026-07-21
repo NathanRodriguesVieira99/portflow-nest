@@ -1,13 +1,21 @@
 import {
   circuitBreaker,
+  fallback,
   ConsecutiveBreaker,
   handleAll,
   CircuitState,
   type CircuitBreakerPolicy,
+  wrap,
 } from 'cockatiel';
 
 export interface CircuitBreakerConfig {
+  /**
+   * Tempo em ms para o circuit breaker passar de open para half-open.
+   */
   halfOpenAfter?: number;
+  /**
+   * Número de falhas consecutivas para abrir o circuit.
+   */
   consecutiveFailures?: number;
 }
 
@@ -22,30 +30,46 @@ export type CircuitBreakerState = 'closed' | 'open' | 'half-open';
  * CircuitBreaker faz um wrap no circuit breaker do Cockatiel
  */
 export class CircuitBreaker {
-  private readonly circuitBreaker: CircuitBreakerPolicy;
+  private readonly circuitBreakerPolicy: CircuitBreakerPolicy;
   private currentState: CircuitBreakerState = 'closed';
 
   constructor(config?: CircuitBreakerConfig) {
     const halfOpenAfter = config?.halfOpenAfter ?? 20000;
     const consecutiveFailures = config?.consecutiveFailures ?? 5;
 
-    this.circuitBreaker = circuitBreaker(handleAll, {
+    this.circuitBreakerPolicy = circuitBreaker(handleAll, {
       halfOpenAfter,
       breaker: new ConsecutiveBreaker(consecutiveFailures),
     });
 
     // Rastreia o estado do circuit breaker
-    this.circuitBreaker.onStateChange((state: CircuitState) => {
+    this.circuitBreakerPolicy.onStateChange((state: CircuitState) => {
       this.currentState = this.mapCircuitState(state);
     });
   }
 
   /**
-   * Se o circuit estiver open, a operação irá falhar sem executar.
-   * Se o circuit estiver closed ou half-open, a operação será executada e seu sucesso/falha será rastreado.
+   * Executa uma operação protegida pelo Circuit Breaker.
    */
   async execute<T>(fn: () => Promise<T>): Promise<T> {
-    return this.circuitBreaker.execute(fn);
+    return this.circuitBreakerPolicy.execute(fn);
+  }
+
+  /**
+   * Executa uma operação protegida pelo Circuit Breaker.
+   * Caso ocorra qualquer falha executa o fallback.
+   */
+  async executeWithFallback<T>(
+    fn: () => Promise<T>,
+    fallbackFn: () => Promise<T>,
+  ): Promise<T> {
+    const fallbackPolicy = fallback(handleAll, () => {
+      return fallbackFn();
+    });
+
+    const policy = wrap(this.circuitBreakerPolicy, fallbackPolicy);
+
+    return policy.execute(fn);
   }
 
   /**
