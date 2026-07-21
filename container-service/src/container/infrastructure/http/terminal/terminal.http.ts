@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { TERMINAL_SERVICE_BASE_URL } from '@Shared/constants/constants';
 import { HttpClient } from '../clients/http-client';
 import { serviceUnavailable } from '@/container/application/exceptions';
+import { CircuitBreaker } from '../../resilience/circuit-breaker';
 
 import { err, type Result } from '@Shared/result';
 import type { TerminalValidationParams } from '@/container/application/contracts/terminal-validation.params';
 import type { TerminalValidationOutput } from '@/container/application/contracts/terminal-validation.output';
-import type { CircuitBreaker } from '../../resilience/circuit-breaker';
 
 @Injectable()
 export class TerminalHttp {
