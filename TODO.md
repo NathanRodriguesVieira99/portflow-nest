@@ -8,7 +8,9 @@
 
 [ ] - Testes unitários, E2E e de integração
 
-[ ] - Aplicar resiliência abstraindo alguma lib (escolher entre Opossum ou Cockatiel) e cache (Redis)
+[x] - Aplicar resiliência abstraindo alguma lib (Cockatiel)
+
+[ ] - Aplicar cache (Redis)
 
 [ ] - Pensar em aplicar o Outbox Pattern + CDC
 
