@@ -22,19 +22,19 @@ describe('Prisma Container Mapper', () => {
         updatedAt: faker.date.recent(),
       };
 
-      const result = PrismaContainerMapper.toDomain(raw);
+      const response = PrismaContainerMapper.toDomain(raw);
 
-      expect(result).toBeInstanceOf(Container);
-      expect(result.getId()).toEqual(raw.id);
-      expect(result.getShipId()).toBe(raw.shipId);
-      expect(result.getTerminalId()).toBe(raw.terminalId);
-      expect(result.getOriginCountry()).toBe(raw.originCountry);
-      expect(result.getDestinationCountry()).toBe(raw.destinationCountry);
-      expect(result.getCargoType()).toBe(raw.cargoType);
-      expect(result.getStatus()).toBe(raw.statusContainer);
-      expect(result.getArrivalDate()).toBe(raw.arrivalDate);
-      expect(result.getCreatedAt()).toBe(raw.createdAt);
-      expect(result.getUpdatedAt()).toBe(raw.updatedAt);
+      expect(response).toBeInstanceOf(Container);
+      expect(response.getId()).toEqual(raw.id);
+      expect(response.getShipId()).toBe(raw.shipId);
+      expect(response.getTerminalId()).toBe(raw.terminalId);
+      expect(response.getOriginCountry()).toBe(raw.originCountry);
+      expect(response.getDestinationCountry()).toBe(raw.destinationCountry);
+      expect(response.getCargoType()).toBe(raw.cargoType);
+      expect(response.getStatus()).toBe(raw.statusContainer);
+      expect(response.getArrivalDate()).toBe(raw.arrivalDate);
+      expect(response.getCreatedAt()).toBe(raw.createdAt);
+      expect(response.getUpdatedAt()).toBe(raw.updatedAt);
     });
   });
 
@@ -50,17 +50,19 @@ describe('Prisma Container Mapper', () => {
         arrivalDate: faker.date.recent(),
       });
 
-      const result = PrismaContainerMapper.toPrisma(container);
+      const response = PrismaContainerMapper.toPrisma(container);
 
-      expect(container.getId()).toBe(result.id);
-      expect(container.getShipId()).toBe(result.shipId);
-      expect(container.getTerminalId()).toBe(result.terminalId);
-      expect(container.getOriginCountry()).toBe(result.originCountry);
-      expect(container.getDestinationCountry()).toBe(result.destinationCountry);
-      expect(container.getStatus()).toBe(result.statusContainer);
-      expect(container.getArrivalDate()).toBe(result.arrivalDate);
-      expect(container.getCreatedAt()).toBe(result.createdAt);
-      expect(container.getUpdatedAt()).toBe(result.updatedAt);
+      expect(container.getId()).toBe(response.id);
+      expect(container.getShipId()).toBe(response.shipId);
+      expect(container.getTerminalId()).toBe(response.terminalId);
+      expect(container.getOriginCountry()).toBe(response.originCountry);
+      expect(container.getDestinationCountry()).toBe(
+        response.destinationCountry,
+      );
+      expect(container.getStatus()).toBe(response.statusContainer);
+      expect(container.getArrivalDate()).toBe(response.arrivalDate);
+      expect(container.getCreatedAt()).toBe(response.createdAt);
+      expect(container.getUpdatedAt()).toBe(response.updatedAt);
     });
   });
 });
