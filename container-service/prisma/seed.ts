@@ -3,7 +3,7 @@ import 'dotenv/config';
 import {
   PrismaClient,
   STATUS_CONTAINER,
-} from '../src/infrastructure/database/prisma/generated/client';
+} from '../src/container/infrastructure/persistence/database/prisma/generated/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { fakerPT_BR as faker } from '@faker-js/faker';
 
