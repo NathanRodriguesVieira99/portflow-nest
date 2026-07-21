@@ -1,10 +1,31 @@
 import { Injectable, Logger, OnModuleInit, Optional } from '@nestjs/common';
 import axios, { AxiosError, type AxiosInstance } from 'axios';
-import { IHttpClient, HttpRequest } from './http-client.types';
-import { err, ok, type Result } from '../../shared/result';
-import { HTTP_ERROR_CODES } from '../../shared/constants/http-codes';
-import { internalServerError } from '../../shared/exceptions';
 import { ClsService } from 'nestjs-cls';
+import { Result, ok, err } from '@Shared/result';
+import { HTTP_ERROR_CODES } from '@Shared/constants/http-codes';
+import { internalServerError } from '@/container/application/exceptions';
+
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+
+export type HttpRequest<T = unknown> = {
+  url: string;
+  method: HttpMethod;
+  headers?: Record<string, string>;
+  params?: Record<string, unknown>;
+  body?: T;
+  signal?: AbortSignal;
+};
+
+export interface IHttpClient {
+  request: <R, T = unknown>({
+    url,
+    method,
+    headers,
+    params,
+    body,
+    signal,
+  }: HttpRequest<T>) => Promise<Result<R>>;
+}
 
 @Injectable()
 export class HttpClient implements IHttpClient, OnModuleInit {
@@ -33,6 +54,7 @@ export class HttpClient implements IHttpClient, OnModuleInit {
     headers,
     params,
     body,
+    signal,
   }: HttpRequest<T>): Promise<Result<R>> {
     try {
       const { data: responseData } = await this.api.request<R>({
@@ -44,6 +66,7 @@ export class HttpClient implements IHttpClient, OnModuleInit {
         },
         data: body,
         params,
+        signal,
       });
 
       return ok(responseData);
