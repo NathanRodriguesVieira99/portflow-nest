@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { TERMINAL_SERVICE_BASE_URL } from '@Shared/constants/constants';
 import { HttpClient } from '../clients/http-client';
+import { serviceUnavailable } from '@/container/application/exceptions';
 
 import { err, type Result } from '@Shared/result';
 import type { TerminalValidationParams } from '@/container/application/contracts/terminal-validation.params';
 import type { TerminalValidationOutput } from '@/container/application/contracts/terminal-validation.output';
 import type { CircuitBreaker } from '../../resilience/circuit-breaker';
-import { serviceUnavailable } from '@/container/application/exceptions';
 
 @Injectable()
 export class TerminalHttp {
@@ -19,18 +19,23 @@ export class TerminalHttp {
     terminalId,
     cargoType,
   }: TerminalValidationParams): Promise<Result<TerminalValidationOutput>> {
-    try {
-      const response = this.breaker.execute(async () => {
+    const response = this.breaker.executeWithFallback(
+      async () => {
         return await this.http.request<TerminalValidationOutput, never>({
           url: `${TERMINAL_SERVICE_BASE_URL}/terminals/${terminalId}/validacao`,
           method: 'GET',
           headers: {},
           params: { cargoType },
         });
-      });
-      return response;
-    } catch {
-      return err(serviceUnavailable('circuit breaker is open'));
-    }
+      },
+      async () => {
+        return err(
+          serviceUnavailable(
+            `It was not possible to validate the terminal for the cargo ${cargoType}`,
+          ),
+        );
+      },
+    );
+    return response;
   }
 }
