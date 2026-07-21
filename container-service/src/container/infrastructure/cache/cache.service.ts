@@ -1,7 +1,7 @@
 import { Inject, Injectable, Logger, type OnModuleInit } from '@nestjs/common';
 import { CACHE_MANAGER, type Cache } from '@nestjs/cache-manager';
 
-import type { CacheRepository } from './cache.repository';
+import type { CacheRepository } from '../repositories/cache/cache.repository';
 
 @Injectable()
 export class CacheService implements CacheRepository, OnModuleInit {
