@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { trace } from '@opentelemetry/api';
 import { ClsService } from 'nestjs-cls';
-import { LoggerModule } from 'nestjs-pino';
+import { LoggerModule as LogsModule } from 'nestjs-pino';
 import { env } from '../../../shared/env';
 import { SERVICE_NAME } from '../../../shared/constants/constants';
 
@@ -9,7 +9,7 @@ export const isDev = env.NODE_ENV === 'development';
 
 @Module({
   imports: [
-    LoggerModule.forRootAsync({
+    LogsModule.forRootAsync({
       inject: [ClsService],
 
       useFactory: (cls: ClsService) => ({
@@ -60,4 +60,4 @@ export const isDev = env.NODE_ENV === 'development';
     }),
   ],
 })
-export class LogsModule {}
+export class LoggerModule {}
