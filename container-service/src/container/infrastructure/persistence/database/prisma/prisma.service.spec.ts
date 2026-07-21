@@ -1,6 +1,6 @@
 import { Test, type TestingModule } from '@nestjs/testing';
 import { PrismaService } from './prisma.service';
-import { mockPrisma } from '../../../__mocks__/prisma.mock';
+import { mockPrisma } from '../../../../../__mocks__/prisma.mock';
 
 describe('PrismaService', () => {
   let prisma: PrismaService;

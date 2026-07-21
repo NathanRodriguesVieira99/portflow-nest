@@ -1,14 +1,18 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from '@/infrastructure/database/prisma/prisma.service';
+import { PrismaService } from '@Infra/persistence/database/prisma/prisma.service';
 import { ContainerRepositoryContract } from './container.repository.contract';
 import { PrismaContainerMapper } from '../../mappers/prisma/container.mapper';
 import { Container } from '@Models/container.model';
 import { ok, err } from '@Shared/result';
-import { badRequest, databaseError, notFound } from '@Shared/exceptions';
+import {
+  badRequest,
+  databaseError,
+  notFound,
+} from '@/container/application/exceptions';
 
 import type { Result } from '@Shared/result';
-import type { PaginationInput } from '@Contracts/pagination.input';
-import type { PaginationOutput } from '@Contracts/pagination.output';
+import type { PaginationInput } from '@/container/application/contracts/pagination.input';
+import type { PaginationOutput } from '@/container/application/contracts/pagination.output';
 import type { StatusContainer } from '@Types/status-container.type';
 
 @Injectable()
