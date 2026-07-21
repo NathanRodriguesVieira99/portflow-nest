@@ -90,7 +90,7 @@ GET {{kongUrl}}/containers?page=1&perPage=10
 ###
 
 # @name find_container_by_id_gateway
-GET {{kongUrl}}/containers/bc2d6d4e-dbcb-4b5d-bd33-6a9a5ed7fe8b
+GET {{kongUrl}}/containers/75f64272-1251-466e-8ba6-3b9354b68c03
 
 ###
 
@@ -100,7 +100,7 @@ GET {{kongUrl}}/containers/status?status=PENDING_DOCUMENTATION&page=1&perPage=10
 ###
 
 # @name update_container_status_gateway
-PUT {{kongUrl}}/containers/7008a9bd-0d3e-4c16-873c-6dc1525c167f/update-status
+PUT {{kongUrl}}/containers/8dae00f8-9876-4f06-ab6c-acfc1e5a86bb/update-status
 Content-Type: application/json
 
 {
@@ -110,6 +110,6 @@ Content-Type: application/json
 ###
 
 # @name remove_container_gateway
-DELETE {{baseUrl}}/containers/bc2d6d4e-dbcb-4b5d-bd33-6a9a5ed7fe8b
+DELETE {{baseUrl}}/containers/75f64272-1251-466e-8ba6-3b9354b68c03
 
 ###
