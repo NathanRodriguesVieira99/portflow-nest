@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CacheModule } from '@Infra/cache/cache.module';
 import { LoggerModule } from '@Infra/logger/logger.module';
-import { HttpModule } from '@Infra/http/http.module';
 import { PrometheusModule } from '@Infra/observability/prometheus.module';
 import { ClsModule } from '@Infra/observability/cls.module';
 import { ContainerModule } from './container/container.module';
@@ -13,7 +12,6 @@ import { KafkaModule } from '@Infra/messaging/kafka.module';
     ClsModule,
     LoggerModule,
     PrometheusModule,
-    HttpModule,
     PrismaModule,
     CacheModule,
     KafkaModule,
