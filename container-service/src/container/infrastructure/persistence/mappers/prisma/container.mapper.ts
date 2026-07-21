@@ -2,7 +2,9 @@ import { Container as PrismaContainer } from '../../database/prisma/generated/cl
 import { Container } from '../../../../domain/models/container.model';
 
 export class PrismaContainerMapper {
-  /* Quando o dado vem do banco se usa o toDomain(). */
+  /**
+   * Quando o dado vem do banco se usa o toDomain().
+   */
   static toDomain(raw: PrismaContainer) {
     return Container.create({
       id: raw.id,
@@ -18,7 +20,9 @@ export class PrismaContainerMapper {
     });
   }
 
-  /* Quando o dado vai para o banco se usa toPrisma(). */
+  /**
+   * Quando o dado vai para o banco se usa toPrisma().
+   */
   static toPrisma(container: Container) {
     return {
       id: container.getId(),
