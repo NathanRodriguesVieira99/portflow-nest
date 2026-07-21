@@ -18,7 +18,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@Types/*": ["./src/container/@types/*"],
-      "@Contracts/*": ["./src/container/domain/contracts/*"],
+      "@Contracts/*": ["src/container/application/contracts/*"],
       "@Events/*": ["./src/container/infrastructure/messaging/events/*"],
       "@Models/*": ["./src/container/domain/models/*"],
       "@Repositories/*": ["./src/container/infrastructure/repositories/*"],
