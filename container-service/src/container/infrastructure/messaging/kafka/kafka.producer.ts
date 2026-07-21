@@ -1,11 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import { ClsService } from 'nestjs-cls';
-import { KAFKA_CLIENTS } from '../constants/clients';
+import { KAFKA_CLIENTS } from '@Shared/constants/kafka';
 import { context, propagation } from '@opentelemetry/api';
 
 import type { ClientKafka } from '@nestjs/microservices';
-import type { IKafkaProducer } from '../producer/kafka.producer.contract';
+
+interface IKafkaProducer {
+  produce<P>(topic: string, key: string, payload: P): Promise<void>;
+}
 
 @Injectable()
 export class KafkaProducer implements IKafkaProducer {

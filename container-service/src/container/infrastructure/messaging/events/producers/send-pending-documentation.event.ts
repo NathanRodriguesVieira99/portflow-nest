@@ -2,14 +2,14 @@ import { randomUUID } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
 import { ClsService } from 'nestjs-cls';
 import { env } from '@Shared/env';
-import { KAFKA_TOPICS } from '@/infrastructure/messaging/kafka/constants/topics';
-import { KafkaProducer } from '@/infrastructure/messaging/kafka/producer/kafka.producer';
+import { KAFKA_TOPICS } from '@Shared/constants/kafka';
+import { KafkaProducer } from '@/container/infrastructure/messaging/kafka/kafka.producer';
 
-import type { ContainerStatusEvent } from '@Events/container.events';
+import type { ContainerStatusEvent } from '@/container/infrastructure/messaging/contracts/container.events';
 import type { StatusContainer } from '@Types/status-container.type';
 
 @Injectable()
-export class ContainerProducer {
+export class SendPendingDocumentationEvent {
   constructor(
     private readonly kafka: KafkaProducer,
     private readonly cls: ClsService,
@@ -33,7 +33,7 @@ export class ContainerProducer {
     };
   }
 
-  async sendPendingDocumentationEvent(containerId: string): Promise<void> {
+  async sendPendingDocumentation(containerId: string): Promise<void> {
     const event = this.buildEvent(
       containerId,
       'ARRIVED',
