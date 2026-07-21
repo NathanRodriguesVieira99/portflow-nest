@@ -22,9 +22,10 @@ export const HTTP_ERROR_CODES = {
   RESOURCE_NOT_FOUND: { code: 'RESOURCE_NOT_FOUND', status: 404 },
   RATE_LIMITED: { code: 'RATE_LIMITED', status: 429 },
 
-  // Server Errors (500)
+  // Server Errors (500,503)
   INTERNAL_SERVER_ERROR: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
   DATABASE_ERROR: { code: 'DATABASE_ERROR', status: 500 },
+  SERVICE_UNAVAILABLE: { code: 'SERVICE_UNAVAILABLE', status: 503 },
 } as const;
 
 export type HttpSuccessCodes = keyof typeof HTTP_SUCCESS_CODES;
