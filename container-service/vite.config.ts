@@ -67,7 +67,7 @@ export default defineConfig({
         '**/constants/**',
         'test/**',
         '**.{test,spec}.ts',
-        'src/infrastructure/database/prisma/generated/**',
+        'src/container/infrastructure/persistence/database/prisma/generated/**',
         '**/*.d.ts',
         '**/*.types.ts',
         '**/*.type.ts',
