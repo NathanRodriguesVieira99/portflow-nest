@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ClsModule } from 'nestjs-cls';
-import { HttpClient } from '../../../../../src/infrastructure/http/http-client';
-import { TerminalHttp } from '@Infra/http/terminal.http';
-import { TerminalService } from '@Services/terminal.service';
+import { TerminalHttp } from '@Infra/http/terminal/terminal.http';
+import { TerminalService } from '@Services/terminal/terminal.service';
+import { HttpClient } from '@/container/infrastructure/http/clients/http-client';
 
 describe('TerminalService', () => {
   let service: TerminalService;
