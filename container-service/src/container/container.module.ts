@@ -5,7 +5,7 @@ import { ContainerService } from '@/container/application/services/container/con
 import { TerminalService } from '@/container/application/services/terminal/terminal.service';
 import { HttpClient } from '@Infra/http/clients/http-client';
 import { TerminalHttp } from '@Infra/http/terminal/terminal.http';
-import { CircuitBreaker } from '@Infra/resilience/circuit-breaker';
+import { Resilience } from '@/container/infrastructure/resilience';
 import { ContainerRepositoryContract } from '@Infra/persistence/repositories/prisma/container.repository.contract';
 import { ContainerRepositoryImplementation } from '@Infra/persistence/repositories/prisma/container.repository.implementation';
 import { SendPendingDocumentationEvent } from '@Infra/messaging/events/producers/send-pending-documentation.event';
@@ -23,8 +23,8 @@ import { ReceiveDocumentationReleasedEvent } from '@Infra/messaging/events/consu
       useFactory: () => HttpClient.create(),
     },
     {
-      provide: CircuitBreaker,
-      useFactory: () => CircuitBreaker.create(),
+      provide: Resilience,
+      useFactory: () => Resilience.create(),
     },
     {
       provide: ContainerRepositoryContract,

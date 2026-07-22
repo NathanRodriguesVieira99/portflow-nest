@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { TERMINAL_SERVICE_BASE_URL } from '@Shared/constants/constants';
 import { HttpClient } from '../clients/http-client';
 import { serviceUnavailable } from '@/container/application/exceptions';
-import { CircuitBreaker } from '../../resilience/circuit-breaker';
-
+import { Resilience } from '../../resilience';
 import { err, type Result } from '@Shared/result';
+
 import type { TerminalValidationParams } from '@/container/application/contracts/terminal-validation.params';
 import type { TerminalValidationOutput } from '@/container/application/contracts/terminal-validation.output';
 
@@ -12,7 +12,7 @@ import type { TerminalValidationOutput } from '@/container/application/contracts
 export class TerminalHttp {
   constructor(
     private readonly http: HttpClient,
-    private readonly breaker: CircuitBreaker,
+    private readonly breaker: Resilience,
   ) {}
 
   async validateTerminal({
