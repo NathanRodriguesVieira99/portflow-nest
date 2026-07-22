@@ -1,7 +1,23 @@
-import 'dotenv/config';
-
-import * as z from 'zod';
+import { config } from 'dotenv';
+import { loadEnvFile } from 'node:process';
 import { Logger } from '@nestjs/common';
+import { z } from 'zod';
+
+/**
+ * Carrega dinamicamente os arquivos .env ao rodar o projeto
+ * - .env.local => roda o projeto fora do docker (necessita subir infra via docker)
+ * - .env => roda o projeto dentro do docker + infra
+ */
+const loadEnvFiles = () => {
+  try {
+    loadEnvFile('.env.local');
+  } catch {
+    loadEnvFile('.env');
+  }
+};
+
+loadEnvFiles();
+config();
 
 export const envSchema = z.object({
   SERVICE_NAME: z.string().default('container-service'),
