@@ -78,7 +78,9 @@ describe('Circuit Breaker', () => {
       await cb.execute(async () => (state = cb.getState()));
       expect(state).toBe('half-open');
     });
+  });
 
+  describe('mapCircuitState()', () => {
     it('should return Unhandled circuit state error', async () => {
       const cb = new Resilience();
       expect(() => cb.mapCircuitState('fake state' as any)).toThrow(
