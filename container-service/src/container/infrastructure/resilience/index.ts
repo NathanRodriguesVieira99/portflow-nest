@@ -45,14 +45,14 @@ export class Resilience {
   /**
    * Executa uma operação protegida pelo Circuit Breaker.
    */
-  async execute<T>(fn: () => Promise<T>): Promise<T> {
-    return this.circuitBreakerPolicy.execute(fn);
+  async circuitBreaker<T>(fn: () => Promise<T>): Promise<T> {
+    return await this.circuitBreakerPolicy.execute(fn);
   }
 
   /**
    * Executa uma operação protegida pelo Circuit Breaker com Fallback.
    */
-  async executeWithFallback<T>(
+  async circuitBreakerWithFallback<T>(
     fn: () => Promise<T>,
     fallbackFn: () => Promise<T>,
   ): Promise<T> {
@@ -77,7 +77,7 @@ export class Resilience {
   /**
    * Mapeia o enum CircuitState do Cockatiel para o tipo literal CircuitBreakerState
    */
-  mapCircuitState(state: CircuitState): CircuitBreakerState {
+  private mapCircuitState(state: CircuitState): CircuitBreakerState {
     switch (state) {
       case CircuitState.Closed:
         this.logger.debug(`Circuit Breaker is closed`);
