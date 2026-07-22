@@ -19,7 +19,7 @@ export class TerminalHttp {
     terminalId,
     cargoType,
   }: TerminalValidationParams): Promise<Result<TerminalValidationOutput>> {
-    const response = this.resilience.executeWithFallback(
+    const response = this.resilience.circuitBreakerWithFallback(
       async () => {
         return await this.http.request<TerminalValidationOutput, never>({
           url: `${TERMINAL_SERVICE_BASE_URL}/terminals/${terminalId}/validacao`,
