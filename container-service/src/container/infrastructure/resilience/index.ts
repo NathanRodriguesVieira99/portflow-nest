@@ -77,16 +77,16 @@ export class Resilience {
   /**
    * Mapeia o enum CircuitState do Cockatiel para o tipo literal CircuitBreakerState
    */
-  private mapCircuitState(state: CircuitState): CircuitBreakerState {
+  mapCircuitState(state: CircuitState): CircuitBreakerState {
     switch (state) {
       case CircuitState.Closed:
-        this.logger.warn(`Circuit: half closed`);
+        this.logger.debug(`Circuit Breaker is closed`);
         return 'closed';
       case CircuitState.Open:
-        this.logger.warn(`Circuit: open`);
+        this.logger.debug(`Circuit Breaker is open`);
         return 'open';
       case CircuitState.HalfOpen:
-        this.logger.warn(`Circuit: half open`);
+        this.logger.debug(`Circuit Breaker is half open`);
         return 'half-open';
       default:
         this.logger.error(`Unhandled circuit state: ${state}`);
