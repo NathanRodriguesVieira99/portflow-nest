@@ -81,10 +81,11 @@ describe('Circuit Breaker', () => {
   });
 
   describe('mapCircuitState()', () => {
-    it('should return Unhandled circuit state error', async () => {
+    it('should throw on unknown circuit state', () => {
+      const fakeState: any = 'unmapped state';
       const cb = new Resilience();
-      expect(() => cb.mapCircuitState('fake state' as any)).toThrow(
-        'Unhandled circuit state: fake state',
+      expect(() => cb.mapCircuitState(fakeState)).toThrow(
+        `Unhandled circuit state: ${fakeState}`,
       );
     });
   });
