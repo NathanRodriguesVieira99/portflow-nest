@@ -12,14 +12,14 @@ import type { TerminalValidationOutput } from '@/container/application/contracts
 export class TerminalHttp {
   constructor(
     private readonly http: HttpClient,
-    private readonly breaker: Resilience,
+    private readonly resilience: Resilience,
   ) {}
 
   async validateTerminal({
     terminalId,
     cargoType,
   }: TerminalValidationParams): Promise<Result<TerminalValidationOutput>> {
-    const response = this.breaker.executeWithFallback(
+    const response = this.resilience.executeWithFallback(
       async () => {
         return await this.http.request<TerminalValidationOutput, never>({
           url: `${TERMINAL_SERVICE_BASE_URL}/terminals/${terminalId}/validacao`,
