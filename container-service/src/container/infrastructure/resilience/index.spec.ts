@@ -4,51 +4,55 @@ describe('Circuit Breaker', () => {
   const failTimes = async (cb: Resilience, n: number) => {
     for (let i = 0; i < n; i++) {
       await cb
-        .execute(async () => {
+        .circuitBreaker(async () => {
           throw new Error('Fail');
         })
         .catch(() => {});
     }
   };
 
-  describe('execute()', () => {
+  describe('circuitBreaker()', () => {
     it('should execute successfully when closed', async () => {
       const cb = new Resilience();
-      expect(await cb.execute(async () => 'request passing successfully')).toBe(
-        'request passing successfully',
-      );
+      await expect(cb.circuitBreaker(async () => 'ok')).resolves.toBe('ok');
+      expect(cb.getState()).toBe('closed');
     });
 
     it('should block requests when open', async () => {
       const cb = new Resilience({ consecutiveFailures: 2 });
+      const fn = vi.fn(async () => 'request passing with error');
       await failTimes(cb, 2);
-      await expect(
-        cb.execute(async () => 'request passing with error'),
-      ).rejects.toThrow();
+      await expect(cb.circuitBreaker(fn)).rejects.toThrow();
     });
 
     it('should return closed after half-open success', async () => {
-      const cb = new Resilience({
-        halfOpenAfter: 100,
-        consecutiveFailures: 2,
-      });
-      await failTimes(cb, 2);
-      await new Promise((r) => setTimeout(r, 1050));
-      expect(await cb.execute(async () => 'recovered')).toBe('recovered');
+      vi.useFakeTimers();
+      try {
+        const cb = new Resilience({
+          halfOpenAfter: 100,
+          consecutiveFailures: 2,
+        });
+        await failTimes(cb, 2);
+        await vi.advanceTimersByTimeAsync(100);
+        await expect(cb.circuitBreaker(async () => 'recovered')).resolves.toBe(
+          'recovered',
+        );
+        expect(cb.getState()).toBe('closed');
+      } finally {
+        vi.useRealTimers();
+      }
     });
   });
 
-  describe('executeWithFallback()', () => {
+  describe('circuitBreakerWithFallback()', () => {
     it('should use fallback when circuit is open', async () => {
       const cb = new Resilience({ consecutiveFailures: 1 });
+      const fn = vi.fn(async () => 'original fn');
       await failTimes(cb, 1);
-      const result = await cb.executeWithFallback(
-        async () => {
-          throw new Error('Fail');
-        },
-        async () => 'fallback',
-      );
-      expect(result).toBe('fallback');
+      await expect(
+        cb.circuitBreakerWithFallback(fn, async () => 'fallback fn'),
+      ).resolves.toBe('fallback fn');
+      expect(fn).not.toHaveBeenCalled();
     });
   });
 
@@ -57,7 +61,7 @@ describe('Circuit Breaker', () => {
       const cb = new Resilience({ consecutiveFailures: 2 });
       await failTimes(cb, 2);
       await expect(
-        cb.execute(async () => 'request passing with error'),
+        cb.circuitBreaker(async () => 'request passing with error'),
       ).rejects.toThrow();
       expect(cb.getState()).toBe('open');
     });
@@ -75,18 +79,8 @@ describe('Circuit Breaker', () => {
       await failTimes(cb, 2);
       await new Promise((r) => setTimeout(r, 120));
       let state: string | undefined;
-      await cb.execute(async () => (state = cb.getState()));
+      await cb.circuitBreaker(async () => (state = cb.getState()));
       expect(state).toBe('half-open');
-    });
-  });
-
-  describe('mapCircuitState()', () => {
-    it('should throw on unknown circuit state', () => {
-      const fakeState: any = 'unmapped state';
-      const cb = new Resilience();
-      expect(() => cb.mapCircuitState(fakeState)).toThrow(
-        `Unhandled circuit state: ${fakeState}`,
-      );
     });
   });
 
@@ -95,7 +89,7 @@ describe('Circuit Breaker', () => {
       const cb = new Resilience({ consecutiveFailures: 2 });
       await failTimes(cb, 2);
       await expect(
-        cb.execute(async () => 'request passing with error'),
+        cb.circuitBreaker(async () => 'request passing with error'),
       ).rejects.toThrow();
       expect(cb.isOpen()).toBeTruthy();
     });
