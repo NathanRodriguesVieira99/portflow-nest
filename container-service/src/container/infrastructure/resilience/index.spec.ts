@@ -51,4 +51,50 @@ describe('Circuit Breaker', () => {
       expect(result).toBe('fallback');
     });
   });
+
+  describe('getState()', () => {
+    it('should return open state', async () => {
+      const cb = new Resilience({ consecutiveFailures: 2 });
+      await failTimes(cb, 2);
+      await expect(
+        cb.execute(async () => 'request passing with error'),
+      ).rejects.toThrow();
+      expect(cb.getState()).toBe('open');
+    });
+
+    it('should return closed state', async () => {
+      const cb = new Resilience({
+        halfOpenAfter: 100,
+        consecutiveFailures: 2,
+      });
+      expect(cb.getState()).toBe('closed');
+    });
+
+    it('should return half-open state', async () => {
+      const cb = new Resilience({ halfOpenAfter: 100, consecutiveFailures: 2 });
+      await failTimes(cb, 2);
+      await new Promise((r) => setTimeout(r, 120));
+      let state: string | undefined;
+      await cb.execute(async () => (state = cb.getState()));
+      expect(state).toBe('half-open');
+    });
+
+    it('should return Unhandled circuit state error', async () => {
+      const cb = new Resilience();
+      expect(() => cb.mapCircuitState('fake state' as any)).toThrow(
+        'Unhandled circuit state: fake state',
+      );
+    });
+  });
+
+  describe('isOpen()', () => {
+    it('should return open state', async () => {
+      const cb = new Resilience({ consecutiveFailures: 2 });
+      await failTimes(cb, 2);
+      await expect(
+        cb.execute(async () => 'request passing with error'),
+      ).rejects.toThrow();
+      expect(cb.isOpen()).toBeTruthy();
+    });
+  });
 });
