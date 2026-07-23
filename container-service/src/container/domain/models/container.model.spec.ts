@@ -1,5 +1,8 @@
 import { fakerPT_BR as faker } from '@faker-js/faker';
 import { Container } from '@Models/container.model';
+import { ContainerException } from '../exceptions';
+
+import type { StatusContainer } from '@/container/@types/status-container.type';
 
 describe('Container Model', () => {
   describe('Methods', () => {
@@ -31,7 +34,65 @@ describe('Container Model', () => {
     it.todo('Container.updateStatus()', () => {});
   });
 
-  describe('Domain Errors', () => {
-    it.todo('ContainerError', () => {});
+  describe('ContainerError', () => {
+    it('validate invalid container id', () => {
+      expect(() =>
+        Container.create({
+          id: '',
+          shipId: faker.string.uuid(),
+          terminalId: faker.string.uuid(),
+          originCountry: 'Brasil',
+          destinationCountry: 'China',
+          cargoType: faker.commerce.productMaterial(),
+          status: 'ARRIVED',
+          arrivalDate: faker.date.recent(),
+        }),
+      ).toThrow(new ContainerException('Invalid Container'));
+    });
+
+    it('validate invalid ship id', () => {
+      expect(() =>
+        Container.create({
+          id: faker.string.uuid(),
+          shipId: '',
+          terminalId: faker.string.uuid(),
+          originCountry: 'Brasil',
+          destinationCountry: 'China',
+          cargoType: faker.commerce.productMaterial(),
+          status: 'ARRIVED',
+          arrivalDate: faker.date.recent(),
+        }),
+      ).toThrow(new ContainerException('Invalid Ship'));
+    });
+
+    it('validate invalid terminal id', () => {
+      expect(() =>
+        Container.create({
+          id: faker.string.uuid(),
+          shipId: faker.string.uuid(),
+          terminalId: '',
+          originCountry: 'Brasil',
+          destinationCountry: 'China',
+          cargoType: faker.commerce.productMaterial(),
+          status: 'ARRIVED',
+          arrivalDate: faker.date.recent(),
+        }),
+      ).toThrow(new ContainerException('Invalid Terminal'));
+    });
+
+    it('validate invalid container status', () => {
+      expect(() =>
+        Container.create({
+          id: faker.string.uuid(),
+          shipId: faker.string.uuid(),
+          terminalId: faker.string.uuid(),
+          originCountry: 'Brasil',
+          destinationCountry: 'China',
+          cargoType: faker.commerce.productMaterial(),
+          status: 'INVALID_STATUS' as StatusContainer,
+          arrivalDate: faker.date.recent(),
+        }),
+      ).toThrow(new ContainerException('Invalid status'));
+    });
   });
 });
