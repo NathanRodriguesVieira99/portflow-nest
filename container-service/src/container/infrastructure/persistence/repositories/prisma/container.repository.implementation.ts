@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@Infra/persistence/database/prisma/prisma.service';
 import { ContainerRepositoryContract } from './container.repository.contract';
 import { PrismaContainerMapper } from '../../mappers/prisma/container.mapper';
@@ -17,8 +17,6 @@ import type { StatusContainer } from '@Types/status-container.type';
 
 @Injectable()
 export class ContainerRepositoryImplementation implements ContainerRepositoryContract {
-  private readonly logger = new Logger(ContainerRepositoryImplementation.name);
-
   constructor(private readonly prisma: PrismaService) {}
 
   async save(container: Container): Promise<Result<Container>> {
@@ -28,9 +26,7 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
       });
       return ok(PrismaContainerMapper.toDomain(raw));
     } catch {
-      const error = databaseError('Failed to save container');
-      this.logger.error(error.message);
-      return err(error);
+      return err(databaseError('Failed to save container'));
     }
   }
 
@@ -59,15 +55,12 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
 
       if (!raw) {
         const error = notFound('Container');
-        this.logger.warn(error.message);
         return err(error);
       }
 
       return ok(PrismaContainerMapper.toDomain(raw));
     } catch {
-      const error = databaseError('Failed to find container');
-      this.logger.error(error.message);
-      return err(error);
+      return err(databaseError('Failed to find container'));
     }
   }
 
@@ -111,9 +104,7 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
         },
       });
     } catch {
-      const error = databaseError('Failed find containers');
-      this.logger.error(error.message);
-      return err(error);
+      return err(databaseError('Failed find containers'));
     }
   }
 
@@ -159,9 +150,7 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
         },
       });
     } catch {
-      const error = databaseError('Failed find containers');
-      this.logger.error(error.message);
-      return err(error);
+      return err(databaseError('Failed find containers'));
     }
   }
 }
