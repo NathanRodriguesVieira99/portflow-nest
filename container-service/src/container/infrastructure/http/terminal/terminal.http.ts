@@ -22,7 +22,7 @@ export class TerminalHttp {
     const response = this.resilience.circuitBreakerWithFallback(
       async () => {
         return await this.http.request<TerminalValidationOutput, never>({
-          url: `${TERMINAL_SERVICE_BASE_URL}/terminals/${terminalId}/validacao`,
+          url: `${TERMINAL_SERVICE_BASE_URL}/terminals/${terminalId}/validation`,
           method: 'GET',
           headers: {},
           params: { cargoType },
