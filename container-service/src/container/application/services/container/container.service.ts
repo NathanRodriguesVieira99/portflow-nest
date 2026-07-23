@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { TerminalService } from '../terminal/terminal.service';
 import { SendPendingDocumentationEvent } from '@/container/infrastructure/messaging/events/producers/send-pending-documentation.event';
 import { ContainerRepositoryContract } from '@Infra/persistence/repositories/prisma/container.repository.contract';
+import { TerminalHttp } from '@Infra/http/terminal/terminal.http';
 import { Container } from '@Models/container.model';
 import { badRequest, unauthorized } from '@/container/application/exceptions';
 import { err, ok } from '@Shared/result';
@@ -20,7 +20,7 @@ export class ContainerService {
 
   constructor(
     private readonly repo: ContainerRepositoryContract,
-    private readonly terminal: TerminalService,
+    private readonly http: TerminalHttp,
     private readonly kafka: SendPendingDocumentationEvent,
   ) {}
 
@@ -32,7 +32,7 @@ export class ContainerService {
     destinationCountry,
     cargoType,
   }: ContainerArrivalInput): Promise<Result<ContainerArrivalOutput>> {
-    const terminalValidation = await this.terminal.validateTerminal({
+    const terminalValidation = await this.http.validateTerminal({
       terminalId,
       cargoType,
     });
@@ -106,7 +106,7 @@ export class ContainerService {
   async findByStatus(
     queryParams: PaginationInput,
     status: StatusContainer,
-  ): Promise<Result<PaginationOutput<Container | undefined>>> {
+  ): Promise<Result<PaginationOutput<Container>>> {
     const containers = await this.repo.findByStatus(queryParams, status);
     if (!containers.ok) return containers;
     return ok(containers.value);
@@ -128,10 +128,10 @@ export class ContainerService {
       return err(badRequest('Invalid status transition'));
     }
 
-    const saved = await this.repo.save(container); //! Corrigir erro 500 ao salvar o container (provavelmente criar um método update no repo)
+    const updated = await this.repo.update(container);
 
-    if (!saved.ok) return saved;
+    if (!updated.ok) return updated;
 
-    return ok(saved.value);
+    return ok(updated.value);
   }
 }
