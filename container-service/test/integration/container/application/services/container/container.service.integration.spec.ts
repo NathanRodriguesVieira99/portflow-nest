@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TerminalService } from '@Services/terminal/terminal.service';
 import { ContainerService } from '@Services/container/container.service';
 import { ClsModule } from '@Infra/observability/cls.module';
 import { SendPendingDocumentationEvent } from '@Infra/messaging/events/producers/send-pending-documentation.event';
@@ -20,7 +19,6 @@ describe('ContainerService', () => {
         PrismaService,
         ContainerService,
         SendPendingDocumentationEvent,
-        TerminalService,
         TerminalHttp,
         HttpClient,
         ContainerRepositoryImplementation,
