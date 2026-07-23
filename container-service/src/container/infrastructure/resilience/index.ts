@@ -1,4 +1,3 @@
-import { Logger } from '@nestjs/common';
 import {
   circuitBreaker,
   CircuitState,
@@ -25,7 +24,6 @@ export type CircuitBreakerState = 'closed' | 'open' | 'half-open';
  * Faz um wrap nas policies de resiliência da lib Cockatiel evitando alto acoplamento a libs externas
  */
 export class Resilience {
-  private readonly logger = new Logger();
   private readonly circuitBreakerPolicy: CircuitBreakerPolicy;
 
   constructor(config?: CircuitBreakerConfig) {
@@ -80,16 +78,12 @@ export class Resilience {
   private mapCircuitState(state: CircuitState): CircuitBreakerState {
     switch (state) {
       case CircuitState.Closed:
-        this.logger.debug(`Circuit Breaker is closed`);
         return 'closed';
       case CircuitState.Open:
-        this.logger.debug(`Circuit Breaker is open`);
         return 'open';
       case CircuitState.HalfOpen:
-        this.logger.debug(`Circuit Breaker is half open`);
         return 'half-open';
       default:
-        this.logger.error(`Unhandled circuit state: ${state}`);
         throw new Error(`Unhandled circuit state: ${state}`);
     }
   }
