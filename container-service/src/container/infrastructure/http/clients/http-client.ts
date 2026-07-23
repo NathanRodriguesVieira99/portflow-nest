@@ -32,11 +32,11 @@ export class HttpClient implements IHttpClient, OnModuleInit {
 
   constructor(
     private readonly api: AxiosInstance,
-    private readonly cls?: ClsService,
+    private readonly cls: ClsService,
   ) {}
 
-  static create(): HttpClient {
-    return new HttpClient(axios);
+  static create(cls: ClsService): HttpClient {
+    return new HttpClient(axios, cls);
   }
 
   onModuleInit() {

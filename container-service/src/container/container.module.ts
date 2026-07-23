@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
+import { ClsService } from 'nestjs-cls';
 import { ContainerController } from '@/container/presentation/controllers/container/container.controller';
 import { HealthcheckController } from '@/container/presentation/controllers/healthcheck/healthcheck.controller';
 import { ContainerService } from '@/container/application/services/container/container.service';
-import { TerminalService } from '@/container/application/services/terminal/terminal.service';
 import { HttpClient } from '@Infra/http/clients/http-client';
 import { TerminalHttp } from '@Infra/http/terminal/terminal.http';
 import { Resilience } from '@/container/infrastructure/resilience';
@@ -15,12 +15,12 @@ import { ReceiveDocumentationReleasedEvent } from '@Infra/messaging/events/consu
 @Module({
   providers: [
     ContainerService,
-    TerminalService,
     TerminalHttp,
     SendPendingDocumentationEvent,
     {
       provide: HttpClient,
-      useFactory: () => HttpClient.create(),
+      useFactory: (cls: ClsService) => HttpClient.create(cls),
+      inject: [ClsService],
     },
     {
       provide: Resilience,
