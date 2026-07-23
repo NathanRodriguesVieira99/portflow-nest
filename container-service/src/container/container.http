@@ -39,7 +39,7 @@ GET {{baseUrl}}/containers/e8821bd8-371f-4e2d-a701-fa19bf61b0fa
 ###
 
 # @name find_containers_by_status_isolated
-GET {{baseUrl}}/containers/status?status=DOCUMENTATION_CREATED&page=1&perPage=10
+GET {{baseUrl}}/containers/by-status?status=DOCUMENTATION_CREATED&page=1&perPage=10
 
 ###
 
@@ -95,7 +95,7 @@ GET {{kongUrl}}/containers/85dcd0ea-b644-4e12-a10e-2bd658c77e8b
 ###
 
 # @name find_containers_by_status_gateway
-GET {{kongUrl}}/containers/status?status=PENDING_DOCUMENTATION&page=1&perPage=10
+GET {{kongUrl}}/containers/by-status?status=PENDING_DOCUMENTATION&page=1&perPage=10
 
 ###
 

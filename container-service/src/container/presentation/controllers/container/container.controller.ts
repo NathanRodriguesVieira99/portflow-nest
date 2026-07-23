@@ -49,7 +49,7 @@ export class ContainerController {
     return resultToHttp(result);
   }
 
-  @Get('status')
+  @Get('by-status')
   async findContainerByStatus(
     @Query() queryParams: PaginationInput,
     @Query('status') status: StatusContainer,
