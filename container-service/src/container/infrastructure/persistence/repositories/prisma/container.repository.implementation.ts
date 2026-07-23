@@ -52,9 +52,8 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
       });
 
       if (!containerExists) return err(notFound('Container'));
-      if (containerExists) {
-        await this.prisma.container.delete({ where: { id: containerId } });
-      }
+
+      await this.prisma.container.delete({ where: { id: containerId } });
 
       return ok(`Container ${containerId} removed!`);
     } catch {
