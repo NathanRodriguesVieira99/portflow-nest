@@ -51,8 +51,6 @@
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "@prisma/instrumentation": "^7.8.0",
-    "@vitest/coverage-v8": "^4.1.9",
-    "@vitest/ui": "^4.1.9",
     "@willsoto/nestjs-prometheus": "^6.1.0",
     "axios": "^1.18.0",
     "cache-manager": "^7.2.8",
@@ -68,7 +66,6 @@
     "redis": "^6.0.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
-    "vitest": "^4.1.9",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -88,6 +85,8 @@
     "@types/node": "^24.0.0",
     "@types/pg": "^8.20.0",
     "@types/supertest": "^7.0.0",
+    "@vitest/coverage-v8": "^4.1.9",
+    "vitest": "^4.1.9",
     "dotenv-cli": "^11.0.0",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
