@@ -1,9 +1,11 @@
 import { Container } from '@Models/container.model';
 
+import type {
+  PaginationInput,
+  PaginationOutput,
+} from '@/container/application/contracts/pagination';
 import type { StatusContainer } from '@Types/status-container.type';
 import type { Result } from '@Shared/result';
-import type { PaginationInput } from '@/container/application/contracts/pagination.input';
-import type { PaginationOutput } from '@/container/application/contracts/pagination.output';
 
 export abstract class ContainerRepositoryContract {
   abstract save(container: Container): Promise<Result<Container>>;

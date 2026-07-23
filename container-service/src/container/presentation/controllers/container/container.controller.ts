@@ -13,8 +13,10 @@ import { ContainerService } from '@/container/application/services/container/con
 import { resultToHttp } from '@Shared/utils/result-to-http.util';
 
 import type { RequestResponse } from '@Shared/responses';
-import type { PaginationOutput } from '@/container/application/contracts/pagination.output';
-import type { PaginationInput } from '@/container/application/contracts/pagination.input';
+import type {
+  PaginationInput,
+  PaginationOutput,
+} from '@/container/application/contracts/pagination';
 import type { StatusContainer } from '@Types/status-container.type';
 import type { ContainerArrivalRequestDto } from '@Dtos/container-arrival-request.dto';
 import type { ContainerArrivalResponseDto } from '@Dtos/container-arrival-response.dto';

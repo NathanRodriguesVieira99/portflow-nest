@@ -10,9 +10,11 @@ import {
   notFound,
 } from '@/container/application/exceptions';
 
+import type {
+  PaginationInput,
+  PaginationOutput,
+} from '@/container/application/contracts/pagination';
 import type { Result } from '@Shared/result';
-import type { PaginationInput } from '@/container/application/contracts/pagination.input';
-import type { PaginationOutput } from '@/container/application/contracts/pagination.output';
 import type { StatusContainer } from '@Types/status-container.type';
 
 @Injectable()

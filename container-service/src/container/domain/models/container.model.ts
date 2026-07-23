@@ -6,7 +6,7 @@ import {
 } from '@/container/domain/validators/container.model.validators';
 
 import type { StatusContainer } from '@Types/status-container.type';
-import type { CreateContainerParams } from '../../application/contracts/create-container.params';
+import type { CreateContainerParams } from '../../application/contracts/create-container';
 
 export class Container {
   private constructor(

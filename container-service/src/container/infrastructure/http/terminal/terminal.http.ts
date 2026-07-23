@@ -6,7 +6,7 @@ import { Resilience } from '../../resilience';
 import { err, type Result } from '@Shared/result';
 
 import type { TerminalValidationParams } from '@/container/application/contracts/terminal-validation.params';
-import type { TerminalValidationOutput } from '@/container/application/contracts/terminal-validation.output';
+import type { TerminalValidationOutput } from '@/container/application/contracts/terminal-validation';
 
 @Injectable()
 export class TerminalHttp {

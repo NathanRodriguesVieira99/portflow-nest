@@ -7,3 +7,8 @@ export interface TerminalValidationOutput {
   isTerminalValid: boolean;
   message: string;
 }
+
+export interface TerminalValidationParams {
+  terminalId: string;
+  cargoType: string;
+}

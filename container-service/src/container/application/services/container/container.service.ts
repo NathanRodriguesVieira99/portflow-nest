@@ -6,13 +6,17 @@ import { Container } from '@Models/container.model';
 import { badRequest, unauthorized } from '@/container/application/exceptions';
 import { err, ok } from '@Shared/result';
 
+import type {
+  ContainerArrivalInput,
+  ContainerArrivalOutput,
+} from '@/container/application/contracts/container-arrival';
+import type {
+  PaginationInput,
+  PaginationOutput,
+} from '@/container/application/contracts/pagination';
 import type { Result } from '@Shared/result';
 import type { StatusContainer } from '@Types/status-container.type';
-import type { ContainerArrivalInput } from '@/container/application/contracts/container-arrival.input';
-import type { ContainerArrivalOutput } from '@/container/application/contracts/container-arrival.output';
-import type { PaginationInput } from '@/container/application/contracts/pagination.input';
-import type { UpdateContainerStatusInput } from '@/container/application/contracts/update-container-status.input';
-import type { PaginationOutput } from '@/container/application/contracts/pagination.output';
+import type { UpdateContainerStatusInput } from '@/container/application/contracts/update-container-status';
 
 @Injectable()
 export class ContainerService {
