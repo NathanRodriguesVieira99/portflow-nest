@@ -1,7 +1,8 @@
 import { Global, Module } from '@nestjs/common';
-import { CacheModule as NestJsCacheModule } from '@nestjs/cache-manager';
 import KeyvRedis from '@keyv/redis';
+import { CacheModule as NestJsCacheModule } from '@nestjs/cache-manager';
 import { env } from '../../../shared/env';
+import { CacheService } from './cache.service';
 
 @Global()
 @Module({
@@ -12,7 +13,7 @@ import { env } from '../../../shared/env';
       }),
     }),
   ],
-  providers: [],
-  exports: [],
+  providers: [CacheService],
+  exports: [CacheService],
 })
 export class CacheModule {}
