@@ -21,7 +21,7 @@
       "@Contracts/*": ["src/container/application/contracts/*"],
       "@Events/*": ["./src/container/infrastructure/messaging/events/*"],
       "@Models/*": ["./src/container/domain/models/*"],
-      "@Repositories/*": ["./src/container/infrastructure/repositories/*"],
+      "@Repositories/*": ["./src/container/infrastructure/persistence/repositories/*"],
       "@Controllers/*": ["./src/container/presentation/controllers/*"],
       "@Dtos/*": ["./src/container/presentation/dtos/*"],
       "@Services/*": ["./src/container/application/services/*"],
