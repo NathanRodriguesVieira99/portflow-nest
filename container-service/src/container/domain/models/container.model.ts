@@ -1,11 +1,9 @@
 import { randomUUID } from 'node:crypto';
 import { ContainerException } from '../exceptions';
 import {
-  validateContainerId,
+  validateNonEmptyString,
   validateContainerStatus,
-  validateShipId,
-  validateTerminalId,
-} from '@Shared/utils/container.model.validations';
+} from '@/container/domain/validators/container.model.validators';
 
 import type { StatusContainer } from '@Types/status-container.type';
 import type { CreateContainerParams } from '../../application/contracts/create-container.params';
@@ -23,13 +21,13 @@ export class Container {
     private createdAt: Date,
     private updatedAt: Date,
   ) {
-    if (!validateContainerId(id)) {
+    if (!validateNonEmptyString(id)) {
       throw new ContainerException('Invalid Container');
     }
-    if (!validateShipId(shipId)) {
+    if (!validateNonEmptyString(shipId)) {
       throw new ContainerException('Invalid Ship');
     }
-    if (!validateTerminalId(terminalId)) {
+    if (!validateNonEmptyString(terminalId)) {
       throw new ContainerException('Invalid Terminal');
     }
     if (!validateContainerStatus(status)) {
