@@ -7,11 +7,9 @@ import type { PaginationOutput } from '@/container/application/contracts/paginat
 
 export abstract class ContainerRepositoryContract {
   abstract save(container: Container): Promise<Result<Container>>;
-
+  abstract update(container: Container): Promise<Result<Container>>;
   abstract remove(containerId: string): Promise<Result<string>>;
-
   abstract findById: (containerId: string) => Promise<Result<Container>>;
-
   abstract findAll: ({
     page,
     perPage,
@@ -20,5 +18,5 @@ export abstract class ContainerRepositoryContract {
   abstract findByStatus: (
     { page, perPage }: PaginationInput,
     status: StatusContainer,
-  ) => Promise<Result<PaginationOutput<Container | undefined>>>;
+  ) => Promise<Result<PaginationOutput<Container>>>;
 }
