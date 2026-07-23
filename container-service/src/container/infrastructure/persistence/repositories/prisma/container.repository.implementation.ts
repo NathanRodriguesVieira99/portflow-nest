@@ -30,6 +30,19 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
     }
   }
 
+  async update(container: Container): Promise<Result<Container>> {
+    try {
+      const raw = PrismaContainerMapper.toPrisma(container);
+      const updated = await this.prisma.container.update({
+        where: { id: raw.id },
+        data: raw,
+      });
+      return ok(PrismaContainerMapper.toDomain(updated));
+    } catch {
+      return err(databaseError('Failed to update container'));
+    }
+  }
+
   async remove(containerId: string): Promise<Result<string>> {
     try {
       const containerExists = await this.prisma.container.findUnique({
@@ -110,8 +123,8 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
 
   async findByStatus(
     queryParams: PaginationInput,
-    status: StatusContainer,
-  ): Promise<Result<PaginationOutput<Container | undefined>>> {
+    statusContainer: StatusContainer,
+  ): Promise<Result<PaginationOutput<Container>>> {
     const { page = 1, perPage = 10 } = queryParams;
 
     const take = Number(perPage);
@@ -123,11 +136,13 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
           const containers = await tx.container.findMany({
             take,
             skip,
-            where: { statusContainer: status },
+            where: { statusContainer },
             orderBy: { createdAt: 'asc' },
           });
 
-          const totalItems = await tx.container.count();
+          const totalItems = await tx.container.count({
+            where: { statusContainer },
+          });
 
           return [containers, totalItems];
         },
