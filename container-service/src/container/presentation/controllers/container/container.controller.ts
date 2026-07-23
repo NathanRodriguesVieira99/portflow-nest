@@ -6,25 +6,19 @@ import {
   Param,
   Query,
   Body,
-  HttpException,
   Controller,
 } from '@nestjs/common';
-// import { WithDocs } from 'nestjs-docfy';
 import { Container } from '@Models/container.model';
 import { ContainerService } from '@/container/application/services/container/container.service';
-import {
-  errorResponse,
-  successResponse,
-  type RequestResponse,
-} from '@Shared/responses';
+import { resultToHttp } from '@Shared/utils/result-to-http.util';
 
+import type { RequestResponse } from '@Shared/responses';
 import type { PaginationOutput } from '@/container/application/contracts/pagination.output';
 import type { PaginationInput } from '@/container/application/contracts/pagination.input';
 import type { StatusContainer } from '@Types/status-container.type';
 import type { ContainerArrivalRequestDto } from '@Dtos/container-arrival-request.dto';
 import type { ContainerArrivalResponseDto } from '@Dtos/container-arrival-response.dto';
 
-// @WithDocs()
 @Controller('containers')
 export class ContainerController {
   constructor(private readonly containerService: ContainerService) {}
@@ -34,13 +28,7 @@ export class ContainerController {
     @Body() dto: ContainerArrivalRequestDto,
   ): Promise<RequestResponse<ContainerArrivalResponseDto>> {
     const result = await this.containerService.registerContainerArrival(dto);
-    if (!result.ok) {
-      throw new HttpException(
-        errorResponse(result.error.code, result.error.message),
-        result.error.status,
-      );
-    }
-    return successResponse(result.value, 'CREATED');
+    return resultToHttp(result);
   }
 
   @Delete(':containerId')
@@ -48,13 +36,7 @@ export class ContainerController {
     @Param('containerId') containerId: string,
   ): Promise<RequestResponse<string>> {
     const result = await this.containerService.remove(containerId);
-    if (!result.ok) {
-      throw new HttpException(
-        errorResponse(result.error.code, result.error.message),
-        result.error.status,
-      );
-    }
-    return successResponse(result.value, 'OK');
+    return resultToHttp(result);
   }
 
   @Get()
@@ -62,31 +44,19 @@ export class ContainerController {
     @Query() queryParams: PaginationInput,
   ): Promise<RequestResponse<PaginationOutput<Container>>> {
     const result = await this.containerService.findAll(queryParams);
-    if (!result.ok) {
-      throw new HttpException(
-        errorResponse(result.error.code, result.error.message),
-        result.error.status,
-      );
-    }
-    return successResponse(result.value, 'OK');
+    return resultToHttp(result);
   }
 
   @Get('status')
   async findContainerByStatus(
     @Query() queryParams: PaginationInput,
     @Query('status') status: StatusContainer,
-  ): Promise<RequestResponse<PaginationOutput<Container | undefined>>> {
+  ): Promise<RequestResponse<PaginationOutput<Container>>> {
     const result = await this.containerService.findByStatus(
       queryParams,
       status,
     );
-    if (!result.ok) {
-      throw new HttpException(
-        errorResponse(result.error.code, result.error.message),
-        result.error.status,
-      );
-    }
-    return successResponse(result.value, 'OK');
+    return resultToHttp(result);
   }
 
   @Get(':containerId')
@@ -94,13 +64,7 @@ export class ContainerController {
     @Param('containerId') containerId: string,
   ): Promise<RequestResponse<Container>> {
     const result = await this.containerService.findById(containerId);
-    if (!result.ok) {
-      throw new HttpException(
-        errorResponse(result.error.code, result.error.message),
-        result.error.status,
-      );
-    }
-    return successResponse(result.value, 'OK');
+    return resultToHttp(result);
   }
 
   @Put(':containerId/update-status')
@@ -112,12 +76,6 @@ export class ContainerController {
       containerId,
       newStatus,
     });
-    if (!result.ok) {
-      throw new HttpException(
-        errorResponse(result.error.code, result.error.message),
-        result.error.status,
-      );
-    }
-    return successResponse(result.value, 'OK');
+    return resultToHttp(result);
   }
 }
