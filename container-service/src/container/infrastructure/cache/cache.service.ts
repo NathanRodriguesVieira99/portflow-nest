@@ -15,7 +15,7 @@ export class CacheService implements ICacheService, OnModuleInit {
   constructor(@Inject(CACHE_MANAGER) private readonly cache: Cache) {}
 
   onModuleInit() {
-    this.logger.debug('Redis Started!');
+    this.logger.log('Redis Started!');
   }
 
   async get<T>(key: string): Promise<T | undefined> {
