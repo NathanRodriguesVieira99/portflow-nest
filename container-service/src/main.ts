@@ -4,7 +4,6 @@ import { NestFactory } from '@nestjs/core';
 import { Logger as PinoLogger } from 'nestjs-pino';
 import { AppModule } from './app.module';
 import { kafkaConfig } from '@Infra/messaging/kafka/kafka.config';
-import { DocfyUiModule } from 'nestjs-docfy';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { env } from './shared/env';
 
@@ -16,8 +15,6 @@ async function bootstrap() {
   app.setGlobalPrefix('/api/v1');
 
   app.useLogger(app.get(PinoLogger));
-
-  DocfyUiModule.setup('/docs', app);
 
   const document = SwaggerModule.createDocument(
     app,
