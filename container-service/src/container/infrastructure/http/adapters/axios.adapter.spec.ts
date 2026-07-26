@@ -1,9 +1,9 @@
 import axios, { AxiosError } from 'axios';
-import { HttpClient } from './http-client';
+import { AxiosAdapter } from './axios.adapter';
 import { internalServerError } from '../../../application/exceptions';
 
 describe('Http Client', () => {
-  const http = HttpClient.create();
+  const http = AxiosAdapter.create();
 
   describe('request', () => {
     describe('Http Methods', () => {
