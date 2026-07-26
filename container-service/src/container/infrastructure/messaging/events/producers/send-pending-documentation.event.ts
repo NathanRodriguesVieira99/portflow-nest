@@ -1,6 +1,6 @@
-import { randomUUID } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
 import { ClsService } from 'nestjs-cls';
+import { nanoid } from 'nanoid';
 import { env } from '@Shared/env';
 import { KAFKA_TOPICS } from '@Shared/constants/kafka';
 import { KafkaProducer } from '@/container/infrastructure/messaging/kafka/kafka.producer';
@@ -22,7 +22,7 @@ export class SendPendingDocumentationEvent {
     description: string,
   ): ContainerStatusEvent {
     return {
-      eventId: randomUUID(),
+      eventId: nanoid(),
       containerId,
       previousStatus,
       currentStatus,
