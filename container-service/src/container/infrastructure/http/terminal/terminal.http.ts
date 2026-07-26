@@ -1,25 +1,32 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { TERMINAL_SERVICE_BASE_URL } from '@Shared/constants/constants';
-import { HttpClient } from '../clients/http-client';
 import { serviceUnavailable } from '@/container/application/exceptions';
-import { Resilience } from '../../resilience';
-import { err, type Result } from '@Shared/result';
+import { type Result, err } from '@Shared/result';
+import {
+  HTTP_CLIENT,
+  type HttpClientContract,
+} from '../contracts/http-client.contracts';
+import { RESILIENCE, ResilienceContract } from '../../resilience';
 
-import type { TerminalValidationParams } from '@/container/application/contracts/terminal-validation.params';
-import type { TerminalValidationOutput } from '@/container/application/contracts/terminal-validation';
+import type {
+  TerminalValidationOutput,
+  TerminalValidationParams,
+} from '@/container/application/contracts/terminal-validation';
 
 @Injectable()
 export class TerminalHttp {
   constructor(
-    private readonly http: HttpClient,
-    private readonly resilience: Resilience,
+    @Inject(HTTP_CLIENT)
+    private readonly http: HttpClientContract,
+    @Inject(RESILIENCE)
+    private readonly resilience: ResilienceContract,
   ) {}
 
   async validateTerminal({
     terminalId,
     cargoType,
   }: TerminalValidationParams): Promise<Result<TerminalValidationOutput>> {
-    const response = this.resilience.circuitBreakerWithFallback(
+    const response = this.resilience.execute(
       async () => {
         return await this.http.request<TerminalValidationOutput, never>({
           url: `${TERMINAL_SERVICE_BASE_URL}/terminals/${terminalId}/validation`,
