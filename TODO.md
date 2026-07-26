@@ -14,7 +14,7 @@
 
 [ ] - Pensar em aplicar o Outbox Pattern + CDC
 
-[x] - Configurar Swagger (NestJs Docfy)
+[ ] - Configurar Swagger
 
 ## Container Service
 
