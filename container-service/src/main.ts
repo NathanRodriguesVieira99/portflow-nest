@@ -5,7 +5,7 @@ import { Logger as PinoLogger } from 'nestjs-pino';
 import { AppModule } from './app.module';
 import { kafkaConfig } from '@Infra/messaging/kafka/kafka.config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { env } from './shared/env';
+import { env } from '@Shared/env';
 
 import type { MicroserviceOptions } from '@nestjs/microservices';
 
@@ -25,7 +25,7 @@ async function bootstrap() {
       .build(),
   );
 
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('docs', app, document);
 
   app.connectMicroservice<MicroserviceOptions>(kafkaConfig);
 
