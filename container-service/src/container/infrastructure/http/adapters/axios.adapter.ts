@@ -1,46 +1,29 @@
 import { Logger, OnModuleInit } from '@nestjs/common';
 import axios, { AxiosError, type AxiosInstance } from 'axios';
 import { ClsService } from 'nestjs-cls';
-import { Result, ok, err } from '@Shared/result';
 import { HTTP_ERROR_CODES } from '@Shared/constants/http-codes';
 import { internalServerError } from '@/container/application/exceptions';
+import { type Result, ok, err } from '@Shared/result';
 
-export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+import type {
+  HttpRequest,
+  HttpClientContract,
+} from '../contracts/http-client.contracts';
 
-export type HttpRequest<T = unknown> = {
-  url: string;
-  method: HttpMethod;
-  headers?: Record<string, string>;
-  params?: Record<string, unknown>;
-  body?: T;
-  signal?: AbortSignal;
-};
-
-export interface IHttpClient {
-  request: <R, T = unknown>({
-    url,
-    method,
-    headers,
-    params,
-    body,
-    signal,
-  }: HttpRequest<T>) => Promise<Result<R>>;
-}
-
-export class HttpClient implements IHttpClient, OnModuleInit {
-  private logger = new Logger(HttpClient.name);
+export class AxiosAdapter implements HttpClientContract, OnModuleInit {
+  private logger = new Logger(AxiosAdapter.name);
 
   constructor(
     private readonly api: AxiosInstance,
-    private readonly cls: ClsService,
+    private readonly cls?: ClsService,
   ) {}
 
-  static create(cls: ClsService): HttpClient {
-    return new HttpClient(axios, cls);
+  static create(cls?: ClsService): AxiosAdapter {
+    return new AxiosAdapter(axios, cls);
   }
 
   onModuleInit() {
-    this.logger.log('Axios Http Client Started!');
+    this.logger.log('Http Client Started!');
   }
 
   async request<R, T = unknown>({
@@ -49,7 +32,6 @@ export class HttpClient implements IHttpClient, OnModuleInit {
     headers,
     params,
     body,
-    signal,
   }: HttpRequest<T>): Promise<Result<R>> {
     try {
       const { data: responseData } = await this.api.request<R>({
@@ -61,7 +43,6 @@ export class HttpClient implements IHttpClient, OnModuleInit {
         },
         data: body,
         params,
-        signal,
       });
 
       return ok(responseData);
