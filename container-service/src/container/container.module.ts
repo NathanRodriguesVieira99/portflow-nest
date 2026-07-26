@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
 import { ClsService } from 'nestjs-cls';
+import { ContainerService } from '@/container/application/services/container/container.service';
 import { ContainerController } from '@/container/presentation/controllers/container/container.controller';
 import { HealthcheckController } from '@/container/presentation/controllers/healthcheck/healthcheck.controller';
-import { ContainerService } from '@/container/application/services/container/container.service';
-import { HttpClient } from '@Infra/http/clients/http-client';
 import { TerminalHttp } from '@Infra/http/terminal/terminal.http';
-import { Resilience } from '@/container/infrastructure/resilience';
-import { ContainerRepositoryContract } from '@Infra/persistence/repositories/prisma/container.repository.contract';
+import { CONTAINER_REPOSITORY_CONTRACT } from '@Infra/persistence/repositories/prisma/container.repository.contract';
 import { ContainerRepositoryImplementation } from '@Infra/persistence/repositories/prisma/container.repository.implementation';
 import { SendPendingDocumentationEvent } from '@Infra/messaging/events/producers/send-pending-documentation.event';
 import { ReceiveDocumentationRefusedEvent } from '@Infra/messaging/events/consumers/receive-documentation-refused.event';
 import { ReceiveDocumentationReleasedEvent } from '@Infra/messaging/events/consumers/receive-documentation-released.event';
+import { HTTP_CLIENT, AxiosAdapter } from '@Infra/http/';
+import { RESILIENCE, CockatielAdapter } from './infrastructure/resilience';
 
 @Module({
   providers: [
@@ -18,16 +18,16 @@ import { ReceiveDocumentationReleasedEvent } from '@Infra/messaging/events/consu
     TerminalHttp,
     SendPendingDocumentationEvent,
     {
-      provide: HttpClient,
-      useFactory: (cls: ClsService) => HttpClient.create(cls),
+      provide: HTTP_CLIENT,
       inject: [ClsService],
+      useFactory: (cls: ClsService) => AxiosAdapter.create(cls),
     },
     {
-      provide: Resilience,
-      useFactory: () => Resilience.create(),
+      provide: RESILIENCE,
+      useFactory: () => CockatielAdapter.create(),
     },
     {
-      provide: ContainerRepositoryContract,
+      provide: CONTAINER_REPOSITORY_CONTRACT,
       useClass: ContainerRepositoryImplementation,
     },
   ],
