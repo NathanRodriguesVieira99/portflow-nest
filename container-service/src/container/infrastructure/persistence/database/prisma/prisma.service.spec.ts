@@ -1,13 +1,12 @@
 import { Test, type TestingModule } from '@nestjs/testing';
 import { PrismaService } from './prisma.service';
-import { mockPrisma } from '../../../../../__mocks__/prisma.mock';
 
 describe('PrismaService', () => {
   let prisma: PrismaService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [{ provide: PrismaService, useValue: mockPrisma }],
+      providers: [PrismaService],
     }).compile();
 
     prisma = module.get<PrismaService>(PrismaService);
@@ -18,14 +17,16 @@ describe('PrismaService', () => {
   });
 
   it('should call $connect', async () => {
-    vi.spyOn(prisma, '$connect').mockResolvedValue();
-    await prisma.$connect();
-    expect(prisma.$connect).toHaveBeenCalledTimes(1);
+    const connectSpy = vi.spyOn(prisma, '$connect').mockResolvedValueOnce();
+    await prisma.onModuleInit();
+    expect(connectSpy).toHaveBeenCalledOnce();
   });
 
   it('should call $disconnect', async () => {
-    vi.spyOn(prisma, '$disconnect').mockResolvedValue();
-    await prisma.$disconnect();
-    expect(prisma.$disconnect).toHaveBeenCalledTimes(1);
+    const disconnectSpy = vi
+      .spyOn(prisma, '$disconnect')
+      .mockResolvedValueOnce();
+    await prisma.onModuleDestroy();
+    expect(disconnectSpy).toHaveBeenCalledOnce();
   });
 });
