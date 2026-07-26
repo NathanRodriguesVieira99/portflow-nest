@@ -5,9 +5,9 @@ import { SendPendingDocumentationEvent } from '@Infra/messaging/events/producers
 import { TerminalHttp } from '@Infra/http/terminal/terminal.http';
 import { KafkaModule } from '@Infra/messaging/kafka.module';
 import { PrismaService } from '@Infra/persistence/database/prisma/prisma.service';
-import { HttpClient } from '@/container/infrastructure/http/clients/http-client';
+import { AxiosAdapter } from '@/container/infrastructure/http/adapters/axios.adapter';
 import { ContainerRepositoryImplementation } from '@Infra/persistence/repositories/prisma/container.repository.implementation';
-import { ContainerRepositoryContract } from '@Infra/persistence/repositories/prisma/container.repository.contract';
+import { CONTAINER_REPOSITORY_CONTRACT } from '@Infra/persistence/repositories/prisma/container.repository.contract';
 
 describe('ContainerService', () => {
   let service: ContainerService;
@@ -20,10 +20,10 @@ describe('ContainerService', () => {
         ContainerService,
         SendPendingDocumentationEvent,
         TerminalHttp,
-        HttpClient,
+        AxiosAdapter,
         ContainerRepositoryImplementation,
         {
-          provide: ContainerRepositoryContract,
+          provide: CONTAINER_REPOSITORY_CONTRACT,
           useExisting: ContainerRepositoryImplementation,
         },
       ],
