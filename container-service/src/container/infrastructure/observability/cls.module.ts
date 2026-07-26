@@ -1,8 +1,7 @@
-import { randomUUID } from 'node:crypto';
 import { Request } from 'express';
 import { Module } from '@nestjs/common';
-
 import { ClsModule as CLS } from 'nestjs-cls';
+import { nanoid } from 'nanoid';
 
 /*  
 Kong envia o Header "X-Correlation-Id"
@@ -18,7 +17,7 @@ Se não existir cria um novo correlation id
         generateId: true,
         idGenerator: (req: Request) => {
           const header = req.headers['x-correlation-id'];
-          return typeof header === 'string' ? header : randomUUID();
+          return typeof header === 'string' ? header : nanoid();
         },
       },
     }),
