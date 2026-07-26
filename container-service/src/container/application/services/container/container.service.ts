@@ -1,6 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { SendPendingDocumentationEvent } from '@/container/infrastructure/messaging/events/producers/send-pending-documentation.event';
-import { ContainerRepositoryContract } from '@Infra/persistence/repositories/prisma/container.repository.contract';
+import {
+  CONTAINER_REPOSITORY_CONTRACT,
+  type ContainerRepositoryContract,
+} from '@Infra/persistence/repositories/prisma/container.repository.contract';
 import { TerminalHttp } from '@Infra/http/terminal/terminal.http';
 import { Container } from '@Models/container.model';
 import { badRequest, unauthorized } from '@/container/application/exceptions';
@@ -23,8 +26,9 @@ export class ContainerService {
   private readonly logger = new Logger(ContainerService.name);
 
   constructor(
+    @Inject(CONTAINER_REPOSITORY_CONTRACT)
     private readonly repo: ContainerRepositoryContract,
-    private readonly http: TerminalHttp,
+    private readonly terminal: TerminalHttp,
     private readonly kafka: SendPendingDocumentationEvent,
   ) {}
 
@@ -36,7 +40,7 @@ export class ContainerService {
     destinationCountry,
     cargoType,
   }: ContainerArrivalInput): Promise<Result<ContainerArrivalOutput>> {
-    const terminalValidation = await this.http.validateTerminal({
+    const terminalValidation = await this.terminal.validateTerminal({
       terminalId,
       cargoType,
     });
