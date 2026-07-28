@@ -1,15 +1,10 @@
-import { Test, type TestingModule } from '@nestjs/testing';
 import { PrismaService } from '@Infra/persistence/database/prisma/prisma.service';
 
 describe('PrismaService', () => {
   let prisma: PrismaService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [PrismaService],
-    }).compile();
-
-    prisma = module.get<PrismaService>(PrismaService);
+    prisma = new PrismaService();
   });
 
   it('service should be defined', () => {
