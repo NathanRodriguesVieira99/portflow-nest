@@ -29,6 +29,8 @@ describe('Container Model', () => {
       expect(container.getUpdatedAt()).toEqual(expect.any(Date));
     });
 
+    it.todo('Container.restore()', () => {});
+
     it.todo('Container.validateArrival()', () => {});
 
     it.todo('Container.updateStatus()', () => {});
