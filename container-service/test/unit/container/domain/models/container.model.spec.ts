@@ -1,6 +1,6 @@
 import { fakerPT_BR as faker } from '@faker-js/faker';
 import { Container } from '@Models/container.model';
-import { ContainerException } from '../exceptions';
+import { ContainerException } from '@/container/domain/exceptions';
 
 import type { StatusContainer } from '@/container/@types/status-container.type';
 

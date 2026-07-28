@@ -4,7 +4,7 @@ import {
   STATUS_CONTAINER,
 } from '@Infra/persistence/database/prisma/generated/client';
 import { Container } from '@Models/container.model';
-import { PrismaContainerMapper } from './container.mapper';
+import { PrismaContainerMapper } from '@Infra/persistence/mappers/prisma/container.mapper';
 
 describe('Prisma Container Mapper', () => {
   describe('toDomain()', () => {

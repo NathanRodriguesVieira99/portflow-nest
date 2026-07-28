@@ -16,7 +16,7 @@ export default defineConfig({
             '**/*.integration.{test,spec}.ts',
             '**/*.e2e-{test,spec}.ts',
           ],
-          setupFiles: ['src/__tests__/setup.unit.ts'],
+          setupFiles: ['test/unit/setup.unit.ts'],
           testTimeout: 5000,
         },
       },

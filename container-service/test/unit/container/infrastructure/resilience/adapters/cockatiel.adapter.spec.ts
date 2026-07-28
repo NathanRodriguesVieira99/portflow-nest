@@ -1,4 +1,4 @@
-import { CockatielAdapter } from './cockatiel.adapter';
+import { CockatielAdapter } from '@Infra/resilience/';
 
 describe('Circuit Breaker', () => {
   const failTimes = async (cb: CockatielAdapter, n: number) => {

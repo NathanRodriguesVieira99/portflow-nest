@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
-import { AxiosAdapter } from './axios.adapter';
-import { internalServerError } from '../../../application/exceptions';
+import { AxiosAdapter } from '@Infra/http/';
+import { internalServerError } from '@/container/application/exceptions';
 
 describe('Http Client', () => {
   const http = AxiosAdapter.create();
