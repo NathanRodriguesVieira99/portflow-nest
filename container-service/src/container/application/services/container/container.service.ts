@@ -10,16 +10,51 @@ import { badRequest, unauthorized } from '@/container/application/exceptions';
 import { err, ok } from '@Shared/result';
 
 import type {
-  ContainerArrivalInput,
-  ContainerArrivalOutput,
-} from '@/container/application/contracts/container-arrival';
-import type {
   PaginationInput,
   PaginationOutput,
-} from '@/container/application/contracts/pagination';
+} from '@/container/domain/interfaces/pagination';
 import type { Result } from '@Shared/result';
 import type { StatusContainer } from '@Types/status-container.type';
-import type { UpdateContainerStatusInput } from '@/container/application/contracts/update-container-status';
+
+export interface ContainerArrivalInput {
+  containerId: string;
+  shipId: string;
+  terminalId: string;
+  originCountry: string;
+  destinationCountry: string;
+  cargoType: string;
+}
+
+export interface ContainerArrivalOutput {
+  containerId: string;
+  shipId: string;
+  terminalId: string;
+  originCountry: string;
+  destinationCountry: string;
+  cargoType: string;
+  statusContainer: StatusContainer;
+  arrivalDate: Date;
+}
+
+export interface TerminalValidationOutput {
+  terminalId: string;
+  exists: boolean;
+  isActive: boolean;
+  isCargoTypeAccepted: boolean;
+  availableCapacity: boolean;
+  isTerminalValid: boolean;
+  message: string;
+}
+
+export interface TerminalValidationParams {
+  terminalId: string;
+  cargoType: string;
+}
+
+export interface UpdateContainerStatusInput {
+  containerId: string;
+  newStatus: StatusContainer;
+}
 
 @Injectable()
 export class ContainerService {

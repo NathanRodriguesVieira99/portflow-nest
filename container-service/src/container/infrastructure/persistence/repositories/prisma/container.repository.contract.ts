@@ -3,7 +3,7 @@ import { Container } from '@Models/container.model';
 import type {
   PaginationInput,
   PaginationOutput,
-} from '@/container/application/contracts/pagination';
+} from '@/container/domain/interfaces/pagination';
 import type { StatusContainer } from '@Types/status-container.type';
 import type { Result } from '@Shared/result';
 

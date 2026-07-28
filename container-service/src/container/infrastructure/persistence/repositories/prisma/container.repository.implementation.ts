@@ -13,7 +13,7 @@ import {
 import type {
   PaginationInput,
   PaginationOutput,
-} from '@/container/application/contracts/pagination';
+} from '@/container/domain/interfaces/pagination';
 import type { Result } from '@Shared/result';
 import type { StatusContainer } from '@Types/status-container.type';
 

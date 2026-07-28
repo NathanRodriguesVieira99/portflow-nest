@@ -18,10 +18,12 @@
     "paths": {
       "@/*": ["./src/*"],
       "@Types/*": ["./src/container/@types/*"],
-      "@Contracts/*": ["src/container/application/contracts/*"],
+      "@Contracts/*": ["src/container/domain/interfaces/*"],
       "@Events/*": ["./src/container/infrastructure/messaging/events/*"],
       "@Models/*": ["./src/container/domain/models/*"],
-      "@Repositories/*": ["./src/container/infrastructure/persistence/repositories/*"],
+      "@Repositories/*": [
+        "./src/container/infrastructure/persistence/repositories/*"
+      ],
       "@Controllers/*": ["./src/container/presentation/controllers/*"],
       "@Dtos/*": ["./src/container/presentation/dtos/*"],
       "@Services/*": ["./src/container/application/services/*"],

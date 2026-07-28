@@ -7,7 +7,7 @@ import type { StatusContainer } from '@/container/@types/status-container.type';
 import type {
   PaginationInput,
   PaginationOutput,
-} from '@/container/application/contracts/pagination';
+} from '@/container/domain/interfaces/pagination';
 
 export class ContainerRepositoryFake implements ContainerRepositoryContract {
   private containersList: Container[] = []; // simula o banco de dados
