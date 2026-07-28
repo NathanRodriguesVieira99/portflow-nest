@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ContainerService } from '@Services/container/container.service';
+import { FindContainerByStatusService } from '@/container/application/services/container/find-container-by-status.service';
 import { ClsModule } from '@Infra/observability/cls.module';
 import { SendPendingDocumentationEvent } from '@Infra/messaging/events/producers/send-pending-documentation.event';
 import { TerminalHttp } from '@Infra/http/terminal/terminal.http';
@@ -10,14 +10,14 @@ import { ContainerRepositoryImplementation } from '@Infra/persistence/repositori
 import { CONTAINER_REPOSITORY_CONTRACT } from '@Infra/persistence/repositories/prisma/container.repository.contract';
 
 describe('ContainerService', () => {
-  let service: ContainerService;
+  let service: FindContainerByStatusService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [KafkaModule, ClsModule],
       providers: [
         PrismaService,
-        ContainerService,
+        FindContainerByStatusService,
         SendPendingDocumentationEvent,
         TerminalHttp,
         AxiosAdapter,
@@ -29,7 +29,9 @@ describe('ContainerService', () => {
       ],
     }).compile();
 
-    service = module.get<ContainerService>(ContainerService);
+    service = module.get<FindContainerByStatusService>(
+      FindContainerByStatusService,
+    );
   });
 
   it.todo('should be defined', () => {
