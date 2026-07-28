@@ -1,9 +1,6 @@
 import { Container } from '@Models/container.model';
 
-import type {
-  PaginationInput,
-  PaginationOutput,
-} from '@/container/domain/interfaces/pagination';
+import type { Pagination } from '@/container/domain/contracts/pagination';
 import type { StatusContainer } from '@Types/status-container.type';
 import type { Result } from '@Shared/result';
 
@@ -15,12 +12,12 @@ export interface ContainerRepositoryContract {
   findAll: ({
     page,
     perPage,
-  }: PaginationInput) => Promise<Result<PaginationOutput<Container>>>;
+  }: Pagination.Input) => Promise<Result<Pagination.Output<Container>>>;
 
   findByStatus: (
-    { page, perPage }: PaginationInput,
+    { page, perPage }: Pagination.Input,
     status: StatusContainer,
-  ) => Promise<Result<PaginationOutput<Container>>>;
+  ) => Promise<Result<Pagination.Output<Container>>>;
 }
 
 export const CONTAINER_REPOSITORY_CONTRACT = Symbol(

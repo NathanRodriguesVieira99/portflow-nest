@@ -4,10 +4,7 @@ import { err, ok, type Result } from '@/shared/result';
 
 import type { ContainerRepositoryContract } from '@Infra/persistence/repositories/prisma/container.repository.contract';
 import type { StatusContainer } from '@/container/@types/status-container.type';
-import type {
-  PaginationInput,
-  PaginationOutput,
-} from '@/container/domain/interfaces/pagination';
+import type { Pagination } from '@/container/domain/contracts/pagination';
 
 export class ContainerRepositoryFake implements ContainerRepositoryContract {
   private containersList: Container[] = []; // simula o banco de dados
@@ -64,8 +61,8 @@ export class ContainerRepositoryFake implements ContainerRepositoryContract {
   }
 
   async findAll(
-    queryParams: PaginationInput,
-  ): Promise<Result<PaginationOutput<Container>>> {
+    queryParams: Pagination.Input,
+  ): Promise<Result<Pagination.Output<Container>>> {
     const { page = 1, perPage = 10 } = queryParams;
 
     const take = Number(perPage);
@@ -91,9 +88,9 @@ export class ContainerRepositoryFake implements ContainerRepositoryContract {
   }
 
   async findByStatus(
-    queryParams: PaginationInput,
+    queryParams: Pagination.Input,
     status: StatusContainer,
-  ): Promise<Result<PaginationOutput<Container>>> {
+  ): Promise<Result<Pagination.Output<Container>>> {
     const { page = 1, perPage = 10 } = queryParams;
 
     const take = Number(perPage);

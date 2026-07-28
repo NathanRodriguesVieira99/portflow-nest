@@ -1,19 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@Infra/persistence/database/prisma/prisma.service';
+import { Container } from '@Models/container.model';
 import { ContainerRepositoryContract } from './container.repository.contract';
 import { PrismaContainerMapper } from '../../mappers/prisma/container.mapper';
-import { Container } from '@Models/container.model';
-import { ok, err } from '@Shared/result';
 import {
   badRequest,
   databaseError,
   notFound,
 } from '@/container/application/exceptions';
+import { ok, err } from '@Shared/result';
 
-import type {
-  PaginationInput,
-  PaginationOutput,
-} from '@/container/domain/interfaces/pagination';
+import type { Pagination } from '@/container/domain/contracts/pagination';
 import type { Result } from '@Shared/result';
 import type { StatusContainer } from '@Types/status-container.type';
 
@@ -79,8 +76,8 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
   }
 
   async findAll(
-    queryParams: PaginationInput,
-  ): Promise<Result<PaginationOutput<Container>>> {
+    queryParams: Pagination.Input,
+  ): Promise<Result<Pagination.Output<Container>>> {
     const { page = 1, perPage = 10 } = queryParams;
 
     const take = Number(perPage);
@@ -123,9 +120,9 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
   }
 
   async findByStatus(
-    queryParams: PaginationInput,
+    queryParams: Pagination.Input,
     statusContainer: StatusContainer,
-  ): Promise<Result<PaginationOutput<Container>>> {
+  ): Promise<Result<Pagination.Output<Container>>> {
     const { page = 1, perPage = 10 } = queryParams;
 
     const take = Number(perPage);
