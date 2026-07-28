@@ -6,7 +6,19 @@ import {
 } from '@/container/domain/validators/container.model.validators';
 
 import type { StatusContainer } from '@Types/status-container.type';
-import type { CreateContainerParams } from '../../application/contracts/create-container';
+
+export interface CreateContainerParams {
+  id?: string;
+  shipId: string;
+  terminalId: string;
+  originCountry: string;
+  destinationCountry: string;
+  cargoType: string;
+  status: StatusContainer;
+  arrivalDate: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
 
 export class Container {
   private constructor(
@@ -60,6 +72,32 @@ export class Container {
       arrivalDate,
       createdAt ?? now,
       updatedAt ?? now,
+    );
+  }
+
+  static restore({
+    id,
+    shipId,
+    terminalId,
+    originCountry,
+    destinationCountry,
+    cargoType,
+    status,
+    arrivalDate,
+    createdAt,
+    updatedAt,
+  }: CreateContainerParams): Container {
+    return new Container(
+      id!,
+      shipId,
+      terminalId,
+      originCountry,
+      destinationCountry,
+      cargoType,
+      status,
+      arrivalDate,
+      createdAt!,
+      updatedAt!,
     );
   }
 
