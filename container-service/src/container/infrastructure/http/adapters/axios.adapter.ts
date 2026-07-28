@@ -5,10 +5,25 @@ import { HTTP_ERROR_CODES } from '@Shared/constants/http-codes';
 import { internalServerError } from '@/container/application/exceptions';
 import { type Result, ok, err } from '@Shared/result';
 
-import type {
-  HttpRequest,
-  HttpClientContract,
-} from '../contracts/http-client.contracts';
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+
+export type HttpRequest<T = unknown> = {
+  url: string;
+  method: HttpMethod;
+  headers?: Record<string, string>;
+  params?: Record<string, unknown>;
+  body?: T;
+};
+
+export interface HttpClientContract {
+  request: <R, T = unknown>({
+    url,
+    method,
+    headers,
+    params,
+    body,
+  }: HttpRequest<T>) => Promise<Result<R>>;
+}
 
 export class AxiosAdapter implements HttpClientContract, OnModuleInit {
   private logger = new Logger(AxiosAdapter.name);
@@ -69,3 +84,5 @@ export class AxiosAdapter implements HttpClientContract, OnModuleInit {
     }
   }
 }
+
+export const HTTP_CLIENT = Symbol('HTTP_CLIENT');
