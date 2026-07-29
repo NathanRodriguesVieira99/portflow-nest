@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
+import { TerminalModule } from './terminal/terminal.module';
 
 @Module({
-  imports: [],
-  controllers: [],
-  providers: [],
+  imports: [TerminalModule],
 })
 export class AppModule {}
