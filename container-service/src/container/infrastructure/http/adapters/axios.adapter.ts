@@ -1,7 +1,7 @@
 import { Logger, OnModuleInit } from '@nestjs/common';
 import axios, { AxiosError, type AxiosInstance } from 'axios';
 import { ClsService } from 'nestjs-cls';
-import { HTTP_ERROR_CODES } from '@Shared/constants/http-codes';
+import { HTTP_ERROR } from '@Shared/constants/http-codes';
 import { internalServerError } from '@/container/application/exceptions';
 import { type Result, ok, err } from '@Shared/result';
 
@@ -72,8 +72,7 @@ export class AxiosAdapter implements HttpClientContract, OnModuleInit {
         method: error.config?.method,
       });
 
-      const status =
-        error.response?.status || HTTP_ERROR_CODES.INTERNAL_SERVER_ERROR;
+      const status = error.response?.status || HTTP_ERROR.INTERNAL_SERVER_ERROR;
       const message = error.response?.data || error.message;
 
       return err(

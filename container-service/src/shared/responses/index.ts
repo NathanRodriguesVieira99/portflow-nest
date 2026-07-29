@@ -1,42 +1,43 @@
 import {
-  HTTP_ERROR_CODES,
-  HTTP_SUCCESS_CODES,
-  type HttpErrorCodes,
-  type HttpSuccessCodes,
+  HTTP_ERROR,
+  HTTP_SUCCESS,
+  type HttpError,
+  type HttpSuccess,
 } from '../constants/http-codes';
 
-export type ErrorResponse = {
-  ok: false;
-  error: {
-    code: HttpErrorCodes;
-    status: number;
-    message: string;
+export namespace Response {
+  export type Error = {
+    ok: false;
+    error: {
+      code: HttpError;
+      status: number;
+      message: string;
+    };
+    timestamp: string;
   };
-  timestamp: string;
-};
-
-export type SuccessResponse<T> = {
-  ok: true;
-  response: { code: HttpSuccessCodes; status: number; content: T };
-  timestamp: string;
-};
+  export type Success<T> = {
+    ok: true;
+    response: { code: HttpSuccess; status: number; content: T };
+    timestamp: string;
+  };
+}
 
 export const errorResponse = (
-  code: HttpErrorCodes,
+  code: HttpError,
   message: string,
-): ErrorResponse => ({
+): Response.Error => ({
   ok: false,
-  error: { code, status: HTTP_ERROR_CODES[code].status, message },
+  error: { code, status: HTTP_ERROR[code].status, message },
   timestamp: new Date().toISOString(),
 });
 
 export const successResponse = <T = unknown>(
   content: T,
-  code: HttpSuccessCodes = 'OK',
-): SuccessResponse<T> => ({
+  code: HttpSuccess = 'OK',
+): Response.Success<T> => ({
   ok: true,
-  response: { code, status: HTTP_SUCCESS_CODES[code].status, content },
+  response: { code, status: HTTP_SUCCESS[code].status, content },
   timestamp: new Date().toISOString(),
 });
 
-export type RequestResponse<T> = SuccessResponse<T> | ErrorResponse;
+export type RequestResponse<T> = Response.Success<T> | Response.Error;

@@ -1,32 +1,65 @@
-export const HTTP_SUCCESS_CODES = {
-  // Success (200,201,204)
-  OK: { code: 'OK', status: 200 },
-  CREATED: { code: 'CREATED', status: 201 },
-  ACCEPTED: { code: 'ACCEPTED', status: 202 },
-  NO_CONTENT: { code: 'NO_CONTENT', status: 204 },
+export enum HttpCodes {
+  OK = 200,
+  CREATED = 201,
+  ACCEPTED = 202,
+  NO_CONTENT = 204,
+  BAD_REQUEST = 400,
+  UNAUTHORIZED = 401,
+  FORBIDDEN = 403,
+  NOT_FOUND = 404,
+  CONFLICT = 409,
+  UNPROCESSABLE_ENTITY = 422,
+  RATE_LIMITED = 429,
+  INTERNAL_SERVER_ERROR = 500,
+  SERVICE_UNAVAILABLE = 503,
+}
+
+export const HTTP_SUCCESS = {
+  OK: { code: 'OK', status: HttpCodes.OK },
+  CREATED: { code: 'CREATED', status: HttpCodes.CREATED },
+  ACCEPTED: { code: 'ACCEPTED', status: HttpCodes.ACCEPTED },
+  NO_CONTENT: { code: 'NO_CONTENT', status: HttpCodes.NO_CONTENT },
 } as const;
 
-export const HTTP_ERROR_CODES = {
-  // Authentication & Authorization (401, 403)
-  UNAUTHORIZED: { code: 'UNAUTHORIZED', status: 401 },
-  INVALID_CREDENTIALS: { code: 'INVALID_CREDENTIALS', status: 401 },
-  INVALID_TOKEN: { code: 'INVALID_TOKEN', status: 401 },
-  TOKEN_EXPIRED: { code: 'TOKEN_EXPIRED', status: 401 },
-  INSUFFICIENT_PERMISSIONS: { code: 'INSUFFICIENT_PERMISSIONS', status: 403 },
-  FORBIDDEN: { code: 'FORBIDDEN', status: 403 },
+export const HTTP_ERROR = {
+  UNAUTHORIZED: { code: 'UNAUTHORIZED', status: HttpCodes.UNAUTHORIZED },
+  INVALID_CREDENTIALS: {
+    code: 'INVALID_CREDENTIALS',
+    status: HttpCodes.UNAUTHORIZED,
+  },
+  INVALID_TOKEN: { code: 'INVALID_TOKEN', status: HttpCodes.UNAUTHORIZED },
+  TOKEN_EXPIRED: { code: 'TOKEN_EXPIRED', status: HttpCodes.UNAUTHORIZED },
+  INSUFFICIENT_PERMISSIONS: {
+    code: 'INSUFFICIENT_PERMISSIONS',
+    status: HttpCodes.FORBIDDEN,
+  },
+  FORBIDDEN: { code: 'FORBIDDEN', status: HttpCodes.FORBIDDEN },
 
-  // Client Errors (400, 404, 409, 422,429)
-  BAD_REQUEST: { code: 'BAD_REQUEST', status: 400 },
-  CONFLICT: { code: 'CONFLICT', status: 409 },
-  VALIDATION_ERROR: { code: 'VALIDATION_ERROR', status: 422 },
-  RESOURCE_NOT_FOUND: { code: 'RESOURCE_NOT_FOUND', status: 404 },
-  RATE_LIMITED: { code: 'RATE_LIMITED', status: 429 },
+  BAD_REQUEST: { code: 'BAD_REQUEST', status: HttpCodes.BAD_REQUEST },
+  CONFLICT: { code: 'CONFLICT', status: HttpCodes.CONFLICT },
+  VALIDATION_ERROR: {
+    code: 'VALIDATION_ERROR',
+    status: HttpCodes.UNPROCESSABLE_ENTITY,
+  },
+  RESOURCE_NOT_FOUND: {
+    code: 'RESOURCE_NOT_FOUND',
+    status: HttpCodes.NOT_FOUND,
+  },
+  RATE_LIMITED: { code: 'RATE_LIMITED', status: HttpCodes.RATE_LIMITED },
 
-  // Server Errors (500,503)
-  INTERNAL_SERVER_ERROR: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
-  DATABASE_ERROR: { code: 'DATABASE_ERROR', status: 500 },
-  SERVICE_UNAVAILABLE: { code: 'SERVICE_UNAVAILABLE', status: 503 },
+  INTERNAL_SERVER_ERROR: {
+    code: 'INTERNAL_SERVER_ERROR',
+    status: HttpCodes.INTERNAL_SERVER_ERROR,
+  },
+  DATABASE_ERROR: {
+    code: 'DATABASE_ERROR',
+    status: HttpCodes.INTERNAL_SERVER_ERROR,
+  },
+  SERVICE_UNAVAILABLE: {
+    code: 'SERVICE_UNAVAILABLE',
+    status: HttpCodes.SERVICE_UNAVAILABLE,
+  },
 } as const;
 
-export type HttpSuccessCodes = keyof typeof HTTP_SUCCESS_CODES;
-export type HttpErrorCodes = keyof typeof HTTP_ERROR_CODES;
+export type HttpSuccess = keyof typeof HTTP_SUCCESS;
+export type HttpError = keyof typeof HTTP_ERROR;

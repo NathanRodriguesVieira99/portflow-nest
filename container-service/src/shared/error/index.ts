@@ -1,19 +1,19 @@
-import { HTTP_ERROR_CODES, type HttpErrorCodes } from '../constants/http-codes';
+import { HTTP_ERROR, type HttpError } from '../constants/http-codes';
 
 export type AppError = {
-  code: HttpErrorCodes;
+  code: HttpError;
   status: number;
   message: string;
   details?: unknown;
 };
 
 export const AppError = (
-  code: HttpErrorCodes,
+  code: HttpError,
   message: string,
   details?: unknown,
 ): AppError => ({
   code,
-  status: HTTP_ERROR_CODES[code].status,
+  status: HTTP_ERROR[code].status,
   message,
   ...(details !== undefined && { details }),
 });
