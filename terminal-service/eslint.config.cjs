@@ -1,0 +1,21 @@
+module.exports = {
+  extends: ['@rocketseat/eslint-config/node'],
+  plugins: ['simple-import-sort'],
+  rules: {
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
+    '@typescript-eslint/no-explicit-any': 'warn',
+    '@typescript-eslint/no-floating-promises': 'warn',
+    '@typescript-eslint/restrict-template-expressions': 'off',
+    '@typescript-eslint/no-base-to-string': 'off',
+    '@typescript-eslint/no-unsafe-assignment': 'off',
+    '@typescript-eslint/no-unsafe-call': 'off',
+    '@typescript-eslint/no-misused-promises': 'off',
+    '@typescript-eslint/require-await': 'off',
+    '@typescript-eslint/no-unused-vars': 'warn',
+    '@typescript-eslint/unbound-method': 'off',
+    '@typescript-eslint/no-unsafe-return': 'off',
+    '@typescript-eslint/no-unsafe-argument': 'off',
+    '@typescript-eslint/no-namespace': 'off',
+  },
+};
