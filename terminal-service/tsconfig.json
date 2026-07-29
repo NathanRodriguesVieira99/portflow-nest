@@ -14,11 +14,23 @@
     "strict": true,
     "outDir": "./dist",
     "rootDir": "./",
-    // "baseUrl": "./",
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@Types/*": ["./src/container/@types/*"],
+      "@Contracts/*": ["src/container/domain/contracts/*"],
+      "@Events/*": ["./src/container/infrastructure/messaging/events/*"],
+      "@Models/*": ["./src/container/domain/models/*"],
+      "@Repositories/*": [
+        "./src/container/infrastructure/persistence/repositories/*"
+      ],
+      "@Controllers/*": ["./src/container/presentation/controllers/*"],
+      "@Dtos/*": ["./src/container/presentation/dtos/*"],
+      "@Services/*": ["./src/container/application/services/*"],
+      "@Infra/*": ["./src/container/infrastructure/*"],
+      "@Shared/*": ["./src/shared/*"]
     },
-    "types": ["vitest/globals", "node"],
+    "types": ["node"],
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
@@ -26,5 +38,6 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
+  "exclude": ["./k6/*"]
 }
