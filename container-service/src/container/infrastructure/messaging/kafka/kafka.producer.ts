@@ -4,14 +4,11 @@ import { ClsService } from 'nestjs-cls';
 import { KAFKA_CLIENTS } from '@Shared/constants/kafka';
 import { context, propagation } from '@opentelemetry/api';
 
+import type { MessageBrokerProducerContract } from '../contracts/message-broker.contract';
 import type { ClientKafka } from '@nestjs/microservices';
 
-interface IKafkaProducer {
-  produce<P>(topic: string, key: string, payload: P): Promise<void>;
-}
-
 @Injectable()
-export class KafkaProducer implements IKafkaProducer {
+export class KafkaProducer implements MessageBrokerProducerContract {
   constructor(
     @Inject(KAFKA_CLIENTS.CONTAINER_SERVICE)
     private readonly kafka: ClientKafka,
