@@ -11,8 +11,8 @@ beforeAll(async () => {
   await setupPrismaAndPostgres();
 });
 
-beforeEach(async () => {
-  await resetDatabase();
+beforeEach(() => {
+  resetDatabase();
 });
 
 afterAll(async () => {
