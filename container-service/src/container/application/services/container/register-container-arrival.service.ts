@@ -1,13 +1,13 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Container } from '@Models/container.model';
-import {
-  CONTAINER_REPOSITORY_CONTRACT,
-  type ContainerRepositoryContract,
-} from '@Infra/persistence/repositories/prisma/container.repository.contract';
 import { TerminalHttp } from '@Infra/http/terminal/terminal.http';
 import { SendPendingDocumentationEvent } from '@/container/infrastructure/messaging/events/producers/send-pending-documentation.event';
 import { badRequest, unauthorized } from '@/container/application/exceptions';
 import { err, ok } from '@Shared/result';
+import {
+  CONTAINER_REPOSITORY_CONTRACT,
+  type ContainerRepositoryContract,
+} from '@Infra/persistence/repositories/prisma/container.repository.contract';
 
 import type { Result } from '@Shared/result';
 import type { StatusContainer } from '@Types/status-container.type';
@@ -21,7 +21,6 @@ export namespace ContainerArrival {
     destinationCountry: string;
     cargoType: string;
   };
-
   export type Output = {
     containerId: string;
     shipId: string;
