@@ -1,5 +1,5 @@
 @baseUrl= http://localhost:3333/api/v1
-@kongUrl= http://localhost:8000/api/v1
+@kongUrl= http://localhost:8000/container-service
 
 
 # ---------------------------------------------------------------------------
@@ -110,6 +110,6 @@ Content-Type: application/json
 ###
 
 # @name remove_container_gateway
-DELETE {{baseUrl}}/containers/4d650553-d7b2-4e5e-90ee-e6daf5fe6830
+DELETE {{kongUrl}}/containers/4d650553-d7b2-4e5e-90ee-e6daf5fe6830
 
 ###
