@@ -38,6 +38,10 @@
 
 [ ] - Documentar controllers
 
+[ ] - Configurar logs, traces e métricas (pino,loki,tempo,alloy,prometheus)
+
+[ ] - Configurar KAFKA
+
 ## Gate Service
 
 [ ] - Implementar gate-service (Kafka Connect (CDC com PostgreSQL), controllers, endpoints, etc.)
