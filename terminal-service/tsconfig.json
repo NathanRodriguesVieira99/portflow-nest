@@ -17,17 +17,17 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"],
-      "@Types/*": ["./src/container/@types/*"],
-      "@Contracts/*": ["src/container/domain/contracts/*"],
-      "@Events/*": ["./src/container/infrastructure/messaging/events/*"],
-      "@Models/*": ["./src/container/domain/models/*"],
+      "@Types/*": ["./src/terminal/@types/*"],
+      "@Contracts/*": ["src/terminal/domain/contracts/*"],
+      "@Events/*": ["./src/terminal/infrastructure/messaging/events/*"],
+      "@Models/*": ["./src/terminal/domain/models/*"],
       "@Repositories/*": [
-        "./src/container/infrastructure/persistence/repositories/*"
+        "./src/terminal/infrastructure/persistence/repositories/*"
       ],
-      "@Controllers/*": ["./src/container/presentation/controllers/*"],
-      "@Dtos/*": ["./src/container/presentation/dtos/*"],
-      "@Services/*": ["./src/container/application/services/*"],
-      "@Infra/*": ["./src/container/infrastructure/*"],
+      "@Controllers/*": ["./src/terminal/presentation/controllers/*"],
+      "@Dtos/*": ["./src/terminal/presentation/dtos/*"],
+      "@Services/*": ["./src/terminal/application/services/*"],
+      "@Infra/*": ["./src/terminal/infrastructure/*"],
       "@Shared/*": ["./src/shared/*"]
     },
     "types": ["node"],
