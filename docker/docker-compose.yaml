@@ -38,6 +38,31 @@ services:
           retries: 5
         depends_on:
             - postgresql
+            - kafka
+        networks:
+            - portflow-net
+
+  terminal-service:
+        container_name: terminal-service
+        build:
+            context: ../terminal-service
+            dockerfile: Dockerfile
+            target: dev
+        ports:
+           - "3434:3434"
+        environment:
+          - CHOKIDAR_USEPOLLING=1 # hot reload em dev
+        env_file:
+              - ../terminal-service/.env
+        volumes:
+          - ../terminal-service:/app
+          - /app/node_modules
+        healthcheck:
+          test: ["CMD", "curl", "-f", "http://localhost:3434/api/v1/health"]
+          interval: 10s
+          timeout: 10s
+          retries: 5
+        depends_on:
             - mongodb
             - kafka
         networks:

@@ -5,13 +5,26 @@ _format_version: "3.0"
 # ══════════════════════════════════════════════════════════════════════════════
 services:
   - name: container-service
-    url: http://container-service:3333
+    url: http://container-service:3333/api/v1
     routes:
       - name: container-service-routes
         paths:
-          - /api/v1/containers
-          - /api/v1/health
-        strip_path: false
+          - /container-service
+        strip_path: true
+        methods: [GET, POST, PUT, PATCH, DELETE]
+    plugins:
+      - name: request-transformer
+        config:
+          add:
+            headers: ["X-Forwarded-Service:kong"]
+
+  - name: terminal-service
+    url: http://terminal-service:3434/api/v1
+    routes:
+      - name: terminal-service-routes
+        paths:
+          - /terminal-service
+        strip_path: true
         methods: [GET, POST, PUT, PATCH, DELETE]
     plugins:
       - name: request-transformer
