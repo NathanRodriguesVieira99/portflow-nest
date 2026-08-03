@@ -1,17 +1,22 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { TERMINAL_SERVICE_BASE_URL } from '@Shared/constants/constants';
-import { RESILIENCE, ResilienceContract } from '../../resilience';
 import { serviceUnavailable } from '@/container/application/exceptions';
 import { type Result, err } from '@Shared/result';
+import { RESILIENCE, type ResilienceContract } from '../../resilience';
+import { HTTP_CLIENT, type HttpClientContract } from '@Infra/http';
 
-import type {
-  TerminalValidationOutput,
-  TerminalValidationParams,
-} from '@/container/application/contracts/terminal-validation';
-import {
-  HTTP_CLIENT,
-  type HttpClientContract,
-} from '../adapters/axios.adapter';
+export namespace TerminalValidation {
+  export type Input = { terminalId: string; cargoType: string };
+  export type Output = {
+    terminalId: string;
+    exists: boolean;
+    isActive: boolean;
+    isCargoTypeAccepted: boolean;
+    availableCapacity: boolean;
+    isTerminalValid: boolean;
+    message: string;
+  };
+}
 
 @Injectable()
 export class TerminalHttp {
@@ -25,23 +30,21 @@ export class TerminalHttp {
   async validateTerminal({
     terminalId,
     cargoType,
-  }: TerminalValidationParams): Promise<Result<TerminalValidationOutput>> {
+  }: TerminalValidation.Input): Promise<Result<TerminalValidation.Output>> {
     const response = this.resilience.execute(
-      async () => {
-        return await this.http.request<TerminalValidationOutput, never>({
+      async () =>
+        await this.http.request<TerminalValidation.Output, never>({
           url: `${TERMINAL_SERVICE_BASE_URL}/terminals/${terminalId}/validation`,
           method: 'GET',
           headers: {},
           params: { cargoType },
-        });
-      },
-      async () => {
-        return err(
+        }),
+      () =>
+        err(
           serviceUnavailable(
             `It was not possible to validate the terminal for the cargo ${cargoType}`,
           ),
-        );
-      },
+        ),
     );
     return response;
   }

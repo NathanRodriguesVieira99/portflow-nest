@@ -1,14 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { EventBuilder } from '../build-event';
 import { KAFKA_TOPICS } from '@Shared/constants/kafka';
 import { env } from '@Shared/env';
 
 import type { ContainerStatusEvent } from '../../contracts/container.events';
-import type { MessageBrokerProducerContract } from '../../contracts/message-broker.contract';
+import {
+  MESSAGE_BROKER_PRODUCER_CONTRACT,
+  type MessageBrokerProducerContract,
+} from '../../contracts/message-broker.contract';
 
 @Injectable()
 export class SendPendingDocumentationEvent {
   constructor(
+    @Inject(MESSAGE_BROKER_PRODUCER_CONTRACT)
     private readonly kafka: MessageBrokerProducerContract,
     private readonly event: EventBuilder,
   ) {}

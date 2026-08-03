@@ -19,10 +19,6 @@ import { ContainerRepositoryImplementation } from '@Infra/persistence/repositori
 import { HTTP_CLIENT, AxiosAdapter } from '@Infra/http/';
 import { RESILIENCE, CockatielAdapter } from './infrastructure/resilience';
 
-import { SendPendingDocumentationEvent } from '@Infra/messaging/events/producers/send-pending-documentation.event';
-import { ReceiveDocumentationRefusedEvent } from '@Infra/messaging/events/consumers/receive-documentation-refused.event';
-import { ReceiveDocumentationReleasedEvent } from '@Infra/messaging/events/consumers/receive-documentation-released.event';
-
 @Module({
   providers: [
     RegisterContainerArrivalService,
@@ -32,7 +28,6 @@ import { ReceiveDocumentationReleasedEvent } from '@Infra/messaging/events/consu
     FindAllContainersService,
     FindContainerByStatusService,
     TerminalHttp,
-    SendPendingDocumentationEvent,
     {
       provide: HTTP_CLIENT,
       inject: [ClsService],
@@ -47,11 +42,6 @@ import { ReceiveDocumentationReleasedEvent } from '@Infra/messaging/events/consu
       useClass: ContainerRepositoryImplementation,
     },
   ],
-  controllers: [
-    ContainerController,
-    HealthcheckController,
-    ReceiveDocumentationRefusedEvent,
-    ReceiveDocumentationReleasedEvent,
-  ],
+  controllers: [ContainerController, HealthcheckController],
 })
 export class ContainerModule {}

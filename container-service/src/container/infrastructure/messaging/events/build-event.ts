@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import { nanoid } from 'nanoid';
 import { ClsService } from 'nestjs-cls';
 
@@ -11,6 +12,7 @@ export type Event<P> = {
   payload: P;
 };
 
+@Injectable()
 export class EventBuilder {
   constructor(private readonly cls: ClsService) {}
 
