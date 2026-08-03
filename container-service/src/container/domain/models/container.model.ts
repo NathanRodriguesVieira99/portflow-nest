@@ -7,17 +7,19 @@ import {
 
 import type { StatusContainer } from '@Types/status-container.type';
 
-export interface CreateContainerParams {
-  id?: string;
-  shipId: string;
-  terminalId: string;
-  originCountry: string;
-  destinationCountry: string;
-  cargoType: string;
-  status: StatusContainer;
-  arrivalDate: Date;
-  createdAt?: Date;
-  updatedAt?: Date;
+export namespace CreateContainer {
+  export type Input = {
+    id?: string;
+    shipId: string;
+    terminalId: string;
+    originCountry: string;
+    destinationCountry: string;
+    cargoType: string;
+    status: StatusContainer;
+    arrivalDate: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
+  };
 }
 
 export class Container {
@@ -58,7 +60,7 @@ export class Container {
     arrivalDate,
     createdAt,
     updatedAt,
-  }: CreateContainerParams): Container {
+  }: CreateContainer.Input): Container {
     const now = new Date();
 
     return new Container(
@@ -86,7 +88,7 @@ export class Container {
     arrivalDate,
     createdAt,
     updatedAt,
-  }: CreateContainerParams): Container {
+  }: CreateContainer.Input): Container {
     return new Container(
       id!,
       shipId,
