@@ -20,10 +20,11 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
 
   async save(container: Container): Promise<Result<Container>> {
     try {
-      const raw = await this.prisma.container.create({
-        data: PrismaContainerMapper.toPrisma(container),
+      const raw = PrismaContainerMapper.toPrisma(container);
+      const savedContainer = await this.prisma.container.create({
+        data: raw,
       });
-      return ok(PrismaContainerMapper.toDomain(raw));
+      return ok(PrismaContainerMapper.toDomain(savedContainer));
     } catch {
       return err(databaseError('Failed to save container'));
     }
@@ -32,11 +33,11 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
   async update(container: Container): Promise<Result<Container>> {
     try {
       const raw = PrismaContainerMapper.toPrisma(container);
-      const updated = await this.prisma.container.update({
+      const updatedContainer = await this.prisma.container.update({
         where: { id: raw.id },
         data: raw,
       });
-      return ok(PrismaContainerMapper.toDomain(updated));
+      return ok(PrismaContainerMapper.toDomain(updatedContainer));
     } catch {
       return err(databaseError('Failed to update container'));
     }
@@ -60,16 +61,14 @@ export class ContainerRepositoryImplementation implements ContainerRepositoryCon
 
   async findById(containerId: string): Promise<Result<Container>> {
     try {
-      const raw = await this.prisma.container.findUnique({
+      const containerExists = await this.prisma.container.findUnique({
         where: { id: containerId },
       });
-
-      if (!raw) {
+      if (!containerExists) {
         const error = notFound('Container');
         return err(error);
       }
-
-      return ok(PrismaContainerMapper.toDomain(raw));
+      return ok(PrismaContainerMapper.toDomain(containerExists));
     } catch {
       return err(databaseError('Failed to find container'));
     }
