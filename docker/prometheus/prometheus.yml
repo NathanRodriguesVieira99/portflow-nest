@@ -15,3 +15,10 @@ scrape_configs:
       - targets: ["container-service:3333"]
         labels:
           microservice: "Container Service"
+
+  - job_name: terminal-service-metrics
+    metrics_path: api/v1/metrics
+    static_configs:
+      - targets: ["terminal-service:3434"]
+        labels:
+          microservice: "Terminal Service"
