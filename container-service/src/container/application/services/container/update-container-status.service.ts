@@ -28,22 +28,22 @@ export class UpdateContainerStatusService {
     containerId,
     newStatus,
   }: UpdateContainerStatus.Input): Promise<Result<Container>> {
-    const containerResult = await this.repo.findById(containerId); // ? Talvez usar uma transaction do prisma
+    const container = await this.repo.findById(containerId); // ? Talvez usar uma transaction do prisma
 
-    if (!containerResult.ok) return containerResult;
+    if (!container.ok) return container;
 
-    const container = containerResult.value;
+    const containerOnDatabase = container.value;
 
     try {
-      container.updateStatus(newStatus);
+      containerOnDatabase.updateStatus(newStatus);
     } catch {
       return err(badRequest('Invalid status transition'));
     }
 
-    const updated = await this.repo.update(container);
+    const updatedContainer = await this.repo.update(containerOnDatabase);
 
-    if (!updated.ok) return updated;
+    if (!updatedContainer.ok) return updatedContainer;
 
-    return ok(updated.value);
+    return ok(updatedContainer.value);
   }
 }
