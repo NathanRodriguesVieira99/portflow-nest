@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
 
-@Module({})
+import { HealthcheckController } from './presentation/controllers/healthcheck/healthcheck.controller';
+
+@Module({ controllers: [HealthcheckController] })
 export class TerminalModule {}
