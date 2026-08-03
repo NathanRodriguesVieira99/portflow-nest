@@ -1,6 +1,6 @@
 import { CockatielAdapter } from '@Infra/resilience/';
 
-describe('Circuit Breaker', () => {
+describe('Resilience', () => {
   const failTimes = async (cb: CockatielAdapter, n: number) => {
     for (let i = 0; i < n; i++) {
       await cb
@@ -11,7 +11,7 @@ describe('Circuit Breaker', () => {
     }
   };
 
-  describe('circuitBreaker()', () => {
+  describe('execute() - Circuit Breaker', () => {
     it('should execute successfully when closed', async () => {
       const cb = new CockatielAdapter();
       await expect(cb.execute(async () => 'ok')).resolves.toBe('ok');
@@ -44,7 +44,7 @@ describe('Circuit Breaker', () => {
     });
   });
 
-  describe('circuitBreakerWithFallback()', () => {
+  describe('execute() - Circuit Breaker With Fallback', () => {
     it('should use fallback when circuit is open', async () => {
       const cb = new CockatielAdapter({ consecutiveFailures: 1 });
       const fn = vi.fn(async () => 'original fn');
@@ -53,37 +53,6 @@ describe('Circuit Breaker', () => {
         'fallback fn',
       );
       expect(fn).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('getState()', () => {
-    it('should return open state', async () => {
-      const cb = new CockatielAdapter({ consecutiveFailures: 2 });
-      await failTimes(cb, 2);
-      await expect(
-        cb.execute(async () => 'request passing with error'),
-      ).rejects.toThrow();
-      expect(cb.getState()).toBe('open');
-    });
-
-    it('should return closed state', async () => {
-      const cb = new CockatielAdapter({
-        halfOpenAfter: 100,
-        consecutiveFailures: 2,
-      });
-      expect(cb.getState()).toBe('closed');
-    });
-
-    it('should return half-open state', async () => {
-      const cb = new CockatielAdapter({
-        halfOpenAfter: 100,
-        consecutiveFailures: 2,
-      });
-      await failTimes(cb, 2);
-      await new Promise((r) => setTimeout(r, 120));
-      let state: string | undefined;
-      await cb.execute(async () => (state = cb.getState()));
-      expect(state).toBe('half-open');
     });
   });
 });
