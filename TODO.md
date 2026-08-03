@@ -2,9 +2,9 @@
 
 ## Geral
 
-[ ] - Remover acoplamento do Nestjs pelo menos nos testes unitários? aplicar isso para os de integração e E2E?
+[x] - Remover acoplamento do Nestjs pelo menos nos testes unitários? aplicar isso para os de integração e E2E?
 
-[ ] - Quebrar os services em use cases?
+[x] - Quebrar os services em use cases?
 
 [ ] - Testes unitários, E2E e de integração
 
@@ -18,7 +18,7 @@
 
 [ ] - Pensar em aplicar o Outbox Pattern + CDC
 
-## Container Service
+## Container **Service**
 
 [x] - Adicionar melhores validações e logs no container service/repo
 
