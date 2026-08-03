@@ -1,4 +1,3 @@
-import { PinoLogger } from 'nestjs-pino';
 import { KafkaContainer, StartedKafkaContainer } from '@testcontainers/kafka';
 
 export let kafka: StartedKafkaContainer;
