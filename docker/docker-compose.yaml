@@ -18,7 +18,7 @@ services:
   container-service:
         container_name: container-service
         build:
-            context: ../container-service
+            context: ../microservices/container-service
             dockerfile: Dockerfile
             target: dev
         ports:
@@ -27,9 +27,9 @@ services:
           - CHOKIDAR_USEPOLLING=1 # hot reload em dev
           - DATABASE_URL=postgresql://admin:admin@postgresql:5432/container_service_db
         env_file:
-              - ../container-service/.env
+              - ../microservices/container-service/.env
         volumes:
-          - ../container-service:/app
+          - ../microservices/container-service:/app
           - /app/node_modules
         healthcheck:
           test: ["CMD", "curl", "-f", "http://localhost:3333/api/v1/health"]
@@ -45,7 +45,7 @@ services:
   terminal-service:
         container_name: terminal-service
         build:
-            context: ../terminal-service
+            context: ../microservices/terminal-service
             dockerfile: Dockerfile
             target: dev
         ports:
@@ -53,9 +53,9 @@ services:
         environment:
           - CHOKIDAR_USEPOLLING=1 # hot reload em dev
         env_file:
-              - ../terminal-service/.env
+              - ../microservices/terminal-service/.env
         volumes:
-          - ../terminal-service:/app
+          - ../microservices/terminal-service:/app
           - /app/node_modules
         healthcheck:
           test: ["CMD", "curl", "-f", "http://localhost:3434/api/v1/health"]
@@ -304,7 +304,7 @@ services:
         - portflow-net 
 
   # ---------------------------------------------------------------------------
-  # Grafana
+  # Grafana Dashboard
   # ---------------------------------------------------------------------------
   grafana:
       container_name: grafana
@@ -326,15 +326,15 @@ services:
         - portflow-net
 
   # ---------------------------------------------------------------------------
-  # K6
+  # Grafana K6
   # ---------------------------------------------------------------------------
   k6:
     container_name: k6
     image: grafana/k6:master
     profiles: ["testing"]
     volumes:
-      - ../services:/services:ro
-      - ../container-service:/container-service:ro
+      - ../microservices/container-service:/container-service:ro
+      - ../microservices/terminal-service:/terminal-service:ro
     networks:
       - portflow-net
     depends_on:
@@ -342,7 +342,7 @@ services:
           condition: service_healthy
 
   # ---------------------------------------------------------------------------
-  # Tempo
+  # Grafana Tempo
   # ---------------------------------------------------------------------------
   tempo:
     container_name: tempo
@@ -359,7 +359,7 @@ services:
       - portflow-net
 
   # ---------------------------------------------------------------------------
-  # Loki
+  # Grafana Loki
   # ---------------------------------------------------------------------------
   loki:
       container_name: loki
@@ -373,7 +373,7 @@ services:
         - portflow-net
 
   # ---------------------------------------------------------------------------
-  # Alloy
+  # Grafana Alloy
   # ---------------------------------------------------------------------------
   alloy:
       container_name: alloy
