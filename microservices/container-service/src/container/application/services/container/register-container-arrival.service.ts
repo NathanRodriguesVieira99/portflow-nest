@@ -7,7 +7,7 @@ import { err, ok } from '@Shared/result';
 import {
   CONTAINER_REPOSITORY_CONTRACT,
   type ContainerRepositoryContract,
-} from '@Infra/persistence/repositories/prisma/container.repository.contract';
+} from '@Infra/persistence/repositories/prisma/prisma-container.repository.contract';
 
 import type { Result } from '@Shared/result';
 import type { StatusContainer } from '@Types/status-container.type';

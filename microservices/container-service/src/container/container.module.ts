@@ -14,8 +14,8 @@ import { HealthcheckController } from '@/container/presentation/controllers/heal
 
 import { TerminalHttp } from '@Infra/http/terminal/terminal.http';
 
-import { CONTAINER_REPOSITORY_CONTRACT } from '@Infra/persistence/repositories/prisma/container.repository.contract';
-import { ContainerRepositoryImplementation } from '@Infra/persistence/repositories/prisma/container.repository.implementation';
+import { CONTAINER_REPOSITORY_CONTRACT } from '@Infra/persistence/repositories/prisma/prisma-container.repository.contract';
+import { PrismaContainerRepositoryImplementation } from '@/container/infrastructure/persistence/repositories/prisma/prisma-container.repository.implementation';
 import { HTTP_CLIENT, AxiosAdapter } from '@Infra/http/';
 import { RESILIENCE, CockatielAdapter } from './infrastructure/resilience';
 
@@ -39,7 +39,7 @@ import { RESILIENCE, CockatielAdapter } from './infrastructure/resilience';
     },
     {
       provide: CONTAINER_REPOSITORY_CONTRACT,
-      useClass: ContainerRepositoryImplementation,
+      useClass: PrismaContainerRepositoryImplementation,
     },
   ],
   controllers: [ContainerController, HealthcheckController],

@@ -2,11 +2,11 @@ import { Container } from '@/container/domain/models/container.model';
 import { notFound } from '@/container/application/exceptions';
 import { err, ok, type Result } from '@/shared/result';
 
-import type { ContainerRepositoryContract } from '@Infra/persistence/repositories/prisma/container.repository.contract';
+import type { PrismaContainerRepositoryContract } from '@Infra/persistence/repositories/prisma/prisma-container.repository.contract';
 import type { StatusContainer } from '@/container/@types/status-container.type';
 import type { Pagination } from '@/container/domain/contracts/pagination';
 
-export class ContainerRepositoryFake implements ContainerRepositoryContract {
+export class ContainerRepositoryFake implements PrismaContainerRepositoryContract {
   private containersList: Container[] = []; // simula o banco de dados
 
   async save(container: Container): Promise<Result<Container>> {

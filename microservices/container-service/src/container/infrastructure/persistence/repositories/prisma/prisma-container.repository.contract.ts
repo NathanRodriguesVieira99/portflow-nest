@@ -4,7 +4,7 @@ import type { Pagination } from '@/container/domain/contracts/pagination';
 import type { StatusContainer } from '@Types/status-container.type';
 import type { Result } from '@Shared/result';
 
-export interface ContainerRepositoryContract {
+export interface PrismaContainerRepositoryContract {
   save(container: Container): Promise<Result<Container>>;
   update(container: Container): Promise<Result<Container>>;
   remove(containerId: string): Promise<Result<string>>;

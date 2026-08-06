@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@Infra/persistence/database/prisma/prisma.service';
 import { Container } from '@Models/container.model';
-import { ContainerRepositoryContract } from './container.repository.contract';
+import { PrismaContainerRepositoryContract } from './prisma-container.repository.contract';
 import { PrismaContainerMapper } from '../../mappers/prisma/container.mapper';
 import {
   badRequest,
@@ -15,7 +15,7 @@ import type { Result } from '@Shared/result';
 import type { StatusContainer } from '@Types/status-container.type';
 
 @Injectable()
-export class ContainerRepositoryImplementation implements ContainerRepositoryContract {
+export class PrismaContainerRepositoryImplementation implements PrismaContainerRepositoryContract {
   constructor(private readonly prisma: PrismaService) {}
 
   async save(container: Container): Promise<Result<Container>> {

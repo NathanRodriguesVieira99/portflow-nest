@@ -1,15 +1,15 @@
 import { PrismaService } from '@/container/infrastructure/persistence/database/prisma/prisma.service';
-import { ContainerRepositoryImplementation } from '@/container/infrastructure/persistence/repositories/prisma/container.repository.implementation';
+import { PrismaContainerRepositoryImplementation } from '@/container/infrastructure/persistence/repositories/prisma/prisma-container.repository.implementation';
 
-import type { ContainerRepositoryContract } from '@/container/infrastructure/persistence/repositories/prisma/container.repository.contract';
+import type { PrismaContainerRepositoryContract } from '@/container/infrastructure/persistence/repositories/prisma/prisma-container.repository.contract';
 
 describe('Container Repository Implementation', () => {
   let prisma: PrismaService;
-  let repo: ContainerRepositoryContract;
+  let repo: PrismaContainerRepositoryContract;
 
   beforeEach(async () => {
     prisma = new PrismaService();
-    repo = new ContainerRepositoryImplementation(prisma);
+    repo = new PrismaContainerRepositoryImplementation(prisma);
   });
 
   it('should be defined', () => {

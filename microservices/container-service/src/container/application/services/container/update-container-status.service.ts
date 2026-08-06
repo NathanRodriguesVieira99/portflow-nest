@@ -4,8 +4,8 @@ import { badRequest } from '@/container/application/exceptions';
 import { err, ok } from '@Shared/result';
 import {
   CONTAINER_REPOSITORY_CONTRACT,
-  type ContainerRepositoryContract,
-} from '@Infra/persistence/repositories/prisma/container.repository.contract';
+  type PrismaContainerRepositoryContract,
+} from '@Infra/persistence/repositories/prisma/prisma-container.repository.contract';
 
 import type { Result } from '@Shared/result';
 import type { StatusContainer } from '@Types/status-container.type';
@@ -21,7 +21,7 @@ export namespace UpdateContainerStatus {
 export class UpdateContainerStatusService {
   constructor(
     @Inject(CONTAINER_REPOSITORY_CONTRACT)
-    private readonly repo: ContainerRepositoryContract,
+    private readonly repo: PrismaContainerRepositoryContract,
   ) {}
 
   async execute({
