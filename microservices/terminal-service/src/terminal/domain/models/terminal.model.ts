@@ -87,8 +87,8 @@ export class Terminal {
       zones,
       restrictions,
       equipments,
-      createdAt,
-      updatedAt,
+      createdAt!,
+      updatedAt!,
     );
   }
 
