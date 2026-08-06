@@ -30,7 +30,7 @@
       "@Infra/*": ["./src/terminal/infrastructure/*"],
       "@Shared/*": ["./src/shared/*"]
     },
-    "types": ["node"],
+    "types": ["node", "jest"],
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
