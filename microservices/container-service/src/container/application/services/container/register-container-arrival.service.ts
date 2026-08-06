@@ -6,7 +6,7 @@ import { badRequest, unauthorized } from '@/container/application/exceptions';
 import { err, ok } from '@Shared/result';
 import {
   CONTAINER_REPOSITORY_CONTRACT,
-  type ContainerRepositoryContract,
+  type PrismaContainerRepositoryContract,
 } from '@Infra/persistence/repositories/prisma/prisma-container.repository.contract';
 
 import type { Result } from '@Shared/result';
@@ -39,7 +39,7 @@ export class RegisterContainerArrivalService {
 
   constructor(
     @Inject(CONTAINER_REPOSITORY_CONTRACT)
-    private readonly repo: ContainerRepositoryContract,
+    private readonly repo: PrismaContainerRepositoryContract,
     private readonly terminal: TerminalHttp,
     private readonly kafka: SendPendingDocumentationEvent,
   ) {}
