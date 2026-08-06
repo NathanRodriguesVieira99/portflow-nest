@@ -2,7 +2,9 @@ ARG NODE_VERSION=22.18.0
 
 FROM node:${NODE_VERSION}-alpine AS base
 
-RUN corepack enable && corepack prepare pnpm@11.7.0
+RUN corepack enable \
+    && corepack prepare pnpm@11.7.0 --activate \
+    && pnpm config set store-dir /pnpm/store
 
 FROM base AS deps
 
