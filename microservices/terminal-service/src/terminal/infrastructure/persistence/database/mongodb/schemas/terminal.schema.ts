@@ -30,7 +30,7 @@ export class TerminalSchema {
   @Prop({ required: true, type: CapacitySchemaDefinition })
   capacity!: CapacitySchema;
 
-  @Prop({ required: true, type: ZoneSchemaDefinition })
+  @Prop({ required: true, type: [ZoneSchemaDefinition] })
   zones!: ZoneSchema[];
 
   @Prop({ required: true, type: RestrictionSchemaDefinition })
