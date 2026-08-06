@@ -14,13 +14,13 @@
 
 [x] - Aplicar resiliência abstraindo alguma lib (Cockatiel)
 
-[ ] - Aplicar cache (Redis)
-
 [ ] - Pensar em aplicar o Outbox Pattern + CDC
 
-## Container **Service**
+## Container Service
 
 [x] - Adicionar melhores validações e logs no container service/repo
+
+[ ] - Aplicar cache (Redis)
 
 [ ] - Conectar corretamente o Container Service com o Terminal Service (via HTTP e via eventos KAFKA)
 
@@ -30,17 +30,27 @@
 
 ## Terminal Service
 
+[x] - Setup Kafka (Producer, Consumer etc)
+
+[x] - Setup MongoDB
+
+[ ] - Setup Redis (Cache)
+
+[ ] - Setup Resiliência (Adapter igual ao terminal service ou criar novo adapter para outra lib para estudar?)
+
+[ ] - Setup HTTP Client (Adapter igual ao terminal service ou criar novo adapter para outra lib para estudar?)
+
+[x] - Setup Jest + Nock + Sinon (Unit, Int e E2E)
+
 [ ] - Implementar terminal-service (MongoDB, controllers, endpoints, etc.)
 
-[ ] - Dockerizar e adicionar terminal-service no docker-compose.yaml
+[x] - Dockerizar e adicionar terminal-service no docker-compose.yaml
 
 [ ] - Configurar Swagger
 
 [ ] - Documentar controllers
 
-[ ] - Configurar logs, traces e métricas (pino,loki,tempo,alloy,prometheus)
-
-[ ] - Configurar KAFKA
+[x] - Configurar logs, traces e métricas (pino,loki,tempo,alloy,prometheus)
 
 ## Gate Service
 
