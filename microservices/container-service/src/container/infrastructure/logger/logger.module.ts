@@ -44,7 +44,6 @@ export const isDev = env.NODE_ENV === 'development';
           customErrorMessage: (req, res, err) =>
             `${req.method} ${req.url} ${res.statusCode} - ${err.message}`,
 
-          // Em dev, envia logs no console via pino-pretty
           transport: isDev
             ? {
                 target: 'pino-pretty',
