@@ -6,7 +6,7 @@ export class PrismaContainerMapper {
    * Quando o dado vem do banco se usa o toDomain().
    */
   static toDomain(raw: PrismaContainer) {
-    return Container.create({
+    return Container.restore({
       id: raw.id,
       shipId: raw.shipId,
       terminalId: raw.terminalId,
