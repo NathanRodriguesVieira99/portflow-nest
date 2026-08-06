@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { MongooseModule as Mongoose } from '@nestjs/mongoose';
 import {
   TerminalSchema,
@@ -6,6 +6,7 @@ import {
 } from './schemas/terminal.schema';
 import { env } from '@Shared/env';
 
+@Global()
 @Module({
   imports: [
     Mongoose.forRoot(env.MONGODB_URI, {}),
