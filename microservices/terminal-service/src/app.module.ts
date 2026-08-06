@@ -3,7 +3,8 @@ import { TerminalModule } from './terminal/terminal.module';
 import { PrometheusModule } from '@Infra/observability/prometheus.module';
 import { ClsModule } from '@Infra/observability/cls.module';
 import { LoggerModule } from '@Infra/logger/logger.module';
-import { MessagingModule } from './terminal/infrastructure/messaging/messaging.module';
+import { MessagingModule } from '@Infra/messaging/messaging.module';
+import { MongooseModule } from '@Infra/persistence/database/mongodb/mongoose.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { MessagingModule } from './terminal/infrastructure/messaging/messaging.m
     ClsModule,
     LoggerModule,
     MessagingModule,
+    MongooseModule,
   ],
 })
 export class AppModule {}

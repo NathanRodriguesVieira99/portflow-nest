@@ -13,7 +13,7 @@ export const envSchema = z.object({
   OTEL_EXPORTER_OTLP_ENDPOINT: z
     .string()
     .default('http://localhost:4318/v1/traces'),
-  KAFKA_BROKER: z.string().default('localhost:29092'),
+  KAFKA_BROKER: z.string().default('localhost:29092'),MONGODB_URI: z.string().def
 });
 
 const _env = envSchema.safeParse(process.env);
