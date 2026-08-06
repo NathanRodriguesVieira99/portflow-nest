@@ -1,9 +1,12 @@
 import './tracing';
 
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { env } from './shared/env';
 import { Logger as PinoLogger } from 'nestjs-pino';
+import { AppModule } from './app.module';
+import { KafkaConfig } from '@Infra/messaging/kafka/config';
+import { env } from '@Shared/env';
+
+import type { MicroserviceOptions } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
@@ -12,6 +15,9 @@ async function bootstrap() {
 
   app.useLogger(app.get(PinoLogger));
 
+  app.connectMicroservice<MicroserviceOptions>(KafkaConfig);
+
+  await app.startAllMicroservices();
   await app.listen(env.PORT, '0.0.0.0');
 }
 bootstrap().catch((err) => {
