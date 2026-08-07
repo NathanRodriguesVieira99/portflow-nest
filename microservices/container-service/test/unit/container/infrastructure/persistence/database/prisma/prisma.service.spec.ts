@@ -1,27 +1,23 @@
 import { PrismaService } from '@Infra/persistence/database/prisma/prisma.service';
 
 describe('PrismaService', () => {
-  let prisma: PrismaService;
+  let sut: PrismaService;
 
-  beforeEach(async () => {
-    prisma = new PrismaService();
+  beforeAll(async () => {
+    sut = new PrismaService();
   });
 
   it('service should be defined', () => {
-    expect(prisma).toBeDefined();
+    expect(sut).toBeDefined();
   });
-
   it('should call $connect', async () => {
-    const connectSpy = vi.spyOn(prisma, '$connect').mockResolvedValueOnce();
-    await prisma.onModuleInit();
+    const connectSpy = vi.spyOn(sut, '$connect').mockResolvedValueOnce();
+    await sut.onModuleInit();
     expect(connectSpy).toHaveBeenCalledOnce();
   });
-
   it('should call $disconnect', async () => {
-    const disconnectSpy = vi
-      .spyOn(prisma, '$disconnect')
-      .mockResolvedValueOnce();
-    await prisma.onModuleDestroy();
+    const disconnectSpy = vi.spyOn(sut, '$disconnect').mockResolvedValueOnce();
+    await sut.onModuleDestroy();
     expect(disconnectSpy).toHaveBeenCalledOnce();
   });
 });

@@ -17,7 +17,6 @@ describe('Container Model', () => {
         status: 'ARRIVED',
         arrivalDate: faker.date.recent(),
       });
-
       expect(container.getId()).toEqual(expect.any(String));
       expect(container.getShipId()).toEqual(expect.any(String));
       expect(container.getTerminalId()).toEqual(expect.any(String));
@@ -28,14 +27,10 @@ describe('Container Model', () => {
       expect(container.getCreatedAt()).toEqual(expect.any(Date));
       expect(container.getUpdatedAt()).toEqual(expect.any(Date));
     });
-
     it.todo('Container.restore()', () => {});
-
     it.todo('Container.validateArrival()', () => {});
-
     it.todo('Container.updateStatus()', () => {});
   });
-
   describe('ContainerError', () => {
     it('validate invalid container id', () => {
       expect(() =>
@@ -51,7 +46,6 @@ describe('Container Model', () => {
         }),
       ).toThrow(new ContainerException('Invalid Container'));
     });
-
     it('validate invalid ship id', () => {
       expect(() =>
         Container.create({
@@ -66,7 +60,6 @@ describe('Container Model', () => {
         }),
       ).toThrow(new ContainerException('Invalid Ship'));
     });
-
     it('validate invalid terminal id', () => {
       expect(() =>
         Container.create({
@@ -81,7 +74,6 @@ describe('Container Model', () => {
         }),
       ).toThrow(new ContainerException('Invalid Terminal'));
     });
-
     it('validate invalid container status', () => {
       expect(() =>
         Container.create({

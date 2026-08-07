@@ -5,16 +5,15 @@ import type { PrismaContainerRepositoryContract } from '@/container/infrastructu
 
 describe('Container Repository Implementation', () => {
   let prisma: PrismaService;
-  let repo: PrismaContainerRepositoryContract;
+  let sut: PrismaContainerRepositoryContract;
 
-  beforeEach(async () => {
+  beforeAll(() => {
     prisma = new PrismaService();
-    repo = new PrismaContainerRepositoryImplementation(prisma);
+    sut = new PrismaContainerRepositoryImplementation(prisma);
   });
 
   it('should be defined', () => {
-    expect(repo).toBeDefined();
+    expect(sut).toBeDefined();
   });
-
   it.todo('should', () => {});
 });

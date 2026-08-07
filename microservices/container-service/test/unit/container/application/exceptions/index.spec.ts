@@ -20,7 +20,6 @@ describe('Exceptions', () => {
       expect(exception.code).toBe('BAD_REQUEST');
     });
   });
-
   describe('conflict()', () => {
     it('should return default message', () => {
       const exception = conflict();
@@ -28,7 +27,6 @@ describe('Exceptions', () => {
       expect(exception.code).toBe('CONFLICT');
     });
   });
-
   describe('internalServerError()', () => {
     it('should return default message', () => {
       const exception = internalServerError();
@@ -36,7 +34,6 @@ describe('Exceptions', () => {
       expect(exception.code).toBe('INTERNAL_SERVER_ERROR');
     });
   });
-
   describe('databaseError()', () => {
     it('should return default message', () => {
       const exception = databaseError();
@@ -44,7 +41,6 @@ describe('Exceptions', () => {
       expect(exception.code).toBe('DATABASE_ERROR');
     });
   });
-
   describe('forbidden()', () => {
     it('should return default message', () => {
       const exception = forbidden();
@@ -52,7 +48,6 @@ describe('Exceptions', () => {
       expect(exception.code).toBe('FORBIDDEN');
     });
   });
-
   describe('notFound()', () => {
     it('should return default message', () => {
       const exception = notFound('Resource x');
@@ -60,7 +55,6 @@ describe('Exceptions', () => {
       expect(exception.code).toBe('RESOURCE_NOT_FOUND');
     });
   });
-
   describe('invalidCredentials()', () => {
     it('should return default message', () => {
       const exception = invalidCredentials();
@@ -68,7 +62,6 @@ describe('Exceptions', () => {
       expect(exception.code).toBe('INVALID_CREDENTIALS');
     });
   });
-
   describe('unauthorized()', () => {
     it('should return default message', () => {
       const exception = unauthorized();
@@ -76,7 +69,6 @@ describe('Exceptions', () => {
       expect(exception.code).toBe('UNAUTHORIZED');
     });
   });
-
   describe('validationError()', () => {
     it('should return default message', () => {
       const exception = validationError();
@@ -84,7 +76,6 @@ describe('Exceptions', () => {
       expect(exception.code).toBe('VALIDATION_ERROR');
     });
   });
-
   describe('rateLimited()', () => {
     it('should return default message', () => {
       const exception = rateLimited();
@@ -92,7 +83,6 @@ describe('Exceptions', () => {
       expect(exception.code).toBe('RATE_LIMITED');
     });
   });
-
   describe('serviceUnavailable()', () => {
     it('should return default message', () => {
       const exception = serviceUnavailable();
@@ -100,7 +90,6 @@ describe('Exceptions', () => {
       expect(exception.code).toBe('SERVICE_UNAVAILABLE');
     });
   });
-
   describe('Custom message', () => {
     it('should return custom message', () => {
       const exception = unauthorized('User not authorized!');

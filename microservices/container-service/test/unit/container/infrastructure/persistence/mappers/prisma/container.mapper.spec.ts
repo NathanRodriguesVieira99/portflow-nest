@@ -21,9 +21,7 @@ describe('Prisma Container Mapper', () => {
         createdAt: faker.date.recent(),
         updatedAt: faker.date.recent(),
       };
-
       const response = PrismaContainerMapper.toDomain(raw);
-
       expect(response).toBeInstanceOf(Container);
       expect(response.getId()).toEqual(raw.id);
       expect(response.getShipId()).toBe(raw.shipId);
@@ -37,7 +35,6 @@ describe('Prisma Container Mapper', () => {
       expect(response.getUpdatedAt()).toBe(raw.updatedAt);
     });
   });
-
   describe('toPrisma()', () => {
     it('should map the domain model to Prisma model', () => {
       const container = Container.create({
@@ -49,9 +46,7 @@ describe('Prisma Container Mapper', () => {
         status: 'ARRIVED',
         arrivalDate: faker.date.recent(),
       });
-
       const response = PrismaContainerMapper.toPrisma(container);
-
       expect(container.getId()).toBe(response.id);
       expect(container.getShipId()).toBe(response.shipId);
       expect(container.getTerminalId()).toBe(response.terminalId);

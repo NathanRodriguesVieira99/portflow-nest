@@ -6,16 +6,16 @@ import type { PrismaContainerRepositoryContract } from '@Infra/persistence/repos
 
 describe('ContainerService', () => {
   let prisma: PrismaService;
-  let service: FindContainerByStatusService;
   let repo: PrismaContainerRepositoryContract;
+  let sut: FindContainerByStatusService;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     prisma = new PrismaService();
     repo = new PrismaContainerRepositoryImplementation(prisma);
-    service = new FindContainerByStatusService(repo);
+    sut = new FindContainerByStatusService(repo);
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(sut).toBeDefined();
   });
 });

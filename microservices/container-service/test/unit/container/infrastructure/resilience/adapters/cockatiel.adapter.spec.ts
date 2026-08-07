@@ -17,14 +17,12 @@ describe('Resilience', () => {
       await expect(cb.execute(async () => 'ok')).resolves.toBe('ok');
       expect(cb.getState()).toBe('closed');
     });
-
     it('should block requests when open', async () => {
       const cb = new CockatielAdapter({ consecutiveFailures: 2 });
       const fn = vi.fn(async () => 'request passing with error');
       await failTimes(cb, 2);
       await expect(cb.execute(fn)).rejects.toThrow();
     });
-
     it('should return closed after half-open success', async () => {
       vi.useFakeTimers();
       try {
@@ -43,7 +41,6 @@ describe('Resilience', () => {
       }
     });
   });
-
   describe('execute() - Circuit Breaker With Fallback', () => {
     it('should use fallback when circuit is open', async () => {
       const cb = new CockatielAdapter({ consecutiveFailures: 1 });

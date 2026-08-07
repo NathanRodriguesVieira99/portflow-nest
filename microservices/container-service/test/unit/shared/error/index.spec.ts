@@ -9,7 +9,6 @@ describe('AppError', () => {
       message: 'Invalid request!',
     });
   });
-
   it('should return details when provided', () => {
     const details = { field: 'email' };
     const error = AppError('BAD_REQUEST', 'Invalid request!', details);
@@ -20,7 +19,6 @@ describe('AppError', () => {
       details,
     });
   });
-
   it('should omit details when undefined', () => {
     const error = AppError('BAD_REQUEST', 'Invalid request!');
     expect(error).not.toHaveProperty('details');
