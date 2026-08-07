@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { TERMINAL_SERVICE_BASE_URL } from '@Shared/constants/constants';
+import { type HttpCodes } from '@Shared/constants/http-codes';
 import { serviceUnavailable } from '@/container/application/exceptions';
 import { type Result, err } from '@Shared/result';
 import { RESILIENCE, type ResilienceContract } from '../../resilience';
@@ -30,7 +31,9 @@ export class TerminalHttp {
   async validateTerminal({
     terminalId,
     cargoType,
-  }: TerminalValidation.Input): Promise<Result<TerminalValidation.Output>> {
+  }: TerminalValidation.Input): Promise<
+    Result<{ status: HttpCodes; data: TerminalValidation.Output }>
+  > {
     const response = this.resilience.execute(
       async () =>
         await this.http.request<TerminalValidation.Output, never>({

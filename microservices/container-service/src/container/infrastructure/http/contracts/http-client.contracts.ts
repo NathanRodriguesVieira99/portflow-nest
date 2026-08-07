@@ -1,3 +1,4 @@
+import type { HttpCodes } from '@Shared/constants/http-codes';
 import type { Result } from '@Shared/result';
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -17,5 +18,5 @@ export interface HttpClientContract {
     headers,
     params,
     body,
-  }: HttpRequest<T>) => Promise<Result<R>>;
+  }: HttpRequest<T>) => Promise<Result<{ status: HttpCodes; data: R }>>;
 }
