@@ -1,5 +1,7 @@
-import 'dotenv/config';
-import * as z from 'zod';
+import { loadEnvFile } from 'node:process';
+import { z } from 'zod';
+
+loadEnvFile('.env');
 
 export const envSchema = z.object({
   SERVICE_NAME: z.string().default('container-service'),

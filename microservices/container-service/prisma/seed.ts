@@ -1,11 +1,12 @@
-import 'dotenv/config';
-
+import { loadEnvFile } from 'node:process';
 import {
   PrismaClient,
   STATUS_CONTAINER,
 } from '../src/container/infrastructure/persistence/database/prisma/generated/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { fakerPT_BR as faker } from '@faker-js/faker';
+
+loadEnvFile('.env');
 
 const connectionString = process.env.DATABASE_URL;
 const adapter = new PrismaPg({ connectionString });
