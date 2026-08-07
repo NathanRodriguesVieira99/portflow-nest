@@ -34,6 +34,6 @@ export const resetDatabase = () => {
 };
 
 export const disconnectPrismaAndPostgres = async () => {
-  await prisma.$disconnect();
-  await postgres.stop();
+  if (prisma) await prisma.$disconnect();
+  if (postgres) await postgres.stop();
 };
