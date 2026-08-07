@@ -1,11 +1,10 @@
 import request from 'supertest';
-import { app } from '../../../../helpers';
+import { app } from '../../../../../helpers';
 
-describe('E2E - Healthcheck', () => {
-  describe('[E2E] GET /health', () => {
+describe('Healthcheck', () => {
+  describe('GET /health', () => {
     it('should return 200', async () => {
       const health = await request(app.getHttpServer()).get(`/health`);
-
       expect(health.status).toBe(200);
       expect(health.body).toEqual({
         ok: true,
