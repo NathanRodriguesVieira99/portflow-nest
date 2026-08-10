@@ -1,8 +1,8 @@
-import { PrismaService } from '@/container/infrastructure/persistence/database/prisma/prisma.service';
-import { PrismaContainerRepositoryImplementation } from '@/container/infrastructure/persistence/repositories/prisma/prisma-container.repository.implementation';
-import { FindContainerByStatusService } from '@/container/application/services/container/find-container-by-status.service';
+import { PrismaService } from '@/infra/persistence/database/prisma/prisma.service';
+import { PrismaContainerRepositoryImplementation } from '@/infra/persistence/repositories/prisma/prisma-container.repository.implementation';
+import { FindContainerByStatusService } from '@/application/usecases/find-container-by-status';
 
-import type { PrismaContainerRepositoryContract } from '@Infra/persistence/repositories/prisma/prisma-container.repository.contract';
+import type { PrismaContainerRepositoryContract } from '@/application/repositories/prisma/prisma-container.repository.contract';
 
 describe('ContainerService', () => {
   let prisma: PrismaService;

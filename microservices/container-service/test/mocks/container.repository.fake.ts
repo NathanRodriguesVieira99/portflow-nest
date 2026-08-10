@@ -1,10 +1,10 @@
-import { Container } from '@/container/domain/models/container.model';
-import { notFound } from '@/container/application/exceptions';
-import { err, ok, type Result } from '@/shared/result';
+import { Container } from '@/domain/entities/container.entity';
+import { notFound } from '@/application/exceptions/http-exceptions';
+import { err, ok, type Result } from '@/@types/result';
 
-import type { PrismaContainerRepositoryContract } from '@Infra/persistence/repositories/prisma/prisma-container.repository.contract';
-import type { StatusContainer } from '@/container/@types/status-container.type';
-import type { Pagination } from '@/container/domain/contracts/pagination';
+import type { PrismaContainerRepositoryContract } from '@/application/repositories/prisma/prisma-container.repository.contract';
+import type { StatusContainer } from '@/@types/status-container.type';
+import type { Pagination } from '@/@types/pagination';
 
 export class ContainerRepositoryFake implements PrismaContainerRepositoryContract {
   private containersList: Container[] = []; // simula o banco de dados

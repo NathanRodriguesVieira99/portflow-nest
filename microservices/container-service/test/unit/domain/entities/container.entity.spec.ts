@@ -1,8 +1,8 @@
 import { fakerPT_BR as faker } from '@faker-js/faker';
-import { Container } from '@Models/container.model';
-import { ContainerException } from '@/container/domain/exceptions';
+import { Container } from '@/domain/entities/container.entity';
+import { ContainerException } from '@/domain/exceptions/container.exceptions';
 
-import type { StatusContainer } from '@/container/@types/status-container.type';
+import type { StatusContainer } from '@/@types/status-container.type';
 
 describe('Container Model', () => {
   describe('Methods', () => {

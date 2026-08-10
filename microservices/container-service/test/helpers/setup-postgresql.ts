@@ -4,7 +4,7 @@ import {
   PostgreSqlContainer,
   StartedPostgreSqlContainer,
 } from '@testcontainers/postgresql';
-import { PrismaClient } from '@Infra/persistence/database/prisma/generated/client';
+import { PrismaClient } from '@/infra/persistence/database/prisma/generated/client';
 
 export let prisma: PrismaClient;
 export let postgres: StartedPostgreSqlContainer;

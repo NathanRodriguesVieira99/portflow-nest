@@ -1,4 +1,4 @@
-import { CockatielAdapter } from '@Infra/resilience/';
+import { CockatielAdapter } from '@/external/resilience/cockatiel.adapter';
 
 describe('Resilience', () => {
   const failTimes = async (cb: CockatielAdapter, n: number) => {

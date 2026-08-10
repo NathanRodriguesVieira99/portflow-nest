@@ -10,7 +10,7 @@ import {
   internalServerError,
   validationError,
   serviceUnavailable,
-} from '@/container/application/exceptions';
+} from '@/application/exceptions/http-exceptions';
 
 describe('Exceptions', () => {
   describe('badRequest()', () => {

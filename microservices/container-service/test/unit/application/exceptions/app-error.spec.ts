@@ -1,4 +1,4 @@
-import { AppError } from '@Shared/error';
+import { AppError } from '@/application/exceptions/app-error';
 
 describe('AppError', () => {
   it('should return an error with status code and message', () => {

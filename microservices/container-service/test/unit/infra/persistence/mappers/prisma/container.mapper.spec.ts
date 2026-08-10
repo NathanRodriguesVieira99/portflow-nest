@@ -2,9 +2,9 @@ import { fakerPT_BR as faker } from '@faker-js/faker';
 import {
   Container as PrismaContainer,
   STATUS_CONTAINER,
-} from '@Infra/persistence/database/prisma/generated/client';
-import { Container } from '@Models/container.model';
-import { PrismaContainerMapper } from '@Infra/persistence/mappers/prisma/container.mapper';
+} from '@/infra/persistence/database/prisma/generated/client';
+import { Container } from '@/domain/entities/container.entity';
+import { PrismaContainerMapper } from '@/infra/persistence/mappers/prisma/container.mapper';
 
 describe('Prisma Container Mapper', () => {
   describe('toDomain()', () => {
