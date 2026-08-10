@@ -58,4 +58,4 @@ pids
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # Prisma
-/src/container/infrastructure/persistence/database/prisma/generated/*
+/src/infra/persistence/database/prisma/generated/*
