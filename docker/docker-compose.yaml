@@ -124,7 +124,7 @@ services:
     ports:
       - "27017:27017"
     healthcheck:
-      test: ["CMD", "mongosh", "--username", "portflow", "--password", "portflow"]
+      test: ["CMD", "mongosh", "--username", "mongo", "--password", "mongo"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -269,8 +269,8 @@ services:
     ports:
       - "8000:8000" # Proxy HTTP
       - "8001:8001" # Admin API HTTP
-      - "8002:8002" #  UI
-      - "8443:8443" #  Proxy HTTPS
+      - "8002:8002" # UI
+      - "8443:8443" # Proxy HTTPS
       - "8444:8444" # Admin API HTTPS
     healthcheck:
       test: ["CMD", "kong", "health"]
