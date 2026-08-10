@@ -1,0 +1,44 @@
+@baseUrl= http://localhost:3434/api/v1
+@kongUrl= http://localhost:8000/terminal-service
+
+
+# ---------------------------------------------------------------------------
+# Microservice isolado
+# ---------------------------------------------------------------------------
+
+###
+
+# @name find_all_terminals_isolated
+GET {{baseUrl}}/terminals?page=1&perPage=10
+
+###
+
+# @name find_terminal_by_id_isolated
+GET {{baseUrl}}/terminals/T1
+
+###
+
+# @name validate_terminal_isolated
+
+GET {{baseUrl}}/terminals/T1/validation?cargoType=ELECTRONICS
+
+
+# ---------------------------------------------------------------------------
+# Via Kong API Gateway
+# ---------------------------------------------------------------------------
+
+###
+
+# @name find_all_terminals_gateway
+GET {{kongUrl}}/terminals?page=1&perPage=10
+
+###
+
+# @name find_terminal_by_id_gateway
+GET {{kongUrl}}/terminals/T1
+
+###
+
+# @name validate_terminal_gateway
+
+GET {{kongUrl}}/terminals/T1/validation?cargoType=ELECTRONICS

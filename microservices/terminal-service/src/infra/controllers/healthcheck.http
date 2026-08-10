@@ -1,0 +1,20 @@
+@baseUrl= http://localhost:3434/api/v1
+@kongUrl= http://localhost:8000/terminal-service
+
+
+
+# ---------------------------------------------------------------------------
+# Microservice isolado
+# ---------------------------------------------------------------------------
+
+# @name healthcheck_isolated
+GET {{baseUrl}}/health
+
+# ---------------------------------------------------------------------------
+# Via Kong API Gateway
+# ---------------------------------------------------------------------------
+
+###
+
+# @name healthcheck_gateway
+GET {{kongUrl}}/health

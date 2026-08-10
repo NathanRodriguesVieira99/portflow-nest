@@ -18,16 +18,14 @@
     "paths": {
       "@/*": ["./src/*"],
       "@Types/*": ["./src/terminal/@types/*"],
-      "@Contracts/*": ["src/terminal/domain/contracts/*"],
-      "@Events/*": ["./src/terminal/infrastructure/messaging/events/*"],
-      "@Models/*": ["./src/terminal/domain/models/*"],
-      "@Repositories/*": [
-        "./src/terminal/infrastructure/persistence/repositories/*"
-      ],
-      "@Controllers/*": ["./src/terminal/presentation/controllers/*"],
+      "@Contracts/*": ["src/domain/validators/*"],
+      "@Events/*": ["src/terminal/infra/messaging/events/*"],
+      "@Models/*": ["src/domain/entities/*"],
+      "@Repositories/*": ["src/terminal/infra/persistence/repositories/*"],
+      "@Controllers/*": ["src/terminal/infra/controllers/*"],
       "@Dtos/*": ["./src/terminal/presentation/dtos/*"],
-      "@Services/*": ["./src/terminal/application/services/*"],
-      "@Infra/*": ["./src/terminal/infrastructure/*"],
+      "@Services/*": ["src/application/services/*"],
+      "@Infra/*": ["src/terminal/infra/*"],
       "@Shared/*": ["./src/shared/*"]
     },
     "types": ["node", "jest"],
