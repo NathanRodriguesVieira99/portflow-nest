@@ -3,101 +3,72 @@ name: Container Service CI
 on:
   workflow_dispatch:
   push:
+    paths:
+      - "microservices/container-service/**"
+      - ".github/actions/setup-node/**"
+      - ".github/workflows/container-service-ci.yaml"
     branches: [main, develop]
   pull_request:
     branches: [main, develop]
-
+    paths:
+      - "microservices/container-service/**"
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
-
       - name: Setup NodeJs and PNPM
         uses: ./.github/actions/setup-node
         with:
-          working-directory: ./container-service
-
+          working-directory: ./microservices/container-service
       - name: Generate Prisma Client
         run: pnpm dlx prisma generate
-        working-directory: ./container-service
+        working-directory: ./microservices/container-service
         env:
           DATABASE_URL: "postgresql://admin:admin@localhost:5432/container_service_db_test"
-
       - name: Build Container Microservice
         run: pnpm build
-        working-directory: ./container-service
+        working-directory: ./microservices/container-service
 
   lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
-
       - name: Setup NodeJs and PNPM
         uses: ./.github/actions/setup-node
         with:
-          working-directory: ./container-service
-
+          working-directory: ./microservices/container-service
       - name: Generate Prisma Client
         run: pnpm dlx prisma generate
-        working-directory: ./container-service
+        working-directory: ./microservices/container-service
         env:
           DATABASE_URL: "postgresql://admin:admin@localhost:5432/container_service_db_test"
-
       - name: Lint
         run: pnpm lint
-        working-directory: ./container-service
-
-  # typecheck:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v7
-
-  #     - name: Setup NodeJs and PNPM
-  #       uses: ./.github/actions/setup-node
-
-  #     - name: Generate Prisma Client
-  #       run: pnpm dlx prisma generate
-  #       working-directory: ./container-service
-  #       env:
-  #         DATABASE_URL: "postgresql://admin:admin@localhost:5432/container_service_db_test"
-
-  #     - name: Typecheck
-  #       run: pnpm typecheck
-  #       working-directory: ./container-service
+        working-directory: ./microservices/container-service
 
   unit-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
-
       - name: Setup NodeJs and PNPM
         uses: ./.github/actions/setup-node
         with:
-          working-directory: ./container-service
-
+          working-directory: ./microservices/container-service
       - name: Generate Prisma Client
         run: pnpm dlx prisma generate
-        working-directory: ./container-service
+        working-directory: ./microservices/container-service
         env:
           DATABASE_URL: "postgresql://admin:admin@localhost:5432/container_service_db_test"
-
       - name: Unit Tests
         run: pnpm test:unit:cov
-        working-directory: ./container-service
+        working-directory: ./microservices/container-service
         env:
           DATABASE_URL: postgresql://admin:admin@localhost:5432/container_service_db_test
           NODE_ENV: test
-
-      # - name: Upload Coverage Reports to CodeCov
-      #   uses: codecov/codecov-action@v5
-      #   with:
-      #     token: ${{ secrets.CODECOV_TOKEN }}
-      #     slug: NathanRodriguesVieira99/portflow-nest
 
   integration-tests:
     runs-on: ubuntu-latest
@@ -135,19 +106,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
-
       - name: Setup NodeJs and PNPM
         uses: ./.github/actions/setup-node
         with:
-          working-directory: ./container-service
-
+          working-directory: ./microservices/container-service
       - name: Generate Prisma Client
         run: pnpm dlx prisma generate
-        working-directory: ./container-service
-
+        working-directory: ./microservices/container-service
       - name: Integration Tests
         run: pnpm test:int
-        working-directory: ./container-service
+        working-directory: ./microservices/container-service
         env:
           DATABASE_URL: "postgresql://admin:admin@localhost:5432/container_service_db_test"
           NODE_ENV: test
@@ -188,56 +156,65 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
-
       - name: Setup NodeJs and PNPM
         uses: ./.github/actions/setup-node
         with:
-          working-directory: ./container-service
-
+          working-directory: ./microservices/container-service
       - name: Generate Prisma Client
         run: pnpm dlx prisma generate
-        working-directory: ./container-service
+        working-directory: ./microservices/container-service
         env:
           DATABASE_URL: "postgresql://admin:admin@localhost:5432/container_service_db"
-
       - name: E2E Tests
         run: pnpm test:e2e
-        working-directory: ./container-service
+        working-directory: ./microservices/container-service
         env:
           DATABASE_URL: postgresql://admin:admin@localhost:5432/container_service_db_test
           NODE_ENV: test
-
-  # k6:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v7
-
-  #     - name: Setup K6
-  #       uses: grafana/setup-k6-action@v1
-
-  #     - name: Run K6 tests
-  #       uses: grafana/run-k6-action@v1
-  #       with:
-  #         path: ./services/container-service/k6/scenarios/main.ts
 
   audit:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
-
       - name: Setup NodeJs and PNPM
         uses: ./.github/actions/setup-node
         with:
-          working-directory: ./container-service
-
+          working-directory: ./microservices/container-service
       - name: Generate Prisma Client
         run: pnpm dlx prisma generate
-        working-directory: ./container-service
+        working-directory: ./microservices/container-service
         env:
           DATABASE_URL: "postgresql://admin:admin@localhost:5432/container_service_db_test"
-
       - name: PNPM audit
         run: pnpm audit --audit-level=critical
-        working-directory: ./container-service
+        working-directory: ./microservices/container-service
+
+  build-and-push:
+    needs: [build, lint, unit-tests, integration-tests, end-to-end-tests, audit]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login on Github Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{github.repository_owner}}
+          password: ${{secrets.GITHUB_TOKEN}}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./microservices/container-service
+          file: ./microservices/container-service/Dockerfile
+          target: production
+          push: true
+          tags: |
+            ghcr.io/nathanrodriguesvieira99/container-service:${{ github.sha }}
+            ghcr.io/nathanrodriguesvieira99/container-service:latest
