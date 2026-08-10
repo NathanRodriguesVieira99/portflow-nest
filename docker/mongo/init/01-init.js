@@ -11,86 +11,86 @@ db.createUser({
   ],
 });
 
-db.createCollection("terminais");
+db.createCollection("terminals");
 
-db.terminais.insertMany([
+db.terminals.insertMany([
   {
     terminalId: "T1",
-    nome: "Terminal Atlântico",
-    ativo: true,
-    tiposCargaAceitos: ["ELETRONICOS", "MAQUINAS", "TEXTIL"],
-    capacidade: {
-      maximaContainers: 5000,
-      ocupacaoAtual: 3120,
+    name: "Atlantic Terminal",
+    isActive: true,
+    acceptedCargoTypes: ["ELECTRONICS", "MACHINERY", "TEXTILE"],
+    capacity: {
+      maxContainers: 5000,
+      currentOccupation: 3120,
     },
-    zonas: [
+    zones: [
       {
-        codigo: "A1",
-        tipo: "CARGA_GERAL",
-        disponivel: true,
+        code: "A1",
+        type: "GENERAL_CARGO",
+        isAvailable: true,
       },
       {
-        codigo: "R1",
-        tipo: "REFRIGERADA",
-        disponivel: false,
-        motivoIndisponibilidade: "MANUTENCAO",
+        code: "R1",
+        type: "REFRIGERATED",
+        isAvailable: false,
+        unavailableReason: "MAINTENANCE",
       },
     ],
-    restricoes: {
-      aceitaCargaPerigosa: false,
-      aceitaCargaRefrigerada: true,
-      alturaMaximaMetros: 4.5,
-      pesoMaximoToneladas: 28,
+    restrictions: {
+      acceptsDangerousCargo: false,
+      acceptsRefrigeratedCargo: true,
+      maxHeightInMeters: 4.5,
+      maxWeightInTons: 28,
     },
-    equipamentos: ["GUINDASTE", "EMPILHADEIRA", "SCANNER"],
+    equipments: ["CRANE", "FORKLIFT", "SCANNER"],
   },
   {
     terminalId: "T2",
-    nome: "Terminal Pacífico",
-    ativo: true,
-    tiposCargaAceitos: ["ALIMENTOS", "REFRIGERADOS", "MEDICAMENTOS"],
-    capacidade: {
-      maximaContainers: 3000,
-      ocupacaoAtual: 2800,
+    name: "Pacific Terminal",
+    isActive: true,
+    acceptedCargoTypes: ["FOOD", "REFRIGERATED", "PHARMACEUTICALS"],
+    capacity: {
+      maxContainers: 3000,
+      currentOccupation: 2800,
     },
-    zonas: [
+    zones: [
       {
-        codigo: "F1",
-        tipo: "REFRIGERADA",
-        disponivel: true,
+        code: "F1",
+        type: "REFRIGERATED",
+        isAvailable: true,
       },
     ],
-    restricoes: {
-      aceitaCargaPerigosa: false,
-      aceitaCargaRefrigerada: true,
-      alturaMaximaMetros: 3.8,
-      pesoMaximoToneladas: 22,
+    restrictions: {
+      acceptsDangerousCargo: false,
+      acceptsRefrigeratedCargo: true,
+      maxHeightInMeters: 3.8,
+      maxWeightInTons: 22,
     },
-    equipamentos: ["CAMARA_FRIA", "EMPILHADEIRA", "SCANNER"],
+    equipments: ["COLD_ROOM", "FORKLIFT", "SCANNER"],
   },
   {
     terminalId: "T3",
-    nome: "Terminal Químico",
-    ativo: false,
-    tiposCargaAceitos: ["QUIMICOS", "CARGA_PERIGOSA"],
-    capacidade: {
-      maximaContainers: 1500,
-      ocupacaoAtual: 900,
+    name: "Chemical Terminal",
+    isActive: false,
+    acceptedCargoTypes: ["CHEMICALS", "DANGEROUS_CARGO"],
+    capacity: {
+      maxContainers: 1500,
+      currentOccupation: 900,
     },
-    zonas: [
+    zones: [
       {
-        codigo: "Q1",
-        tipo: "CARGA_PERIGOSA",
-        disponivel: false,
-        motivoIndisponibilidade: "TERMINAL_INATIVO",
+        code: "Q1",
+        type: "DANGEROUS_CARGO",
+        isAvailable: false,
+        unavailableReason: "INACTIVE_TERMINAL",
       },
     ],
-    restricoes: {
-      aceitaCargaPerigosa: true,
-      aceitaCargaRefrigerada: false,
-      alturaMaximaMetros: 4.0,
-      pesoMaximoToneladas: 30,
+    restrictions: {
+      acceptsDangerousCargo: true,
+      acceptsRefrigeratedCargo: false,
+      maxHeightInMeters: 4.0,
+      maxWeightInTons: 30,
     },
-    equipamentos: ["SENSOR_QUIMICO", "SCANNER", "GUINDASTE_ESPECIAL"],
+    equipments: ["CHEMICAL_SENSOR", "SCANNER", "SPECIAL_CRANE"],
   },
 ]);
