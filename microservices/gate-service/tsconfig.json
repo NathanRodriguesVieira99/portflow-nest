@@ -15,22 +15,11 @@
     "outDir": "./dist",
     "rootDir": "./",
     "baseUrl": "./",
+    "ignoreDeprecations": "6.0",
     "paths": {
-      "@/*": ["./src/*"],
-      "@Types/*": ["./src/container/@types/*"],
-      "@Contracts/*": ["src/container/domain/contracts/*"],
-      "@Events/*": ["./src/container/infrastructure/messaging/events/*"],
-      "@Models/*": ["./src/container/domain/models/*"],
-      "@Repositories/*": [
-        "./src/container/infrastructure/persistence/repositories/*"
-      ],
-      "@Controllers/*": ["./src/container/presentation/controllers/*"],
-      "@Dtos/*": ["./src/container/presentation/dtos/*"],
-      "@Services/*": ["./src/container/application/services/*"],
-      "@Infra/*": ["./src/container/infrastructure/*"],
-      "@Shared/*": ["./src/shared/*"]
+      "@/*": ["./src/*"]
     },
-    "types": ["node"],
+    "types": ["node", "jest"],
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
@@ -39,5 +28,5 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false
   },
-  "exclude": ["./k6/*"]
+  "exclude": ["./dist", "./node_modules"]
 }
