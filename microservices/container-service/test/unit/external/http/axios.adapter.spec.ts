@@ -2,9 +2,8 @@ import nock from 'nock';
 import Sinon from 'sinon';
 import axios, { AxiosError } from 'axios';
 import { AxiosAdapter } from '@/external/http/axios.adapter';
-import type { HttpClientContract } from '@/application/ports/http-client';
-
-import type { HttpCodes } from '@/domain/constants/http';
+import type { HttpClientContract } from '@/infra/http/http-client';
+import type { HttpCodes } from '@/domain/enums/http-codes.enum';
 
 describe('Http Client', () => {
   let sut: HttpClientContract;

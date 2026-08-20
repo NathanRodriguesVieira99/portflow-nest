@@ -6,11 +6,10 @@ import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 import { ClsModule, ClsService } from 'nestjs-cls';
 import { Module } from '@nestjs/common';
 import { CacheModule } from '@nestjs/cache-manager';
-import { CacheService } from '../infra/cache/cache.service';
 import { env } from '../config/env';
 import { isDev, SERVICE_NAME } from '../domain/constants/constants';
-import { PrismaService } from '../infra/persistence/database/prisma/prisma.service';
-import { ContainerModule } from '@/infra/modules/container.module';
+import { ContainerModule } from '@/external/modules/container.module';
+import { CacheService } from '@/external/cache/cache';
 
 @Module({
   imports: [

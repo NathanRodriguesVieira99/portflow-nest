@@ -1,7 +1,4 @@
 import { Module } from '@nestjs/common';
-import { PrismaService } from '../persistence/database/prisma/prisma.service';
-import { ContainerController } from '../controllers/container.controller';
-import { HealthcheckController } from '../controllers/healthcheck.controller';
 import { RegisterContainerArrivalService } from '../../application/usecases/register-container-arrival';
 import { UpdateContainerStatusService } from '../../application/usecases/update-container-status';
 import { RemoveContainerService } from '../../application/usecases/remove-container';
@@ -9,13 +6,16 @@ import { FindContainerByIdService } from '../../application/usecases/find-contai
 import { FindAllContainersService } from '../../application/usecases/find-all-containers';
 import { FindContainerByStatusService } from '../../application/usecases/find-container-by-status';
 import { ClsService } from 'nestjs-cls';
-import { PrismaContainerRepositoryImplementation } from '../persistence/repositories/prisma/prisma-container.repository.implementation';
 import { AxiosAdapter, HTTP_CLIENT } from '../../external/http/axios.adapter';
 import { CONTAINER_REPOSITORY_CONTRACT } from '../../application/repositories/prisma/prisma-container.repository.contract';
 import { CockatielAdapter } from '../../external/resilience/cockatiel.adapter';
-import { RESILIENCE } from '../../application/ports/resilience';
 import { TerminalHttp } from '@/application/usecases/validate-terminal';
-import { MessagingModule } from '../messaging/messaging.module';
+import { MessagingModule } from '../../external/messaging/messaging.module';
+import { PrismaService } from '@/infra/persistence/database/prisma/prisma.service';
+import { RESILIENCE } from '@/infra/resilience/resilience';
+import { PrismaContainerRepositoryImplementation } from '@/infra/persistence/repositories/prisma/prisma-container.repository.implementation';
+import { ContainerController } from '@/infra/controllers/container.controller';
+import { HealthcheckController } from '@/infra/controllers/healthcheck.controller';
 
 @Module({
   imports: [MessagingModule],

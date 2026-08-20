@@ -12,7 +12,7 @@ import type {
   CircuitBreakerState,
   ResilienceConfig,
   ResilienceContract,
-} from '../../application/ports/resilience';
+} from '../../infra/resilience/resilience';
 
 /**
  * Adapter que implementa {@link ResilienceContract} utilizando a lib Cockatiel.

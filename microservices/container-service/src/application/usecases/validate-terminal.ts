@@ -2,9 +2,12 @@ import { Inject, Injectable } from '@nestjs/common';
 import { TERMINAL_SERVICE_BASE_URL } from '@/domain/constants/constants';
 import { serviceUnavailable } from '@/application/exceptions/http-exceptions';
 import { HTTP_CLIENT } from '@/external/http/axios.adapter';
-import { RESILIENCE, type ResilienceContract } from '../ports/resilience';
+import {
+  RESILIENCE,
+  type ResilienceContract,
+} from '../../infra/resilience/resilience';
 import { type Result, err } from '@/@types/result';
-import type { HttpClientContract } from '@/application/ports/http-client';
+import type { HttpClientContract } from '@/infra/http/http-client';
 import type { HttpCodes } from '@/domain/enums/http-codes.enum';
 
 export namespace TerminalValidation {

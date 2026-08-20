@@ -11,7 +11,7 @@ import { ReceiveDocumentationRefusedEvent } from './consumers/receive-documentat
 import { ReceiveDocumentationReleasedEvent } from './consumers/receive-documentation-released.event';
 import { env } from '@/config/env';
 import { KAFKA_CLIENTS, KAFKA_CONSUMER_GROUPS } from '@/domain/constants/kafka';
-import { MESSAGE_BROKER_PRODUCER_CONTRACT } from '@/application/messaging/message-broker';
+import { MESSAGE_BROKER_PRODUCER_CONTRACT } from '@/infra/messaging/message-broker';
 
 export const kafkaConfig: KafkaOptions = {
   transport: Transport.KAFKA,

@@ -2,7 +2,7 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Container } from '@/domain/entities/container.entity';
 import { badRequest } from '@/application/exceptions/http-exceptions';
 import { err, ok } from '@/@types/result';
-import { SendPendingDocumentationEvent } from '@/infra/messaging/producers/send-pending-documentation.event';
+import { SendPendingDocumentationEvent } from '@/external/messaging/producers/send-pending-documentation.event';
 import { TerminalHttp } from './validate-terminal';
 import type { Result } from '@/@types/result';
 import type { StatusContainer } from '@/@types/status-container.type';

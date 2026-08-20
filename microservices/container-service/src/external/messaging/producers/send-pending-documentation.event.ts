@@ -6,7 +6,7 @@ import type { StatusContainer } from '@/@types/status-container.type';
 import {
   MESSAGE_BROKER_PRODUCER_CONTRACT,
   type MessageBrokerProducerContract,
-} from '../../../application/messaging/message-broker';
+} from '../../../infra/messaging/message-broker';
 
 export interface ContainerStatusEvent {
   containerId: string;

@@ -8,7 +8,7 @@ import { type Result, ok, err } from '@/@types/result';
 import type {
   HttpClientContract,
   HttpRequest,
-} from '../../application/ports/http-client';
+} from '../../infra/http/http-client';
 
 export class AxiosAdapter implements HttpClientContract, OnModuleInit {
   private logger = new Logger(AxiosAdapter.name);
