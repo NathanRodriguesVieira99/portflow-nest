@@ -5,9 +5,8 @@ import { TerminalSchema } from '../../database/mongodb/schemas/terminal.schema';
 import { MongooseTerminalMapper } from '../../mappers/mongodb/mongoose-terminal.mapper';
 import { databaseError, notFound } from '@/application/exceptions/exceptions';
 import { err, ok, type Result } from '@/@types/result';
-
 import type { Model } from 'mongoose';
-import type { MongooseTerminalRepositoryContract } from './mongoose-terminal.repository.contract';
+import type { MongooseTerminalRepositoryContract } from '../../../../application/repositories/mongoose-terminal.repository.contract';
 import type { Pagination } from '@/@types/pagination';
 
 @Injectable()

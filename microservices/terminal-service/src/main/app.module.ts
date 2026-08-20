@@ -4,11 +4,11 @@ import { Module } from '@nestjs/common';
 import { ClsModule, ClsService } from 'nestjs-cls';
 import { LoggerModule } from 'nestjs-pino';
 import { nanoid } from 'nanoid';
-import { TerminalModule } from '../infra/modules/terminal.module';
-import { MessagingModule } from '@/infra/messaging/messaging.module';
+import { MessagingModule } from '@/external/messaging/messaging.module';
 import { env } from '@/config/env';
 import { isDev, SERVICE_NAME } from '@/domain/constants/constants';
 import { MongooseModule } from '@nestjs/mongoose';
+import { TerminalModule } from '@/external/modules/terminal.module';
 
 @Module({
   imports: [
