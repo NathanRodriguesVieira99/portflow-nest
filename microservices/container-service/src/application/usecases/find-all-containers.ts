@@ -9,7 +9,7 @@ import {
 } from '@/application/repositories/prisma/prisma-container.repository.contract';
 
 @Injectable()
-export class FindAllContainersService {
+export class FindAllContainersUseCase {
   constructor(
     @Inject(CONTAINER_REPOSITORY_CONTRACT)
     private readonly repo: PrismaContainerRepositoryContract,

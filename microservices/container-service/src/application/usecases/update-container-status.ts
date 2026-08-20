@@ -18,7 +18,7 @@ export namespace UpdateContainerStatus {
 }
 
 @Injectable()
-export class UpdateContainerStatusService {
+export class UpdateContainerStatusUseCase {
   constructor(
     @Inject(CONTAINER_REPOSITORY_CONTRACT)
     private readonly repo: PrismaContainerRepositoryContract,

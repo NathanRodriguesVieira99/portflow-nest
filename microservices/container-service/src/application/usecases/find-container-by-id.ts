@@ -7,7 +7,7 @@ import {
   type PrismaContainerRepositoryContract,
 } from '@/application/repositories/prisma/prisma-container.repository.contract';
 
-export class FindContainerByIdService {
+export class FindContainerByIdUseCase {
   constructor(
     @Inject(CONTAINER_REPOSITORY_CONTRACT)
     private readonly repo: PrismaContainerRepositoryContract,

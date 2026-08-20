@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { RegisterContainerArrivalService } from '../../application/usecases/register-container-arrival';
-import { UpdateContainerStatusService } from '../../application/usecases/update-container-status';
-import { RemoveContainerService } from '../../application/usecases/remove-container';
-import { FindContainerByIdService } from '../../application/usecases/find-container-by-id';
-import { FindAllContainersService } from '../../application/usecases/find-all-containers';
-import { FindContainerByStatusService } from '../../application/usecases/find-container-by-status';
+import { RegisterContainerArrivalUseCase } from '../../application/usecases/register-container-arrival';
+import { UpdateContainerStatusUseCase } from '../../application/usecases/update-container-status';
+import { RemoveContainerUseCase } from '../../application/usecases/remove-container';
+import { FindContainerByIdUseCase } from '../../application/usecases/find-container-by-id';
+import { FindAllContainersUseCase } from '../../application/usecases/find-all-containers';
+import { FindContainerByStatusUseCase } from '../../application/usecases/find-container-by-status';
 import { ClsService } from 'nestjs-cls';
 import { AxiosAdapter, HTTP_CLIENT } from '../../external/http/axios.adapter';
 import { CONTAINER_REPOSITORY_CONTRACT } from '../../application/repositories/prisma/prisma-container.repository.contract';
@@ -21,12 +21,12 @@ import { HealthcheckController } from '@/infra/controllers/healthcheck.controlle
   imports: [MessagingModule],
   providers: [
     PrismaService,
-    RegisterContainerArrivalService,
-    UpdateContainerStatusService,
-    RemoveContainerService,
-    FindContainerByIdService,
-    FindAllContainersService,
-    FindContainerByStatusService,
+    RegisterContainerArrivalUseCase,
+    UpdateContainerStatusUseCase,
+    RemoveContainerUseCase,
+    FindContainerByIdUseCase,
+    FindAllContainersUseCase,
+    FindContainerByStatusUseCase,
     TerminalHttp,
     {
       provide: HTTP_CLIENT,

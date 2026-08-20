@@ -11,9 +11,30 @@ import {
   type PrismaContainerRepositoryContract,
 } from '@/application/repositories/prisma/prisma-container.repository.contract';
 
+export namespace ContainerArrival {
+  export type Input = {
+    containerId: string;
+    shipId: string;
+    terminalId: string;
+    originCountry: string;
+    destinationCountry: string;
+    cargoType: string;
+  };
+  export type Output = {
+    containerId: string;
+    shipId: string;
+    terminalId: string;
+    originCountry: string;
+    destinationCountry: string;
+    cargoType: string;
+    statusContainer: StatusContainer;
+    arrivalDate: Date;
+  };
+}
+
 @Injectable()
-export class RegisterContainerArrivalService {
-  private readonly logger = new Logger(RegisterContainerArrivalService.name);
+export class RegisterContainerArrivalUseCase {
+  private readonly logger = new Logger(RegisterContainerArrivalUseCase.name);
 
   constructor(
     @Inject(CONTAINER_REPOSITORY_CONTRACT)
@@ -79,25 +100,4 @@ export class RegisterContainerArrivalService {
       statusContainer: saved.value.getStatus(),
     });
   }
-}
-
-export namespace ContainerArrival {
-  export type Input = {
-    containerId: string;
-    shipId: string;
-    terminalId: string;
-    originCountry: string;
-    destinationCountry: string;
-    cargoType: string;
-  };
-  export type Output = {
-    containerId: string;
-    shipId: string;
-    terminalId: string;
-    originCountry: string;
-    destinationCountry: string;
-    cargoType: string;
-    statusContainer: StatusContainer;
-    arrivalDate: Date;
-  };
 }

@@ -1,18 +1,18 @@
 import { PrismaService } from '@/infra/persistence/database/prisma/prisma.service';
 import { PrismaContainerRepositoryImplementation } from '@/infra/persistence/repositories/prisma/prisma-container.repository.implementation';
-import { FindContainerByStatusService } from '@/application/usecases/find-container-by-status';
+import { FindContainerByStatusUseCase } from '@/application/usecases/find-container-by-status';
 
 import type { PrismaContainerRepositoryContract } from '@/application/repositories/prisma/prisma-container.repository.contract';
 
 describe('ContainerService', () => {
   let prisma: PrismaService;
   let repo: PrismaContainerRepositoryContract;
-  let sut: FindContainerByStatusService;
+  let sut: FindContainerByStatusUseCase;
 
   beforeEach(() => {
     prisma = new PrismaService();
     repo = new PrismaContainerRepositoryImplementation(prisma);
-    sut = new FindContainerByStatusService(repo);
+    sut = new FindContainerByStatusUseCase(repo);
   });
 
   it('should be defined', () => {
