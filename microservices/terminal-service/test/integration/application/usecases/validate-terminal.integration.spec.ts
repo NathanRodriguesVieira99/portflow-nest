@@ -4,11 +4,13 @@ import {
   TerminalSchemaDefinition,
 } from '@/infra/persistence/database/mongodb/schemas/terminal.schema';
 import type { MongooseTerminalRepositoryContract } from '@/application/repositories/mongoose-terminal.repository.contract';
+import { ValidateTerminalUseCase } from '@/application/usecases/validate-terminal';
 import { MongooseTerminalRepositoryImplementation } from '@/infra/persistence/repositories/mongodb/mongoose-terminal.repository.implementation';
 
-describe('MongooseTerminalRepositoryImplementation', () => {
+describe('ValidateTerminalUseCase', () => {
   let mongo: Model<TerminalSchema>;
-  let sut: MongooseTerminalRepositoryContract;
+  let repo: MongooseTerminalRepositoryContract;
+  let sut: ValidateTerminalUseCase;
 
   beforeAll(() => {
     mongo = mongoose.model<TerminalSchema>(
@@ -18,7 +20,8 @@ describe('MongooseTerminalRepositoryImplementation', () => {
   });
 
   beforeEach(() => {
-    sut = new MongooseTerminalRepositoryImplementation(mongo);
+    repo = new MongooseTerminalRepositoryImplementation(mongo);
+    sut = new ValidateTerminalUseCase(repo);
   });
 
   it('should be defined', () => {
