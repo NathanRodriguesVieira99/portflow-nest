@@ -1,5 +1,19 @@
-beforeAll(async () => {});
+import {
+  disconnectMongoDB,
+  resetMongoDBDatabase,
+  setupMongoDB,
+} from 'test/helpers';
 
-beforeEach(() => {});
+jest.setTimeout(60_000); // aumenta o limite de timeout do Jest de 30s para 60s
 
-afterAll(async () => {});
+beforeAll(async () => {
+  await setupMongoDB();
+});
+
+beforeEach(async () => {
+  await resetMongoDBDatabase();
+});
+
+afterAll(async () => {
+  await disconnectMongoDB();
+});
