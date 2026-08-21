@@ -49,7 +49,7 @@ export class Terminal {
       terminalId,
       name,
       isActive,
-      acceptedCargoTypes,
+      acceptedCargoTypes.map((cargoType) => cargoType.toUpperCase()),
       capacity,
       zones,
       restrictions,
