@@ -6,7 +6,7 @@ import type { PrismaContainerRepositoryContract } from '@/application/repositori
 import type { StatusContainer } from '@/@types/status-container.type';
 import type { Pagination } from '@/@types/pagination';
 
-export class ContainerRepositoryFake implements PrismaContainerRepositoryContract {
+export class PrismaContainerRepositoryFake implements PrismaContainerRepositoryContract {
   private containersList: Container[] = []; // simula o banco de dados
 
   async save(container: Container): Promise<Result<Container>> {
