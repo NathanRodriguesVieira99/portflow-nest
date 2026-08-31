@@ -1,15 +1,18 @@
 import KeyvRedis from '@keyv/redis';
-import { trace } from '@opentelemetry/api';
-import { nanoid } from 'nanoid';
-import { LoggerModule } from 'nestjs-pino';
-import { PrometheusModule } from '@willsoto/nestjs-prometheus';
-import { ClsModule, ClsService } from 'nestjs-cls';
-import { Module } from '@nestjs/common';
 import { CacheModule } from '@nestjs/cache-manager';
-import { env } from '../config/env';
-import { isDev, SERVICE_NAME } from '../domain/constants/constants';
-import { ContainerModule } from '@/external/modules/container.module';
-import { CacheService } from '@/external/cache/cache';
+import { Module } from '@nestjs/common';
+import { trace } from '@opentelemetry/api';
+import { PrometheusModule } from '@willsoto/nestjs-prometheus';
+import { nanoid } from 'nanoid';
+import { ClsModule, ClsService } from 'nestjs-cls';
+import { LoggerModule } from 'nestjs-pino';
+import { RedisCache } from '@/external/cache/cache-redis';
+import { env } from './external/env';
+import { SERVICE_NAME } from '@/external/observability/tracing/tracing';
+import { ContainerModule } from './external/modules/container.module';
+import { Http } from './domain/types/http';
+
+const isDev = env.NODE_ENV === 'development';
 
 @Module({
   imports: [
@@ -60,8 +63,10 @@ import { CacheService } from '@/external/cache/cache';
           },
 
           customLogLevel: (_req, res, err) => {
-            if (err || res.statusCode >= 500) return 'error'; /* 5xx = ERROR */
-            if (res.statusCode >= 400) return 'warn'; /* 4xx = WARN */
+            if (err || res.statusCode >= Http.Codes.INTERNAL_SERVER_ERROR)
+              return 'error'; /* 5xx = ERROR */
+            if (res.statusCode >= Http.Codes.BAD_REQUEST)
+              return 'warn'; /* 4xx = WARN */
             return 'info'; /* 2xx = INFO */
           },
 
@@ -85,7 +90,7 @@ import { CacheService } from '@/external/cache/cache';
       }),
     }),
   ],
-  providers: [CacheService],
-  exports: [CacheService],
+  providers: [RedisCache],
+  exports: [RedisCache],
 })
 export class AppModule {}

@@ -1,12 +1,11 @@
-import '../config/tracing/tracing';
-
+import './external/observability/tracing/tracing';
 import { NestFactory } from '@nestjs/core';
-import { Logger as PinoLogger } from 'nestjs-pino';
-import type { MicroserviceOptions } from '@nestjs/microservices';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AppModule } from './app.module';
+import { Logger as PinoLogger } from 'nestjs-pino';
+import { env } from '@/external/env';
 import { kafkaConfig } from '@/external/messaging/messaging.module';
-import { env } from '@/config/env';
+import { AppModule } from './app.module';
+import type { MicroserviceOptions } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
