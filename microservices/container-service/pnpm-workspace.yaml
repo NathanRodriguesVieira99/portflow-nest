@@ -7,5 +7,6 @@ allowBuilds:
   prisma: true
   protobufjs: true
   ssh2: true
+  unrs-resolver: true
 minimumReleaseAgeExclude:
   - nestjs-docfy@0.3.6

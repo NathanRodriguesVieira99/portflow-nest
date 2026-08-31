@@ -13,19 +13,19 @@
     "sourceMap": true,
     "strict": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    // "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"],
-      "@Types/*": ["src/@types/*"],
-      "@Contracts/*": ["src/domain/contracts/*"],
-      "@Events/*": ["./src/infrastructure/messaging/events/*"],
-      "@Models/*": ["src/domain/*"],
-      "@Repositories/*": ["./src/infrastructure/persistence/repositories/*"],
-      "@Controllers/*": ["./src/presentation/controllers/*"],
-      "@Dtos/*": ["./src/presentation/dtos/*"],
-      "@Services/*": ["src/application/usecases/*"],
-      "@Infra/*": ["./src/infrastructure/*"],
-      "@Shared/*": ["./src/shared/*"]
+      // "@Types/*": ["src/domain/types/*"],
+      // "@Contracts/*": ["src/domain/contracts/*"],
+      // "@Events/*": ["./src/infrastructure/messaging/events/*"],
+      // "@Models/*": ["src/domain/*"],
+      // "@Repositories/*": ["./src/infrastructure/persistence/repositories/*"],
+      // "@Controllers/*": ["./src/presentation/controllers/*"],
+      // "@Dtos/*": ["./src/presentation/dtos/*"],
+      // "@Services/*": ["src/application/usecases/*"],
+      // "@Infra/*": ["./src/infrastructure/*"],
+      // "@Shared/*": ["./src/shared/*"]
     },
     "types": ["vitest/globals", "node"],
     "incremental": true,
@@ -36,5 +36,5 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false
   },
-  "exclude": ["./k6/*"]
+  "exclude": ["./k6/*", "./dist", "./node_modules"]
 }
