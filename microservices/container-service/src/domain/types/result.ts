@@ -1,4 +1,4 @@
-import type { AppError } from '../application/exceptions/app-error';
+import type { AppError } from '../exceptions/app-error';
 
 export type Result<T, E = AppError> =
   { ok: true; value: T } | { ok: false; error: E };

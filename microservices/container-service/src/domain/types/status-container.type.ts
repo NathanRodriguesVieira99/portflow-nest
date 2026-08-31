@@ -8,4 +8,4 @@ export type StatusContainer =
   | 'CUSTOMS_CLEARED'
   | 'BLOCKED'
   | 'STORED_IN_YARD'
-  | 'RELEASED';
+  | 'RELEASED'

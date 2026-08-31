@@ -1,8 +1,8 @@
 import { randomUUID } from 'node:crypto';
-import { ContainerException } from '../exceptions/container.exceptions';
-import { validateNonEmptyString } from '@/domain/validators/validate-non-empty-string';
-import { validateContainerStatus } from '../validators/validate-container-status';
-import type { StatusContainer } from '@/@types/status-container.type';
+import { ContainerDomainException } from '../exceptions/container.exceptions';
+import { validateContainerStatus } from './validate-container-status';
+import { validateNonEmptyString } from './validate-non-empty-string';
+import type { StatusContainer } from '@/domain/types/status-container.type';
 
 export namespace CreateContainer {
   export type Input = {
@@ -33,16 +33,16 @@ export class Container {
     private updatedAt: Date,
   ) {
     if (!validateNonEmptyString(id)) {
-      throw new ContainerException('Invalid Container');
+      throw new ContainerDomainException('Invalid Container');
     }
     if (!validateNonEmptyString(shipId)) {
-      throw new ContainerException('Invalid Ship');
+      throw new ContainerDomainException('Invalid Ship');
     }
     if (!validateNonEmptyString(terminalId)) {
-      throw new ContainerException('Invalid Terminal');
+      throw new ContainerDomainException('Invalid Terminal');
     }
     if (!validateContainerStatus(status)) {
-      throw new ContainerException('Invalid status');
+      throw new ContainerDomainException('Invalid status');
     }
   }
 
@@ -102,11 +102,13 @@ export class Container {
 
   validateArrival(): void {
     if (this.status !== 'PENDING_DOCUMENTATION') {
-      throw new ContainerException('Container is not awaiting documentation');
+      throw new ContainerDomainException(
+        'Container is not awaiting documentation',
+      );
     }
 
     if (!this.arrivalDate) {
-      throw new ContainerException('Arrival date is required');
+      throw new ContainerDomainException('Arrival date is required');
     }
   }
 
