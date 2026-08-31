@@ -5,6 +5,7 @@ networks:
     driver: bridge
 
 volumes:
+  mariadb_data:
   pg_data:
   mongo_data:
   redis_data:
@@ -76,6 +77,38 @@ services:
     image: ghcr.io/shopify/toxiproxy:2.12.0
     ports:
       - "8474:8474"
+
+
+  # ---------------------------------------------------------------------------
+  # MariaDB
+  # ---------------------------------------------------------------------------
+  mariadb:
+      container_name: mariadb
+      image: mariadb:12.3
+      environment:
+         MARIADB_ROOT_PASSWORD: root
+         MARIADB_USER: gate
+         MARIADB_PASSWORD: gate_service
+         MARIADB_DATABASE: gate_service
+      ports:
+            - 3306:3306
+      healthcheck:
+        test:
+          [
+            "CMD",
+            "healthcheck.sh",
+            "--su-mysql",
+            "--connect",
+            "--innodb_initialized",
+          ]
+        interval: 20s
+        timeout: 10s
+        start_period: 10s
+        retries: 5
+      restart: unless-stopped
+      volumes:
+          - mariadb_data:/var/lib/mysql
+          - ./mariadb/init:/docker-entrypoint-initdb.d:ro
 
   # ---------------------------------------------------------------------------
   # PostgreSQL

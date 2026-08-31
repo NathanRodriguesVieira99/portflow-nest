@@ -1,0 +1,1 @@
+CREATE DATABASE IF NOT EXISTS gate_service_test;
