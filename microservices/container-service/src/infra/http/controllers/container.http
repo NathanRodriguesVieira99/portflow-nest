@@ -74,7 +74,7 @@ GET {{kongUrl}}/containers?page=1&perPage=10
 ###
 
 # @name find_container_by_id_gateway
-GET {{kongUrl}}/containers/4d650553-d7b2-4e5e-90ee-e6daf5fe6830
+GET {{kongUrl}}/containers/7f9069b1-a4c5-4fae-bb64-69b89a4fdb7a
 
 ###
 
@@ -94,6 +94,6 @@ Content-Type: application/json
 ###
 
 # @name remove_container_gateway
-DELETE {{kongUrl}}/containers/4d650553-d7b2-4e5e-90ee-e6daf5fe6830
+DELETE {{kongUrl}}/containers/7f9069b1-a4c5-4fae-bb64-69b89a4fdb7a
 
 ###

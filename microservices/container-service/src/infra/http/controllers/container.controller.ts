@@ -1,46 +1,30 @@
 import {
-  Get,
-  Post,
-  Put,
-  Delete,
-  Param,
-  Query,
   Body,
   Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
 } from '@nestjs/common';
+import {
+  RegisterContainerArrivalUseCase,
+  type ContainerArrival,
+} from '@/application/usecases/container/register-container-arrival';
+import { RemoveContainerUseCase } from '@/application/usecases/container/remove-container';
+import {
+  FindAllContainersUseCase,
+  type FindAllCOntainers,
+} from '@/application/usecases/container/find-all-containers';
+import { FindContainerByIdUseCase } from '@/application/usecases/container/find-container-by-id';
+import { FindContainerByStatusUseCase } from '@/application/usecases/container/find-container-by-status';
+import { UpdateContainerStatusUseCase } from '@/application/usecases/container/update-container-status';
 import { Container } from '@/domain/entities/container.entity';
-import { RegisterContainerArrivalUseCase } from '@/application/usecases/register-container-arrival';
-import { FindContainerByStatusUseCase } from '@/application/usecases/find-container-by-status';
-import { RemoveContainerUseCase } from '@/application/usecases/remove-container';
-import { FindAllContainersUseCase } from '@/application/usecases/find-all-containers';
-import { FindContainerByIdUseCase } from '@/application/usecases/find-container-by-id';
-import { UpdateContainerStatusUseCase } from '@/application/usecases/update-container-status';
-import { resultToHttp } from '@/utils/result-to-http';
-import type { Pagination } from '@/@types/pagination';
-import type { StatusContainer } from '@/@types/status-container.type';
-import type { RequestResponse } from '@/utils/http-responses';
-
-export namespace ContainerArrival {
-  export interface Response {
-    containerId: string;
-    shipId: string;
-    terminalId: string;
-    originCountry: string;
-    destinationCountry: string;
-    cargoType: string;
-    statusContainer: StatusContainer;
-    arrivalDate: Date;
-  }
-
-  export interface Request {
-    containerId: string;
-    shipId: string;
-    terminalId: string;
-    originCountry: string;
-    destinationCountry: string;
-    cargoType: string;
-  }
-}
+import { resultToHttp } from '@/infra/http/result-to-http';
+import type { StatusContainer } from '@/domain/types/status-container.type';
+import type { RequestResponse } from '@/infra/http/http-responses';
+import type { Pagination } from '@/domain/types/pagination';
 
 @Controller('containers')
 export class ContainerController {
@@ -55,9 +39,24 @@ export class ContainerController {
 
   @Post('/arrivals')
   async registerContainerArrival(
-    @Body() dto: ContainerArrival.Request,
-  ): Promise<RequestResponse<ContainerArrival.Response>> {
-    const result = await this.registerContainerArrivalUseCase.execute(dto);
+    @Body()
+    {
+      containerId,
+      shipId,
+      terminalId,
+      originCountry,
+      destinationCountry,
+      cargoType,
+    }: ContainerArrival.Input,
+  ): Promise<RequestResponse<ContainerArrival.Output>> {
+    const result = await this.registerContainerArrivalUseCase.execute({
+      containerId,
+      shipId,
+      terminalId,
+      originCountry,
+      destinationCountry,
+      cargoType,
+    });
     return resultToHttp(result);
   }
 
@@ -65,13 +64,13 @@ export class ContainerController {
   async removeContainer(
     @Param('containerId') containerId: string,
   ): Promise<RequestResponse<string>> {
-    const result = await this.removeContainerUseCase.execute(containerId);
+    const result = await this.removeContainerUseCase.execute({ containerId });
     return resultToHttp(result);
   }
 
   @Get()
   async findAllContainers(
-    @Query() queryParams: Pagination.Input,
+    @Query() queryParams: FindAllCOntainers.Input,
   ): Promise<RequestResponse<Pagination.Output<Container>>> {
     const result = await this.findAllContainersUseCase.execute(queryParams);
     return resultToHttp(result);
@@ -82,10 +81,10 @@ export class ContainerController {
     @Query() queryParams: Pagination.Input,
     @Query('status') status: StatusContainer,
   ): Promise<RequestResponse<Pagination.Output<Container>>> {
-    const result = await this.findContainerByStatusUseCase.execute(
+    const result = await this.findContainerByStatusUseCase.execute({
       queryParams,
       status,
-    );
+    });
     return resultToHttp(result);
   }
 
@@ -93,7 +92,7 @@ export class ContainerController {
   async findContainerById(
     @Param('containerId') containerId: string,
   ): Promise<RequestResponse<Container>> {
-    const result = await this.findContainerByIdUseCase.execute(containerId);
+    const result = await this.findContainerByIdUseCase.execute({ containerId });
     return resultToHttp(result);
   }
 
