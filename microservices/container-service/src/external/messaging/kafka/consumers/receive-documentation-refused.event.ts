@@ -1,7 +1,7 @@
 import { Controller, Logger } from '@nestjs/common';
 import { EventPattern } from '@nestjs/microservices';
-import { KAFKA_TOPICS } from '@/domain/constants/kafka';
-import type { ContainerStatusEvent } from '../producers/send-pending-documentation.event';
+import { KAFKA_TOPICS } from '@/external/messaging/kafka/constants';
+import type { ContainerStatusEvent } from '@/application/events/container-status.event';
 
 @Controller()
 export class ReceiveDocumentationRefusedEvent {

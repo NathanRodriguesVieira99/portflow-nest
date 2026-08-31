@@ -1,12 +1,12 @@
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable, Logger, type OnModuleInit } from '@nestjs/common';
-import { CACHE_MANAGER, type Cache } from '@nestjs/cache-manager';
-import type { ICacheService } from '@/infra/cache/cache';
+import type { CacheContract } from '@/application/ports/cache/cache';
 
 @Injectable()
-export class CacheService implements ICacheService, OnModuleInit {
-  private logger = new Logger(CacheService.name);
+export class RedisCache implements CacheContract, OnModuleInit {
+  private logger = new Logger(RedisCache.name);
 
-  constructor(@Inject(CACHE_MANAGER) private readonly cache: Cache) {}
+  constructor(@Inject(CACHE_MANAGER) private readonly cache: CacheContract) {}
 
   onModuleInit() {
     this.logger.log('Redis Started!');

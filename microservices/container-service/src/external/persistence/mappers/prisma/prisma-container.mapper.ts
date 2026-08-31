@@ -1,10 +1,7 @@
-import { Container as PrismaContainer } from '../../database/prisma/generated/client';
-import { Container } from '@Models/entities/container.entity';
+import { Container } from '@/domain/entities/container.entity'
+import { Container as PrismaContainer } from '../../database/prisma/generated/client'
 
 export class PrismaContainerMapper {
-  /**
-   * Quando o dado vem do banco se usa o toDomain().
-   */
   static toDomain(raw: PrismaContainer) {
     return Container.restore({
       id: raw.id,
@@ -17,12 +14,8 @@ export class PrismaContainerMapper {
       arrivalDate: raw.arrivalDate,
       createdAt: raw.createdAt,
       updatedAt: raw.updatedAt,
-    });
+    })
   }
-
-  /**
-   * Quando o dado vai para o banco se usa toPrisma().
-   */
   static toPrisma(container: Container) {
     return {
       id: container.getId(),
@@ -35,6 +28,6 @@ export class PrismaContainerMapper {
       arrivalDate: container.getArrivalDate(),
       createdAt: container.getCreatedAt(),
       updatedAt: container.getUpdatedAt(),
-    };
+    }
   }
 }

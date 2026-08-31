@@ -1,23 +1,23 @@
 import { Logger } from '@nestjs/common';
 import {
   circuitBreaker,
+  type CircuitBreakerPolicy,
+  CircuitState,
   ConsecutiveBreaker,
   fallback,
   handleAll,
   wrap,
-  type CircuitBreakerPolicy,
-  CircuitState,
 } from 'cockatiel';
 import type {
   CircuitBreakerState,
+  Resilience,
   ResilienceConfig,
-  ResilienceContract,
-} from '../../infra/resilience/resilience';
+} from '@/application/ports/resilience/resilience';
 
 /**
- * Adapter que implementa {@link ResilienceContract} utilizando a lib Cockatiel.
+ * Adapter que implementa {@link Resilience} utilizando a lib Cockatiel.
  */
-export class CockatielAdapter implements ResilienceContract {
+export class CockatielAdapter implements Resilience {
   private readonly logger = new Logger(CockatielAdapter.name);
   private readonly breakerPolicy: CircuitBreakerPolicy;
 

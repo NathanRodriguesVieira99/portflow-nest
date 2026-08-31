@@ -1,16 +1,15 @@
 import { Logger, OnModuleInit } from '@nestjs/common';
 import axios, { AxiosError, type AxiosInstance } from 'axios';
 import { ClsService } from 'nestjs-cls';
-import { HTTP_ERROR } from '@/domain/constants/http';
-import { internalServerError } from '@/application/exceptions/http-exceptions';
-import { HttpCodes } from '@/domain/enums/http-codes.enum';
-import { type Result, ok, err } from '@/@types/result';
+import { internalServerError } from '@/application/exceptions/exceptions';
+import { err, ok, type Result } from '@/domain/types/result';
+import { HTTP_ERROR, type Http } from '@/domain/types/http';
 import type {
-  HttpClientContract,
+  HttpClient,
   HttpRequest,
-} from '../../infra/http/http-client';
+} from '@/application/ports/http/http-client';
 
-export class AxiosAdapter implements HttpClientContract, OnModuleInit {
+export class AxiosAdapter implements HttpClient, OnModuleInit {
   private logger = new Logger(AxiosAdapter.name);
 
   constructor(
@@ -32,7 +31,7 @@ export class AxiosAdapter implements HttpClientContract, OnModuleInit {
     headers,
     params,
     body,
-  }: HttpRequest<T>): Promise<Result<{ status: HttpCodes; data: R }>> {
+  }: HttpRequest<T>): Promise<Result<{ status: Http.Codes; data: R }>> {
     try {
       const response = await this.api.request<R>({
         url,

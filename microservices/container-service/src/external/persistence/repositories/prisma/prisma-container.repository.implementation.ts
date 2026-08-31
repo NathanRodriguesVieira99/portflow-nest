@@ -1,19 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma/prisma.service';
-import { Container } from '@/domain/entities/container.entity';
-import { PrismaContainerMapper } from '../../mappers/prisma/container.mapper';
 import {
-  badRequest,
-  databaseError,
+  conflict,
+  internalServerError,
   notFound,
-} from '@/application/exceptions/http-exceptions';
-import { err, ok, type Result } from '@/@types/result';
-import type { PrismaContainerRepositoryContract } from '@/application/repositories/prisma/prisma-container.repository.contract';
-import type { Pagination } from '@/@types/pagination';
-import type { StatusContainer } from '@/@types/status-container.type';
+} from '@/application/exceptions/exceptions';
+import { Container } from '@/domain/entities/container.entity';
+import { err, ok, type Result } from '@/domain/types/result';
+import { PrismaService } from '../../database/prisma/prisma.service';
+import { PrismaContainerMapper } from '../../mappers/prisma/prisma-container.mapper';
+import type { Pagination } from '@/domain/types/pagination';
+import type { StatusContainer } from '@/domain/types/status-container.type';
+import type { ContainerRepositoryContract } from '@/application/repositories/container.repository.contract';
 
 @Injectable()
-export class PrismaContainerRepositoryImplementation implements PrismaContainerRepositoryContract {
+export class PrismaContainerRepositoryImplementation implements ContainerRepositoryContract {
   constructor(private readonly prisma: PrismaService) {}
 
   async save(container: Container): Promise<Result<Container>> {
@@ -24,7 +24,7 @@ export class PrismaContainerRepositoryImplementation implements PrismaContainerR
       });
       return ok(PrismaContainerMapper.toDomain(savedContainer));
     } catch {
-      return err(databaseError('Failed to save container'));
+      return err(internalServerError('Failed to save container'));
     }
   }
 
@@ -37,7 +37,7 @@ export class PrismaContainerRepositoryImplementation implements PrismaContainerR
       });
       return ok(PrismaContainerMapper.toDomain(updatedContainer));
     } catch {
-      return err(databaseError('Failed to update container'));
+      return err(internalServerError('Failed to update container'));
     }
   }
 
@@ -53,7 +53,7 @@ export class PrismaContainerRepositoryImplementation implements PrismaContainerR
 
       return ok(`Container ${containerId} removed!`);
     } catch {
-      return err(badRequest('Invalid deletion request!'));
+      return err(conflict('Invalid deletion request!'));
     }
   }
 
@@ -63,12 +63,11 @@ export class PrismaContainerRepositoryImplementation implements PrismaContainerR
         where: { id: containerId },
       });
       if (!containerExists) {
-        const error = notFound('Container');
-        return err(error);
+        return err(notFound('Container'));
       }
       return ok(PrismaContainerMapper.toDomain(containerExists));
     } catch {
-      return err(databaseError('Failed to find container'));
+      return err(internalServerError('Failed to find container'));
     }
   }
 
@@ -112,7 +111,7 @@ export class PrismaContainerRepositoryImplementation implements PrismaContainerR
         },
       });
     } catch {
-      return err(databaseError('Failed find containers'));
+      return err(internalServerError('Failed find containers'));
     }
   }
 
@@ -160,7 +159,7 @@ export class PrismaContainerRepositoryImplementation implements PrismaContainerR
         },
       });
     } catch {
-      return err(databaseError('Failed find containers'));
+      return err(internalServerError('Failed find containers'));
     }
   }
 }

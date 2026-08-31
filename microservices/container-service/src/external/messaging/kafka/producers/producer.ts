@@ -1,17 +1,17 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { lastValueFrom } from 'rxjs';
-import { ClsService } from 'nestjs-cls';
-import { KAFKA_CLIENTS } from '@/domain/constants/kafka';
 import { context, propagation } from '@opentelemetry/api';
+import { ClsService } from 'nestjs-cls';
+import { lastValueFrom } from 'rxjs';
+import { KAFKA_CLIENTS } from '@/external/messaging/kafka/constants';
 import type { ClientKafka } from '@nestjs/microservices';
-import type { MessageBrokerProducerContract } from '../../../infra/messaging/message-broker';
+import type { MessageBrokerProducerContract } from '@/application/ports/messaging/message-broker';
 
 @Injectable()
 export class KafkaProducer implements MessageBrokerProducerContract {
   constructor(
     @Inject(KAFKA_CLIENTS.CONTAINER_SERVICE)
     private readonly kafka: ClientKafka,
-    private readonly cls: ClsService,
+    private readonly cls?: ClsService,
   ) {}
 
   async produce<P>(topic: string, key: string, payload: P): Promise<void> {
@@ -21,7 +21,7 @@ export class KafkaProducer implements MessageBrokerProducerContract {
 
     const headers = {
       ...otelHeaders,
-      'x-correlation-id': this.cls.getId() ?? '',
+      'x-correlation-id': this.cls!.getId() ?? '',
     };
 
     await lastValueFrom(
