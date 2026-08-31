@@ -3,98 +3,111 @@ import {
   conflict,
   databaseError,
   forbidden,
-  notFound,
-  invalidCredentials,
-  unauthorized,
-  rateLimited,
   internalServerError,
-  validationError,
+  invalidCredentials,
+  notFound,
+  rateLimited,
   serviceUnavailable,
-} from '@/application/exceptions/http-exceptions';
+  unauthorized,
+  validationError,
+} from '@/application/exceptions/exceptions';
+import { Http } from '@/domain/types/http';
 
 describe('Exceptions', () => {
   describe('badRequest()', () => {
     it('should return default message', () => {
       const exception = badRequest();
+      expect(exception.code).toBe(Http.Codes.BAD_REQUEST);
+      expect(exception.status).toBe('BAD_REQUEST');
       expect(exception.message).toBe('Invalid request!');
-      expect(exception.code).toBe('BAD_REQUEST');
     });
   });
   describe('conflict()', () => {
     it('should return default message', () => {
       const exception = conflict();
+      expect(exception.code).toBe(Http.Codes.CONFLICT);
+      expect(exception.status).toBe('CONFLICT');
       expect(exception.message).toBe('Conflict!');
-      expect(exception.code).toBe('CONFLICT');
     });
   });
   describe('internalServerError()', () => {
     it('should return default message', () => {
       const exception = internalServerError();
+      expect(exception.code).toBe(Http.Codes.INTERNAL_SERVER_ERROR);
+      expect(exception.status).toBe('INTERNAL_SERVER_ERROR');
       expect(exception.message).toBe('Internal server error!');
-      expect(exception.code).toBe('INTERNAL_SERVER_ERROR');
     });
   });
   describe('databaseError()', () => {
     it('should return default message', () => {
       const exception = databaseError();
+      expect(exception.code).toBe(Http.Codes.INTERNAL_SERVER_ERROR);
+      expect(exception.status).toBe('DATABASE_ERROR');
       expect(exception.message).toBe('Database error!');
-      expect(exception.code).toBe('DATABASE_ERROR');
     });
   });
   describe('forbidden()', () => {
     it('should return default message', () => {
       const exception = forbidden();
+      expect(exception.code).toBe(Http.Codes.FORBIDDEN);
+      expect(exception.status).toBe('FORBIDDEN');
       expect(exception.message).toBe('Insufficient permissions!');
-      expect(exception.code).toBe('FORBIDDEN');
     });
   });
   describe('notFound()', () => {
     it('should return default message', () => {
       const exception = notFound('Resource x');
+      expect(exception.code).toBe(Http.Codes.NOT_FOUND);
+      expect(exception.status).toBe('RESOURCE_NOT_FOUND');
       expect(exception.message).toBe('Resource x not found!');
-      expect(exception.code).toBe('RESOURCE_NOT_FOUND');
     });
   });
   describe('invalidCredentials()', () => {
     it('should return default message', () => {
       const exception = invalidCredentials();
+      expect(exception.code).toBe(Http.Codes.UNAUTHORIZED);
+      expect(exception.status).toBe('INVALID_CREDENTIALS');
       expect(exception.message).toBe('Invalid credential!');
-      expect(exception.code).toBe('INVALID_CREDENTIALS');
     });
   });
   describe('unauthorized()', () => {
     it('should return default message', () => {
       const exception = unauthorized();
+      expect(exception.code).toBe(Http.Codes.UNAUTHORIZED);
+      expect(exception.status).toBe('UNAUTHORIZED');
       expect(exception.message).toBe('Unauthorized!');
-      expect(exception.code).toBe('UNAUTHORIZED');
     });
   });
   describe('validationError()', () => {
     it('should return default message', () => {
       const exception = validationError();
+      expect(exception.code).toBe(Http.Codes.UNPROCESSABLE_ENTITY);
+      expect(exception.status).toBe('VALIDATION_ERROR');
       expect(exception.message).toBe('Validation error!');
-      expect(exception.code).toBe('VALIDATION_ERROR');
     });
   });
   describe('rateLimited()', () => {
     it('should return default message', () => {
       const exception = rateLimited();
+      expect(exception.code).toBe(Http.Codes.RATE_LIMITED);
+      expect(exception.status).toBe('RATE_LIMITED');
       expect(exception.message).toBe('Too many requests!');
-      expect(exception.code).toBe('RATE_LIMITED');
     });
   });
   describe('serviceUnavailable()', () => {
     it('should return default message', () => {
       const exception = serviceUnavailable();
+      expect(exception.code).toBe(Http.Codes.SERVICE_UNAVAILABLE);
+      expect(exception.status).toBe('SERVICE_UNAVAILABLE');
       expect(exception.message).toBe('Service unavailable!');
-      expect(exception.code).toBe('SERVICE_UNAVAILABLE');
     });
   });
   describe('Custom message', () => {
     it('should return custom message', () => {
       const exception = unauthorized('User not authorized!');
+      expect(exception.code).toBe(Http.Codes.UNAUTHORIZED);
+      expect(exception.status).toBe('UNAUTHORIZED');
       expect(exception.message).toBe('User not authorized!');
-      expect(exception.code).toBe('UNAUTHORIZED');
     });
   });
 });

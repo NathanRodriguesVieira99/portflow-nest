@@ -1,4 +1,4 @@
-import { PrismaService } from '@/infra/persistence/database/prisma/prisma.service';
+import { PrismaService } from '@/external/persistence/database/prisma/prisma.service';
 
 describe('PrismaService', () => {
   let sut: PrismaService;

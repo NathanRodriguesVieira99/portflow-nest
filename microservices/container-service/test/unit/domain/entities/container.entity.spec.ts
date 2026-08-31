@@ -1,8 +1,8 @@
 import { fakerPT_BR as faker } from '@faker-js/faker';
 import { Container } from '@/domain/entities/container.entity';
-import { ContainerException } from '@/domain/exceptions/container.exceptions';
+import { ContainerDomainException } from '@/domain/exceptions/container.exceptions';
 
-import type { StatusContainer } from '@/@types/status-container.type';
+import type { StatusContainer } from '@/domain/types/status-container.type';
 
 describe('Container Model', () => {
   describe('Methods', () => {
@@ -44,7 +44,7 @@ describe('Container Model', () => {
           status: 'ARRIVED',
           arrivalDate: faker.date.recent(),
         }),
-      ).toThrow(new ContainerException('Invalid Container'));
+      ).toThrow(new ContainerDomainException('Invalid Container'));
     });
     it('validate invalid ship id', () => {
       expect(() =>
@@ -58,7 +58,7 @@ describe('Container Model', () => {
           status: 'ARRIVED',
           arrivalDate: faker.date.recent(),
         }),
-      ).toThrow(new ContainerException('Invalid Ship'));
+      ).toThrow(new ContainerDomainException('Invalid Ship'));
     });
     it('validate invalid terminal id', () => {
       expect(() =>
@@ -72,7 +72,7 @@ describe('Container Model', () => {
           status: 'ARRIVED',
           arrivalDate: faker.date.recent(),
         }),
-      ).toThrow(new ContainerException('Invalid Terminal'));
+      ).toThrow(new ContainerDomainException('Invalid Terminal'));
     });
     it('validate invalid container status', () => {
       expect(() =>
@@ -86,7 +86,7 @@ describe('Container Model', () => {
           status: 'INVALID_STATUS' as StatusContainer,
           arrivalDate: faker.date.recent(),
         }),
-      ).toThrow(new ContainerException('Invalid status'));
+      ).toThrow(new ContainerDomainException('Invalid status'));
     });
   });
 });
