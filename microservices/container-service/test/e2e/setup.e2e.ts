@@ -9,9 +9,9 @@ import {
 } from '../helpers';
 
 beforeAll(async () => {
-  await setupTestingModule();
   await setupKafka();
   await setupPrismaAndPostgres();
+  await setupTestingModule();
 });
 
 beforeEach(() => {

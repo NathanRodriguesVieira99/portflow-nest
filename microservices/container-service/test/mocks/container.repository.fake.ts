@@ -1,12 +1,11 @@
 import { Container } from '@/domain/entities/container.entity';
-import { notFound } from '@/application/exceptions/http-exceptions';
-import { err, ok, type Result } from '@/@types/result';
+import { notFound } from '@/application/exceptions/exceptions';
+import { err, ok, type Result } from '@/domain/types/result';
+import type { ContainerRepositoryContract } from '@/application/repositories/container.repository.contract';
+import type { StatusContainer } from '@/domain/types/status-container.type';
+import type { Pagination } from '@/domain/types/pagination';
 
-import type { PrismaContainerRepositoryContract } from '@/application/repositories/prisma/prisma-container.repository.contract';
-import type { StatusContainer } from '@/@types/status-container.type';
-import type { Pagination } from '@/@types/pagination';
-
-export class PrismaContainerRepositoryFake implements PrismaContainerRepositoryContract {
+export class PrismaContainerRepositoryFake implements ContainerRepositoryContract {
   private containersList: Container[] = []; // simula o banco de dados
 
   async save(container: Container): Promise<Result<Container>> {
