@@ -12,7 +12,8 @@
     "build": "tsup --tsconfig tsconfig.build.json src/main.ts",
     "start:dev": "tsx watch --env-file .env src/main.ts",
     "start:prod": "node dist/main.cjs",
-    "lint": "eslint src --ext .ts --fix",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
     "test:unit": "jest --selectProjects unit ",
     "test:unit:watch": "jest --selectProjects unit --watch",
     "test:unit:cov": "jest --selectProjects unit --coverage",
@@ -27,16 +28,21 @@
     "@types/jest": "^30.0.0",
     "@types/node": "^26.2.0",
     "@types/sinon": "^22.0.0",
-    "eslint": "^10.8.1",
-    "eslint-import-resolver-typescript": "^4.4.5",
+    "@typescript-eslint/eslint-plugin": "^8.68.0",
+    "@typescript-eslint/parser": "^8.68.0",
+    "eslint": "^8",
+    "eslint-import-resolver-typescript": "^3.10.1",
     "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-simple-import-sort": "^14.0.0",
+    "eslint-plugin-simple-import-sort": "^13.0.0",
     "jest": "^30.4.2",
     "nock": "^14.0.17",
     "sinon": "^22.1.0",
     "testcontainers": "^12.1.0",
     "tsup": "^8.5.1",
     "tsx": "^4.23.12",
-    "typescript": "^7.0.2"
+    "typescript": "^6.0.3"
+  },
+  "resolutions": {
+    "@typescript-eslint/typescript-estree": "^8"
   }
 }

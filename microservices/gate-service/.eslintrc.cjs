@@ -1,26 +1,49 @@
 module.exports = {
-  extends: [
-    "@rocketseat/eslint-config/node",
-    "plugin:import/recommended",
-    "plugin:import/typescript",
-  ],
-  plugins: ["simple-import-sort", "import"],
+  parser: '@typescript-eslint/parser',
+  extends: ['plugin:import/recommended', 'plugin:import/typescript'],
+  plugins: ['@typescript-eslint', 'import'],
   settings: {
-    "import/resolver": {
+    'import/resolver': {
       typescript: {
-        project: "./tsconfig.json",
+        project: `${__dirname}/tsconfig.json`,
         alwaysTryTypes: true,
       },
       node: true,
     },
   },
   rules: {
-    "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error",
-    "@typescript-eslint/no-explicit-any": "off",
-    "no-useless-constructor": "off",
-    "@typescript-eslint/no-namespace": "off",
-    "no-use-before-define": "off",
-    "no-new": "off",
+    '@typescript-eslint/no-explicit-any': 'off',
+    'no-useless-constructor': 'off',
+    '@typescript-eslint/no-namespace': 'off',
+    'no-use-before-define': 'off',
+    'no-new': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unused-vars': 'warn',
+    'import/no-named-as-default': 'off',
+    'import/no-restricted-paths': [
+      'error',
+      {
+        basePath: __dirname,
+        zones: [
+          {
+            target: './src/domain',
+            from: ['./src/application', './src/infra', './src/external'],
+            message:
+              'A camada domain não pode depender de application, infra e external',
+          },
+          {
+            target: './src/application',
+            from: ['./src/infra', './src/external'],
+            message:
+              'A camada application não pode depender de infra e external',
+          },
+          {
+            target: './src/infra',
+            from: ['./src/external'],
+            message: 'A camada infra não pode depender de external',
+          },
+        ],
+      },
+    ],
   },
 };
