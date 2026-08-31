@@ -1,15 +1,21 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
+import { badRequest } from '@/application/exceptions/exceptions';
 import { Container } from '@/domain/entities/container.entity';
-import { badRequest } from '@/application/exceptions/http-exceptions';
-import { err, ok } from '@/@types/result';
-import { SendPendingDocumentationEvent } from '@/external/messaging/producers/send-pending-documentation.event';
-import { TerminalHttp } from './validate-terminal';
-import type { Result } from '@/@types/result';
-import type { StatusContainer } from '@/@types/status-container.type';
+import { err, ok, type Result } from '@/domain/types/result';
 import {
   CONTAINER_REPOSITORY_CONTRACT,
-  type PrismaContainerRepositoryContract,
-} from '@/application/repositories/prisma/prisma-container.repository.contract';
+  type ContainerRepositoryContract,
+} from '@/application/repositories/container.repository.contract';
+import {
+  SEND_DOCUMENTATION_EVENT_CONTRACT,
+  type SendPendingDocumentationEventContract,
+} from '@/application/events/send-pending-documentation.event.contract';
+import {
+  TERMINAL_HTTP_CONTRACT,
+  type TerminalHttpContract,
+} from '@/application/ports/http/validate-terminal';
+import type { StatusContainer } from '@/domain/types/status-container.type';
+import type { UseCase } from '../use-case';
 
 export namespace ContainerArrival {
   export type Input = {
@@ -33,14 +39,19 @@ export namespace ContainerArrival {
 }
 
 @Injectable()
-export class RegisterContainerArrivalUseCase {
+export class RegisterContainerArrivalUseCase implements UseCase<
+  ContainerArrival.Input,
+  Result<ContainerArrival.Output>
+> {
   private readonly logger = new Logger(RegisterContainerArrivalUseCase.name);
 
   constructor(
     @Inject(CONTAINER_REPOSITORY_CONTRACT)
-    private readonly repo: PrismaContainerRepositoryContract,
-    private readonly terminal: TerminalHttp,
-    private readonly kafka: SendPendingDocumentationEvent,
+    private readonly repo: ContainerRepositoryContract,
+    @Inject(SEND_DOCUMENTATION_EVENT_CONTRACT)
+    private readonly kafka: SendPendingDocumentationEventContract,
+    @Inject(TERMINAL_HTTP_CONTRACT)
+    private readonly terminal: TerminalHttpContract,
   ) {}
 
   async execute({
@@ -57,8 +68,7 @@ export class RegisterContainerArrivalUseCase {
     });
 
     if (!terminalValidation.ok) {
-      this.logger.warn(terminalValidation.error.message);
-      return err(terminalValidation.error);
+      return err(badRequest(terminalValidation.error.message));
     }
 
     const container = Container.create({
@@ -78,16 +88,14 @@ export class RegisterContainerArrivalUseCase {
         `Container ${container.getId()} arrived at terminal ${container.getTerminalId()}`,
       );
     } catch {
-      const error = badRequest('Invalid container arrival');
-      this.logger.warn(error.message);
-      return err(error);
+      return err(badRequest('INVALID_CONTAINER_ARRIVAL'));
     }
 
     const saved = await this.repo.save(container);
 
     if (!saved.ok) return saved;
 
-    await this.kafka.sendPendingDocumentation(saved.value.getId());
+    await this.kafka.sendPendingDocumentationEvent(saved.value.getId());
 
     return ok({
       containerId: saved.value.getId(),
