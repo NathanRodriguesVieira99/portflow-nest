@@ -5,25 +5,24 @@ import { kafkaConfig } from '@/external/messaging/messaging.module';
 import { KafkaProducer } from '@/external/messaging/kafka/producers/producer';
 import { KAFKA_TOPICS } from '@/external/messaging/kafka/constants';
 import { EventBuilder } from '@/external/messaging/kafka/producers/event-builder';
-import { PrismaContainerRepositoryImplementation } from '@/external/persistence/repositories/prisma/prisma-container.repository.implementation';
 import { RegisterContainerArrivalUseCase } from '@/application/usecases/container/register-container-arrival';
-import { testPrismaService } from '../../../setup.integration';
 import { Http } from '@/domain/types/http';
 import type { MessageBrokerProducerContract } from '@/application/ports/messaging/message-broker';
 import type { ContainerStatusEvent } from '@/application/events/container-status.event';
 import type { SendPendingDocumentationEventContract } from '@/application/events/send-pending-documentation.event.contract';
-import type { ContainerRepositoryContract } from '@/application/repositories/container.repository.contract';
+import type { ContainerRepository } from '@/application/repositories/container.repository';
 import type {
   TerminalHttpContract,
   TerminalValidation,
 } from '@/application/ports/http/validate-terminal';
+import { PrismaContainerRepositoryFake } from '../../../../mocks/container.repository.fake';
 
 describe('Register Container Arrival', () => {
   let kafkaClient: ClientKafka;
   let sendPendingDocumentationEvent: SendPendingDocumentationEventContract;
   let producer: MessageBrokerProducerContract;
   let eventBuilder: EventBuilder;
-  let repo: ContainerRepositoryContract;
+  let repo: ContainerRepository;
   let terminal: TerminalHttpContract;
   let useCase: RegisterContainerArrivalUseCase;
 
@@ -41,7 +40,7 @@ describe('Register Container Arrival', () => {
   }, 60000);
 
   beforeEach(async () => {
-    repo = new PrismaContainerRepositoryImplementation(testPrismaService);
+    repo = new PrismaContainerRepositoryFake();
 
     eventBuilder = new EventBuilder({
       getId: (): string => 'fake-correlation-id',

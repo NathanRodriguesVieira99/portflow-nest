@@ -1,16 +1,13 @@
-import { PrismaService } from '@/external/persistence/database/prisma/prisma.service';
 import { FindContainerByStatusUseCase } from '@/application/usecases/container/find-container-by-status';
-import { PrismaContainerRepositoryImplementation } from '@/external/persistence/repositories/prisma/prisma-container.repository.implementation';
-import type { ContainerRepositoryContract } from '@/application/repositories/container.repository.contract';
+import { PrismaContainerRepositoryFake } from '../../../../mocks/container.repository.fake';
+import type { ContainerRepository } from '@/application/repositories/container.repository';
 
 describe('Find Container By Status', () => {
-  let prisma: PrismaService;
-  let repo: ContainerRepositoryContract;
+  let repo: ContainerRepository;
   let sut: FindContainerByStatusUseCase;
 
   beforeEach(() => {
-    prisma = new PrismaService();
-    repo = new PrismaContainerRepositoryImplementation(prisma);
+    repo = new PrismaContainerRepositoryFake();
     sut = new FindContainerByStatusUseCase(repo);
   });
 

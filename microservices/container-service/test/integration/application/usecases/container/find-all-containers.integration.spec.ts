@@ -1,16 +1,13 @@
 import { FindAllContainersUseCase } from '@/application/usecases/container/find-all-containers';
-import { PrismaService } from '@/external/persistence/database/prisma/prisma.service';
-import { PrismaContainerRepositoryImplementation } from '@/external/persistence/repositories/prisma/prisma-container.repository.implementation';
-import type { ContainerRepositoryContract } from '@/application/repositories/container.repository.contract';
+import { PrismaContainerRepositoryFake } from '../../../../mocks/container.repository.fake';
+import type { ContainerRepository } from '@/application/repositories/container.repository';
 
 describe('Find All Containers', () => {
-  let prisma: PrismaService;
-  let repo: ContainerRepositoryContract;
+  let repo: ContainerRepository;
   let sut: FindAllContainersUseCase;
 
   beforeEach(() => {
-    prisma = new PrismaService();
-    repo = new PrismaContainerRepositoryImplementation(prisma);
+    repo = new PrismaContainerRepositoryFake();
     sut = new FindAllContainersUseCase(repo);
   });
 
