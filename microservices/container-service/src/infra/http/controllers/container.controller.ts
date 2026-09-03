@@ -15,7 +15,7 @@ import {
 import { RemoveContainerUseCase } from '@/application/usecases/container/remove-container';
 import {
   FindAllContainersUseCase,
-  type FindAllCOntainers,
+  type FindAllContainers,
 } from '@/application/usecases/container/find-all-containers';
 import { FindContainerByIdUseCase } from '@/application/usecases/container/find-container-by-id';
 import { FindContainerByStatusUseCase } from '@/application/usecases/container/find-container-by-status';
@@ -70,7 +70,7 @@ export class ContainerController {
 
   @Get()
   async findAllContainers(
-    @Query() queryParams: FindAllCOntainers.Input,
+    @Query() queryParams: FindAllContainers.Input,
   ): Promise<RequestResponse<Pagination.Output<Container>>> {
     const result = await this.findAllContainersUseCase.execute(queryParams);
     return resultToHttp(result);
