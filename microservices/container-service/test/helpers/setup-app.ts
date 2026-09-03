@@ -1,6 +1,5 @@
 import { Test } from '@nestjs/testing';
-import { AppModule } from '../../src/app.module';
-
+import { AppModule } from '@/app.module';
 import type { INestApplication } from '@nestjs/common';
 
 export let app: INestApplication;
