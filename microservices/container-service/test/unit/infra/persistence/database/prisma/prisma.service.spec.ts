@@ -1,3 +1,4 @@
+import sinon from 'sinon';
 import { PrismaService } from '@/external/persistence/database/prisma/prisma.service';
 
 describe('PrismaService', () => {
@@ -7,17 +8,24 @@ describe('PrismaService', () => {
     sut = new PrismaService();
   });
 
-  it('service should be defined', () => {
+  it('should be defined', () => {
     expect(sut).toBeDefined();
   });
+
+  /*
+   * Essa suit acessa o PrismaService.prototype para criar um stub apenas dos métodos '$connect' e '$disconnect' que são herdados do PrismaClient,
+   * não precisa criar um stub do PrismaService inteiro.
+   */
   it('should call $connect', async () => {
-    const connectSpy = vi.spyOn(sut, '$connect').mockResolvedValueOnce();
+    const connectStub = sinon.stub(PrismaService.prototype, '$connect');
+    connectStub.resolves();
     await sut.onModuleInit();
-    expect(connectSpy).toHaveBeenCalledOnce();
+    expect(connectStub.calledOnce).toBe(true);
   });
   it('should call $disconnect', async () => {
-    const disconnectSpy = vi.spyOn(sut, '$disconnect').mockResolvedValueOnce();
+    const disconnectStub = sinon.stub(PrismaService.prototype, '$disconnect');
+    disconnectStub.resolves();
     await sut.onModuleDestroy();
-    expect(disconnectSpy).toHaveBeenCalledOnce();
+    expect(disconnectStub.calledOnce).toBe(true);
   });
 });
