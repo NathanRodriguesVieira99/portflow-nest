@@ -1,9 +1,9 @@
-import { Container } from '@/domain/entities/container.entity'
-import { Container as PrismaContainer } from '../../database/prisma/generated/client'
+import { Container as PrismaContainer } from '../../database/prisma/generated/client';
+import type { ContainerDAO } from '@/infra/persistence/database/DAOs/container.dao';
 
 export class PrismaContainerMapper {
-  static toDomain(raw: PrismaContainer) {
-    return Container.restore({
+  static toDTO(raw: PrismaContainer): ContainerDAO.ContainerDTO {
+    return {
       id: raw.id,
       shipId: raw.shipId,
       terminalId: raw.terminalId,
@@ -14,20 +14,20 @@ export class PrismaContainerMapper {
       arrivalDate: raw.arrivalDate,
       createdAt: raw.createdAt,
       updatedAt: raw.updatedAt,
-    })
+    };
   }
-  static toPrisma(container: Container) {
+  static toPrisma(dto: ContainerDAO.SaveDTO) {
     return {
-      id: container.getId(),
-      shipId: container.getShipId(),
-      terminalId: container.getTerminalId(),
-      originCountry: container.getOriginCountry(),
-      destinationCountry: container.getDestinationCountry(),
-      cargoType: container.getCargoType(),
-      statusContainer: container.getStatus(),
-      arrivalDate: container.getArrivalDate(),
-      createdAt: container.getCreatedAt(),
-      updatedAt: container.getUpdatedAt(),
-    }
+      id: dto.id,
+      shipId: dto.shipId,
+      terminalId: dto.terminalId,
+      originCountry: dto.originCountry,
+      destinationCountry: dto.destinationCountry,
+      cargoType: dto.cargoType,
+      statusContainer: dto.status,
+      arrivalDate: dto.arrivalDate,
+      createdAt: dto.createdAt,
+      updatedAt: dto.updatedAt,
+    };
   }
 }
