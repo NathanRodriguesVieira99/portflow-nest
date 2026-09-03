@@ -1,8 +1,8 @@
 import { Inject } from '@nestjs/common';
 import {
   CONTAINER_REPOSITORY_CONTRACT,
-  type ContainerRepositoryContract,
-} from '@/application/repositories/container.repository.contract';
+  type ContainerRepository,
+} from '@/application/repositories/container.repository';
 import { ok, type Result } from '@/domain/types/result';
 import type { Container } from '@/domain/entities/container.entity';
 import type { UseCase } from '../use-case';
@@ -18,7 +18,7 @@ export class FindContainerByIdUseCase implements UseCase<
 > {
   constructor(
     @Inject(CONTAINER_REPOSITORY_CONTRACT)
-    private readonly repo: ContainerRepositoryContract,
+    private readonly repo: ContainerRepository,
   ) {}
 
   async execute({

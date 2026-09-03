@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { badRequest } from '@/application/exceptions/exceptions';
 import {
   CONTAINER_REPOSITORY_CONTRACT,
-  type ContainerRepositoryContract,
-} from '@/application/repositories/container.repository.contract';
+  type ContainerRepository,
+} from '@/application/repositories/container.repository';
 import { Container } from '@/domain/entities/container.entity';
 import { err, ok, type Result } from '@/domain/types/result';
 import type { StatusContainer } from '@/domain/types/status-container.type';
@@ -24,7 +24,7 @@ export class UpdateContainerStatusUseCase implements UseCase<
 > {
   constructor(
     @Inject(CONTAINER_REPOSITORY_CONTRACT)
-    private readonly repo: ContainerRepositoryContract,
+    private readonly repo: ContainerRepository,
   ) {}
 
   async execute({

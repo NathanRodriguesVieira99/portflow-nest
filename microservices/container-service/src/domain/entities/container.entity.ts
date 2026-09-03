@@ -60,6 +60,9 @@ export class Container {
   }: CreateContainer.Input): Container {
     const now = new Date();
 
+    /**
+     * Este método cria uma nova entidade.
+     */
     return new Container(
       id ?? randomUUID(),
       shipId,
@@ -74,6 +77,9 @@ export class Container {
     );
   }
 
+  /**
+   * Este método reconstrói a entidade a partir de dados vindos do banco.
+   */
   static restore({
     id,
     shipId,

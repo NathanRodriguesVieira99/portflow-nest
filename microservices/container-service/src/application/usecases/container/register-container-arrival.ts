@@ -4,8 +4,8 @@ import { Container } from '@/domain/entities/container.entity';
 import { err, ok, type Result } from '@/domain/types/result';
 import {
   CONTAINER_REPOSITORY_CONTRACT,
-  type ContainerRepositoryContract,
-} from '@/application/repositories/container.repository.contract';
+  type ContainerRepository,
+} from '@/application/repositories/container.repository';
 import {
   SEND_DOCUMENTATION_EVENT_CONTRACT,
   type SendPendingDocumentationEventContract,
@@ -47,7 +47,7 @@ export class RegisterContainerArrivalUseCase implements UseCase<
 
   constructor(
     @Inject(CONTAINER_REPOSITORY_CONTRACT)
-    private readonly repo: ContainerRepositoryContract,
+    private readonly repo: ContainerRepository,
     @Inject(SEND_DOCUMENTATION_EVENT_CONTRACT)
     private readonly kafka: SendPendingDocumentationEventContract,
     @Inject(TERMINAL_HTTP_CONTRACT)

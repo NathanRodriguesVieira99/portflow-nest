@@ -1,41 +1,49 @@
+/*
+ * Este DAO é a implementação concreta do contrato conectando a abstração ao banco de dados real (nesse caso via Prisma ORM).
+ * Executa operações reais no banco de dados.
+ * Deve depender apenas de DTOs, nunca de entidades de Domain.
+ */
+
 import { Injectable } from '@nestjs/common';
 import {
   conflict,
   internalServerError,
   notFound,
 } from '@/application/exceptions/exceptions';
-import { Container } from '@/domain/entities/container.entity';
 import { err, ok, type Result } from '@/domain/types/result';
 import { PrismaService } from '../../database/prisma/prisma.service';
 import { PrismaContainerMapper } from '../../mappers/prisma/prisma-container.mapper';
 import type { Pagination } from '@/domain/types/pagination';
-import type { StatusContainer } from '@/domain/types/status-container.type';
-import type { ContainerRepositoryContract } from '@/application/repositories/container.repository.contract';
+import type { ContainerDAO } from '@/infra/persistence/database/DAOs/container.dao';
 
 @Injectable()
-export class PrismaContainerRepositoryImplementation implements ContainerRepositoryContract {
+export class ContainerDAOPrisma implements ContainerDAO {
   constructor(private readonly prisma: PrismaService) {}
 
-  async save(container: Container): Promise<Result<Container>> {
+  async save(
+    dto: ContainerDAO.SaveDTO,
+  ): Promise<Result<ContainerDAO.ContainerDTO>> {
     try {
-      const raw = PrismaContainerMapper.toPrisma(container);
+      const raw = PrismaContainerMapper.toPrisma(dto);
       const savedContainer = await this.prisma.container.create({
         data: raw,
       });
-      return ok(PrismaContainerMapper.toDomain(savedContainer));
+      return ok(PrismaContainerMapper.toDTO(savedContainer));
     } catch {
       return err(internalServerError('Failed to save container'));
     }
   }
 
-  async update(container: Container): Promise<Result<Container>> {
+  async update(
+    dto: ContainerDAO.UpdateDTO,
+  ): Promise<Result<ContainerDAO.ContainerDTO>> {
     try {
-      const raw = PrismaContainerMapper.toPrisma(container);
+      const raw = PrismaContainerMapper.toPrisma(dto);
       const updatedContainer = await this.prisma.container.update({
         where: { id: raw.id },
         data: raw,
       });
-      return ok(PrismaContainerMapper.toDomain(updatedContainer));
+      return ok(PrismaContainerMapper.toDTO(updatedContainer));
     } catch {
       return err(internalServerError('Failed to update container'));
     }
@@ -57,7 +65,9 @@ export class PrismaContainerRepositoryImplementation implements ContainerReposit
     }
   }
 
-  async findById(containerId: string): Promise<Result<Container>> {
+  async findById(
+    containerId: string,
+  ): Promise<Result<ContainerDAO.ContainerDTO>> {
     try {
       const containerExists = await this.prisma.container.findUnique({
         where: { id: containerId },
@@ -65,15 +75,17 @@ export class PrismaContainerRepositoryImplementation implements ContainerReposit
       if (!containerExists) {
         return err(notFound('Container'));
       }
-      return ok(PrismaContainerMapper.toDomain(containerExists));
+      return ok(PrismaContainerMapper.toDTO(containerExists));
     } catch {
       return err(internalServerError('Failed to find container'));
     }
   }
 
-  async findAll(
-    queryParams: Pagination.Input,
-  ): Promise<Result<Pagination.Output<Container>>> {
+  async findAll({
+    queryParams,
+  }: ContainerDAO.FindAllDTO): Promise<
+    Result<Pagination.Output<ContainerDAO.ContainerDTO>>
+  > {
     const { page = 1, perPage = 10 } = queryParams;
 
     const take = Number(perPage);
@@ -94,7 +106,7 @@ export class PrismaContainerRepositoryImplementation implements ContainerReposit
         },
       );
 
-      const data = containers.map(PrismaContainerMapper.toDomain);
+      const data = containers.map(PrismaContainerMapper.toDTO);
       const totalPages = Math.ceil(totalItems / take);
       const hasNextPage = Boolean(page * take < totalItems);
       const hasPreviousPage = Boolean(page > 1);
@@ -115,10 +127,12 @@ export class PrismaContainerRepositoryImplementation implements ContainerReposit
     }
   }
 
-  async findByStatus(
-    queryParams: Pagination.Input,
-    statusContainer: StatusContainer,
-  ): Promise<Result<Pagination.Output<Container>>> {
+  async findByStatus({
+    queryParams,
+    status,
+  }: ContainerDAO.FindByStatusDTO): Promise<
+    Result<Pagination.Output<ContainerDAO.ContainerDTO>>
+  > {
     const { page = 1, perPage = 10 } = queryParams;
 
     const take = Number(perPage);
@@ -130,19 +144,19 @@ export class PrismaContainerRepositoryImplementation implements ContainerReposit
           const containers = await tx.container.findMany({
             take,
             skip,
-            where: { statusContainer },
+            where: { statusContainer: status },
             orderBy: { createdAt: 'asc' },
           });
 
           const totalItems = await tx.container.count({
-            where: { statusContainer },
+            where: { statusContainer: status },
           });
 
           return [containers, totalItems];
         },
       );
 
-      const data = containers.map(PrismaContainerMapper.toDomain);
+      const data = containers.map(PrismaContainerMapper.toDTO);
       const totalPages = Math.ceil(totalItems / take);
       const hasNextPage = Boolean(page * take < totalItems);
       const hasPreviousPage = Boolean(page > 1);
