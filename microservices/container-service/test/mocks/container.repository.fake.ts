@@ -1,11 +1,13 @@
 import { Container } from '@/domain/entities/container.entity';
 import { notFound } from '@/application/exceptions/exceptions';
 import { err, ok, type Result } from '@/domain/types/result';
-import type { ContainerRepositoryContract } from '@/application/repositories/container.repository.contract';
+import type { ContainerRepository } from '@/application/repositories/container.repository';
 import type { StatusContainer } from '@/domain/types/status-container.type';
 import type { Pagination } from '@/domain/types/pagination';
 
-export class PrismaContainerRepositoryFake implements ContainerRepositoryContract {
+// TODO => Criar testes para esse FAKE
+
+export class PrismaContainerRepositoryFake implements ContainerRepository {
   private containersList: Container[] = []; // simula o banco de dados
 
   async save(container: Container): Promise<Result<Container>> {
